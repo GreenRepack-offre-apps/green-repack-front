@@ -1,0 +1,22 @@
+<div class="container block">
+  <h2> Inscription </h2>
+  <ul class="nav justify-content-center tabs">
+    <li class="nav-item" (click)="profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
+      <button type="button" class="btn btn-link"  aria-current="page">Client</button>
+    </li>
+    <li class="nav-item" (click)="profil = 'MARCHAND'" [class.select]="profil === 'MARCHAND'">
+      <button type="button" class="btn btn-link">Marchand</button>
+    </li>
+
+  </ul>
+
+  <div *ngIf="profil !== 'MARCHAND'; else marchandBlock">
+    Formulaire Client Inscription !!
+  </div>
+  <ng-template #marchandBlock>
+    <app-inscription-manager>
+    </app-inscription-manager>
+  </ng-template>
+</div>
+
+
