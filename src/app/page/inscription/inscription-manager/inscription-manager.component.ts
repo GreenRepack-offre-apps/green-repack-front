@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm, FormBuilder } from '@angular/forms';
 import { Marchand, MarchandViewModel } from '../../../model/manager.model';
 import { CHAMP_VIDE_MSG } from '../../../common/common';
 
@@ -12,8 +12,19 @@ export class InscriptionManagerComponent implements OnInit {
   marchand = new MarchandViewModel;
   nom_val: string = 'tototo'
   passwordConfirm: string = '';
+  marchandForm: FormGroup = this.fb.group({
+    nom: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    voie: new FormControl('', Validators.required),
+    complement: new FormControl(''),
+    codepostal: new FormControl('', Validators.required),
+    ville: new FormControl('', Validators.required),
+    pswd: new FormControl('', Validators.required),
+    pswd2: new FormControl('', Validators.required),
 
-  constructor() { }
+  });
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
@@ -28,21 +39,23 @@ export class InscriptionManagerComponent implements OnInit {
     {value:'', errMsg:''} //confirm mdp
   ]
 
- onSubmit(form: NgForm) {
+ onSubmit() {
+    const {nom, email, pswd} = this.marchandForm.value;
+    console.log('nom de Marchand = '+ nom + ' & email = '+ email + ' password = ' + pswd);
 
    //if(form.value.validate) {
-     const marchandModel = {nom: form.value.name, email: form.value.email,
-       password: form.value.pswd,
-       adresseModel: {
-        voie:  form.value.voie,
-        complement: form.value.complement,
-        codePostal: form.value.codePostal,
-        ville: form.value.ville
-       }};
+    //  const marchandModel = {nom: form.value.name, email: form.value.email,
+    //    password: form.value.pswd,
+    //    adresseModel: {
+    //     voie:  form.value.voie,
+    //     complement: form.value.complement,
+    //     codePostal: form.value.codePostal,
+    //     ville: form.value.ville
+    //    }};
 
-       this.passwordConfirm = form.value.psw2;
-       this.valideBaseInfo();
-       this.validAdresse();
+      //  this.passwordConfirm = form.value.psw2;
+      //  this.valideBaseInfo();
+      //  this.validAdresse();
    //}
  }
 
@@ -58,8 +71,6 @@ export class InscriptionManagerComponent implements OnInit {
   //   this.marchand.password = event.value;
   //   console.log('Password de Marchand = '+ event.value + ' vs '+this.marchand.password);
   // }
-
-
 
   valideBaseInfo(): boolean {
     this.messageErreur[0].errMsg = this.marchand.adresseModel.voie !== '' ? '': CHAMP_VIDE_MSG;

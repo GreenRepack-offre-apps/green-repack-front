@@ -1,9 +1,9 @@
-<form class="sub-block" #form="ngForm"  >
+<form class="sub-block" [formGroup]="marchandForm"  >
   <div class="col-10 field-block">
     <div class="col">
       <span>
         <label style="margin-right:1%;" for="nom-field">Nom *</label>
-        <input name="nom" style="width:250px;" id="nom-field" type="text"/>
+        <input formControlName="nom" style="width:250px;" id="nom-field" type="text"/>
       </span>
     </div>
     <div class="col">
@@ -15,7 +15,7 @@
     <div class="col">
       <span>
         <label style="margin-right:1%;" for="email-field"> Email *</label>
-        <input name="email" style="width:250px"id="email-field" type="email" formControleName="email"/>
+        <input formControlName="email" style="width:250px"id="email-field" type="email" formControleName="email"/>
       </span>
     </div>
     <div class="col">
@@ -31,7 +31,7 @@
       <div class="col">
         <span>
           <label style="margin-right:1%;" for="adresse1-field"> Voie: *</label>
-          <input name="voie" style="width:300px;" id="adresse1-field" type="text" />
+          <input formControlName="voie" style="width:300px;" id="adresse1-field" type="text" />
         </span>
       </div>
       <div class="col">
@@ -43,7 +43,7 @@
       <div class="col">
         <span>
           <label style="margin-right:1%;" for="adresse2-field">Complément:</label>
-          <input name="complement" style="width:300px;" id="adresse2-field" type="text" />
+          <input formControlName="complement" style="width:300px;" id="adresse2-field" type="text" />
         </span>
       </div>
     </div>
@@ -53,7 +53,7 @@
       <div class="col">
         <span>
           <label style="margin-right:1%;" for="adresse3-field">Code postal: *</label>
-          <input name="codePostal" style="width:60px;" id="adresse3-field" type="text"/>
+          <input formControlName="codepostal" style="width:60px;" id="adresse3-field" type="text"/>
         </span>
       </div>
       <div class="col">
@@ -65,7 +65,7 @@
       <div class="col">
         <span>
           <label style="margin-right:1%;" for="adresse4-field">ville: *</label>
-          <input name="ville" style="width:170px;" id="adresse4-field" type="text"/>
+          <input formControlName="ville" style="width:170px;" id="adresse4-field" type="text"/>
         </span>
       </div>
       <div class="col">
@@ -79,7 +79,7 @@
     <div class="col">
       <span>
         <label style="margin-right:1%;" for="pasword-field">Mot de passe *</label>
-        <input name="pswd" style="width:200px;" id="password-field" type="password"/>
+        <input formControlName="pswd" style="width:200px;" id="password-field" type="password"/>
       </span>
     </div>
     <div class="col">
@@ -91,7 +91,7 @@
     <div class="col">
       <span>
         <label style="margin-right:1%;" for="passwordConfirm-field">Confirmation *<br>mot de passe</label>
-        <input name="pswd2" style="width:200px;" id="passwordConfirm-field" type="password" />
+        <input formControlName="pswd2" style="width:200px;" id="passwordConfirm-field" type="password" />
       </span>
     </div>
     <div class="col">
@@ -100,8 +100,8 @@
   </div>
   <div class="col" style="margin-top:5%;" >
     <div class="row">
-        <button type="button" name="clear" class="annu-btn">Annuler</button>
-        <button type="button" name="validate"  class="btn btn-primary active" (click)="onSubmit(form)" >Confirmer</button>
+        <button type="button" class="annu-btn">Annuler</button>
+        <button type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
     </div>
         <div class="row">
       <small  style="margin-left:9%;" id="passwordConfirm-field" class="p-error">err !</small>
