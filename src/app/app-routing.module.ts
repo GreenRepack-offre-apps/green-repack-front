@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthentificationComponent } from './page/authentification/authentification.component';
-import { InscriptionComponent } from './page/inscription/inscription.component';
-import { HomeMarchandComponent } from './page/marchand/home-marchand/home-marchand.component';
+import { AuthentificationComponent } from './customers-pages/authentification/authentification.component';
+import { InscriptionComponent } from './customers-pages/inscription/inscription.component';
+import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
 import { AngularFireAuthGuard, hasCustomClaim, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
 
 //const profil: string = sessionStorage.getItem('PROFIL') == null ? String(localStorage.getItem('PROFIL')).toLowerCase()+'/home': 'connexion';
 //const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['connexion']);
@@ -26,12 +27,12 @@ const routes: Routes = [
   },
   {
     path:'marchand',
-    //canActivateChild: [AngularFireAuthGuard],
     children: [
       {
         path:'home/:id',
         component: HomeMarchandComponent,
-        data: { authGuardPipe: belongsToAccount },
+        canActivateChild: [AngularFireAuthGuard],
+        data: { authGuardPipe: belongsToAccount }
       },
       {
         path: '**',
@@ -40,6 +41,12 @@ const routes: Routes = [
       }
     ]
 
+  },
+  {
+    path: 'admin/auth',
+    component: GestionGreenRepackComponent
+    //canActivate: [AngularFireAuthGuard],
+    //data: { authGuardPipe: redirectLoggedInTo([profil]) }
   },
   {
     path: '**',
