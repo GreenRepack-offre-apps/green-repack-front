@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthentificationComponent } from './page/authentification/authentification.component';
-import { InscriptionMarchandComponent } from './page/inscription/inscription-marchand/inscription-marchand.component';
-import { InscriptionComponent } from './page/inscription/inscription.component';
+import { AuthentificationComponent } from './customers-pages/authentification/authentification.component';
+import { InscriptionMarchandComponent } from './customers-pages/inscription/inscription-marchand/inscription-marchand.component';
+import { InscriptionComponent } from './customers-pages/inscription/inscription.component';
 import { MaterialModule } from './lib/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,9 +15,10 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
-import { AuthMarchandComponent } from './page/authentification/auth-marchand/auth-marchand.component';
-import { HomeMarchandComponent } from './page/marchand/home-marchand/home-marchand.component';
+import { AuthMarchandComponent } from './customers-pages/authentification/auth-marchand/auth-marchand.component';
+import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     InscriptionComponent,
     InscriptionMarchandComponent,
     AuthMarchandComponent,
-    HomeMarchandComponent
+    HomeMarchandComponent,
+    GestionGreenRepackComponent
   ],
   imports: [
     BrowserModule,
