@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/green-repack-front",
+    "ignore":[
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
