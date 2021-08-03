@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InscriptionManagerComponent } from './inscription-manager.component';
+import { HomeMarchandComponent } from './home-marchand.component';
 
-describe('InscriptionManagerComponent', () => {
-  let component: InscriptionManagerComponent;
-  let fixture: ComponentFixture<InscriptionManagerComponent>;
+describe('HomeMarchandComponent', () => {
+  let component: HomeMarchandComponent;
+  let fixture: ComponentFixture<HomeMarchandComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InscriptionManagerComponent ]
+      declarations: [ HomeMarchandComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InscriptionManagerComponent);
+    fixture = TestBed.createComponent(HomeMarchandComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

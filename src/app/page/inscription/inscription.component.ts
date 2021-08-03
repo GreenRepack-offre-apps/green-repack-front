@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inscription',
@@ -7,22 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InscriptionComponent implements OnInit {
 
-  //profil:string = 'CLIENT';
+  title = 'Inscription';
 
   profil:string = 'MARCHAND';
 
-  constructor() {
-  }
+  constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
 
   }
 
-//   onClickClient(){
-//
-//  }
-//   onClickMarchand(){
-//      this.profil = 'MARCHAND';
-//   }
+  redirect() {
+    this.router.navigate(['connexion']);
+  }
 
 }

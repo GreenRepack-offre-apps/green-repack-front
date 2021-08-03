@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentification',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./authentification.component.scss']
 })
 export class AuthentificationComponent implements OnInit {
+  title = 'Connexion';
 
-  constructor() { }
+  profil:string = 'MARCHAND';
+
+  constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
   }
-
+  
+  redirect() {
+    this.router.navigate(['inscription']);
+  }
 }
