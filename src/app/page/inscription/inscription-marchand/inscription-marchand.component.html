@@ -7,7 +7,7 @@
       </span>
     </div>
     <div class="col">
-      <small style="margin-left:9%;" id="nom-field" class="p-error">Username is not available.</small>
+      <small style="margin-left:9%;" id="nom-field" class="p-error">{{ this.messageErreur[0].errMsg }}</small>
     </div>
   </div>
 
@@ -18,9 +18,12 @@
         <input formControlName="email" style="width:250px"id="email-field" type="email" formControleName="email"/>
       </span>
     </div>
-    <div class="col">
-      <small style="margin-left:9%;" id="email-field" class="p-error">Username is not available.</small>
+    <div class="col" *ngIf="marchandForm.controls.email.touched && marchandForm.controls.email.hasError else noError">
+      <small style="margin-left:9%;" id="email-field" class="p-error">{{err_champs}}</small>
     </div>
+    <ng-template #noError>
+      <small  style="margin-left:9%;" id="password-field" class="p-error"></small>
+    </ng-template>
   </div>
 
 
@@ -35,7 +38,7 @@
         </span>
       </div>
       <div class="col">
-        <small style="margin-left:9%;" id="adresse1-field" class="p-error">Username is not available.</small>
+        <small *ngIf="marchandForm.controls.voie.touched && marchandForm.controls.voie.hasError" style="margin-left:9%;" id="adresse1-field" class="p-error">{{err_champs}}</small>
       </div>
     </div>
 
@@ -57,7 +60,7 @@
         </span>
       </div>
       <div class="col">
-        <small style="margin-left:9%;" id="adresse3-field" class="p-error">Username is not available.</small>
+        <small *ngIf="marchandForm.controls.codepostal.touched && marchandForm.controls.codepostal.hasError" style="margin-left:9%;" id="adresse3-field" class="p-error">{{err_champs}}</small>
       </div>
     </div>
 
@@ -69,7 +72,7 @@
         </span>
       </div>
       <div class="col">
-        <small style="margin-left:9%;" id="adresse4-field" class="p-error">Username is not available.</small>
+        <small *ngIf="marchandForm.controls.ville.touched && marchandForm.controls.ville.hasError" style="margin-left:9%;" id="adresse4-field" class="p-error">{{err_champs}}</small>
       </div>
     </div>
   </div>
@@ -82,9 +85,10 @@
         <input formControlName="pswd" style="width:200px;" id="password-field" type="password"/>
       </span>
     </div>
-    <div class="col">
-      <small style="margin-left:9%;" id="password-field" class="p-error">Username is not available.</small>
+    <div *ngIf="marchandForm.controls.pswd.touched && marchandForm.controls.pswd.hasError" class="col">
+      <small  style="margin-left:9%;" id="password-field" class="p-error">{{err_champs}}</small>
     </div>
+
   </div>
 
   <div class="col-10 field-block">
@@ -95,16 +99,15 @@
       </span>
     </div>
     <div class="col">
-      <small  style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{ messageErreur[6].errMsg}}</small>
+      <small  *ngIf="marchandForm.controls.pswd2.touched && marchandForm.controls.pswd2.hasError" style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{err_champs}}</small>
     </div>
   </div>
   <div class="col" style="margin-top:5%;" >
     <div class="row">
-        <button type="button" class="annu-btn">Annuler</button>
-        <button type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
+        <button [disabled]="!marchandForm.valid" type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
     </div>
-        <div class="row">
-      <small  style="margin-left:9%;" id="passwordConfirm-field" class="p-error">err !</small>
+    <div class="row">
+      <small style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{err_send}}</small>
     </div>
   </div>
 </form>

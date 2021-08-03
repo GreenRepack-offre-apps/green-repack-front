@@ -1,9 +1,9 @@
 <div class="container block">
-  <div class="col">
+    <div class="col">
     <h2> {{title}} </h2>
   </div>
-  <div class="col" style="margin-right: 20px;margin-left: 1160px;">
-    <button  class="btn btn-link" (click)="redirect()" >S'inscrire</button>
+  <div class="col" style="margin-right: 20px;margin-left: 1150px;">
+    <button  class="btn btn-link" (click)="redirect()">Se connecter</button>
   </div>
   <ul class="nav justify-content-center tabs">
     <li class="nav-item" (click)="profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
@@ -12,13 +12,13 @@
     <li class="nav-item" (click)="profil = 'MARCHAND'" [class.select]="profil === 'MARCHAND'">
       <button type="button" class="btn btn-link">Marchand</button>
     </li>
+
   </ul>
 
   <div *ngIf="profil !== 'MARCHAND'; else marchandBlock">
-    Formulaire Client connexion !!
+    Formulaire Client Inscription !!
   </div>
   <ng-template #marchandBlock>
-    <app-auth-marchand>
-    </app-auth-marchand>
+    
   </ng-template>
 </div>

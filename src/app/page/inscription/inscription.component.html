@@ -1,5 +1,10 @@
 <div class="container block">
-  <h2> Inscription </h2>
+    <div class="col">
+    <h2> {{title}} </h2>
+  </div>
+  <div class="col" style="margin-right: 20px;margin-left: 1150px;">
+    <button  class="btn btn-link" (click)="redirect()">Se connecter</button>
+  </div>
   <ul class="nav justify-content-center tabs">
     <li class="nav-item" (click)="profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
       <button type="button" class="btn btn-link"  aria-current="page">Client</button>
@@ -14,8 +19,8 @@
     Formulaire Client Inscription !!
   </div>
   <ng-template #marchandBlock>
-    <app-inscription-manager>
-    </app-inscription-manager>
+    <app-inscription-marchand>
+    </app-inscription-marchand>
   </ng-template>
 </div>
 

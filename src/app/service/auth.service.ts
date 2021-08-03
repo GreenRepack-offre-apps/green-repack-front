@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SessionUser, Profils } from '../model/auth.model';
-import { Marchand } from '../model/manager.model';
+import { Marchand } from '../model/marchand.model';
 import { API_URL } from '../../assets/app-const';
 
 @Injectable({

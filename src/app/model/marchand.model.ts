@@ -21,14 +21,20 @@ export interface Adresse {
   ville: string;
 }
 
-export class MarchandViewModel extends Marchand {
-   adresseModel: Adresse;
+export class MarchandViewModel implements Marchand {
+  id?: string | undefined;
+  nom!: string;
+  email!: string;
+  password?: string | undefined;
+  datecreation?: string | undefined;
+  adresse!: string;
+  adresseModel: Adresse;
    constructor(){
-     super();
      this.adresseModel = <Adresse>{}
    }
 
-   createMarchand(): Marchand {
+
+   createMarchand() {
      let adr = '';
     adr += (this.adresseModel.complement !== ''? this.adresseModel.complement + ', ': '') + this.adresseModel.voie + ', '
     + this.adresseModel.codePostal+' '+ this.adresseModel.ville;
