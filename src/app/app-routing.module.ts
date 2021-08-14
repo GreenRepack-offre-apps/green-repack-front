@@ -3,36 +3,38 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthentificationComponent } from './customers-pages/authentification/authentification.component';
 import { InscriptionComponent } from './customers-pages/inscription/inscription.component';
 import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
-import { AngularFireAuthGuard, hasCustomClaim, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { AngularFireAuthGuard, hasCustomClaim, redirectLoggedInTo, redirectUnauthorizedTo, canActivate } from '@angular/fire/auth-guard';
 import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
 
-//const profil: string = sessionStorage.getItem('PROFIL') == null ? String(localStorage.getItem('PROFIL')).toLowerCase()+'/home': 'connexion';
-//const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['connexion']);
-// let redirectLoggedHome = null;
-// if(profil){
-// export const redirectLoggedHome = () => redirectLoggedInTo([String(profil).toLowerCase()+'marchand/home']);
-// // }
+const profil: string = sessionStorage.getItem('PROFIL') !== null ? String(localStorage.getItem('PROFIL')):'user';
+
+const redirectLoggedHome = () => redirectLoggedInTo([profil + '/home']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['connexion']);
 const belongsToAccount = (next:any) => hasCustomClaim(`account-${next.params.id}`);
 
 const routes: Routes = [
   {
     path: 'connexion',
     component: AuthentificationComponent,
-    //canActivate: [AngularFireAuthGuard],
-    //data: { authGuardPipe: redirectLoggedInTo([profil]) }
+    canLoad: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedHome}
+    //...canActivate(redirectLoggedHome),
   },
   {
     path: 'inscription',
     component: InscriptionComponent
   },
   {
-    path:'marchand',
+    path: 'marchand',
+    canLoad: [AngularFireAuthGuard],
+    //...canActivate(redirectUnauthorizedToLogin),
     children: [
       {
         path:'home/:id',
         component: HomeMarchandComponent,
-        canActivateChild: [AngularFireAuthGuard],
-        data: { authGuardPipe: belongsToAccount }
+        //canLoad: [AngularFireAuthGuard],
+        data: { authGuardPipe: belongsToAccount}
+
       },
       {
         path: '**',

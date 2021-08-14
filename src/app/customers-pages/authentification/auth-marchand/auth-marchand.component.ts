@@ -4,6 +4,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
 import { Router } from '@angular/router';
 import { redirectLoggedInTo } from '@angular/fire/auth-guard';
+import { AuthService } from '../../../service/auth.service';
+import { MarchandProfils } from 'src/app/model/auth.model';
 
 @Component({
   selector: 'app-auth-marchand',
@@ -12,7 +14,12 @@ import { redirectLoggedInTo } from '@angular/fire/auth-guard';
 })
 export class AuthMarchandComponent implements OnInit {
 
-  constructor(private fbuilder: FormBuilder, private firebaseAuth: AngularFireAuth, private readonly router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private fbuilder: FormBuilder,
+    private firebaseAuth: AngularFireAuth,
+     private readonly router: Router) { }
+
   err_send = '';
   messageErreur = [
     {value:'', errMsg:''}, //nom
@@ -26,6 +33,9 @@ export class AuthMarchandComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.authService.currentUser(new MarchandProfils()).subscribe(rst => rst.uid !== null
+      && rst.token
+      && rst.email ? this.router.navigate(['/marchand/home/'+rst.uid]):null);
     this.marchandForm.valueChanges.subscribe(v => {
 
       const{ email, pswd }  = v;
@@ -41,7 +51,7 @@ export class AuthMarchandComponent implements OnInit {
     this.firebaseAuth.signInWithEmailAndPassword(nomControl, pswdControl)
     .then(rst =>{
         console.log("connexion start ... " + JSON.stringify(rst));
-        sessionStorage.setItem('PROFIL', 'MARCHAND');
+        sessionStorage.setItem('PROFIL', 'MARCHAND'.toLowerCase());
         sessionStorage.setItem('USER_CURRENT', nomControl);
         this.router.navigate(['/marchand/home/'+rst.user?.uid]);
     })

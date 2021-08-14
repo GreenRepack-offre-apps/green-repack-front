@@ -1,9 +1,9 @@
+import { ProduitData } from './produit.model';
 
 export class Marchand {
   id?: string;
   nom: string;
   email: string;
-  password?: string;
   datecreation?: string;
   adresse: string;
 
@@ -41,4 +41,10 @@ export class MarchandViewModel implements Marchand {
      return {nom: this.nom, email: this.email, password: this.password, adresse: adr}
    }
 
+}
+
+// firebase database
+export interface MarchandData {
+  email?: string;
+  produits?:ProduitData[];
 }

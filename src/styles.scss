@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-/**
+/*
   Inscription & connexion client et marchand
 */
 
@@ -17,4 +17,11 @@
 
 label {
   font-weight: bold;
+}
+.text-gras {
+  font-weight: bold;
+}
+
+.body {
+  background-color: antiquewhite;
 }

@@ -1,0 +1,35 @@
+
+<h4>{{title_suivi_demande}}</h4>
+
+<div *ngIf="produitRecaps && produitRecaps.length > 0; emptyProducts">
+  <div class="row produit" *ngFor="let produitRecap of produitRecaps" >
+    <mat-card  style="{margin-right:35%};">
+      <mat-card-header>
+        <mat-card-title>{{produitRecap.marque}} - {{produitRecap.model}}</mat-card-title>
+        <mat-card-subtitle>Etat: {{produitRecap.statut_validation}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          oui
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+      <mat-card-footer class="footer">
+        Ajouter le {{produitRecap.date_ajout | date: 'yyyy/MM/dd'}}
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #emptyProducts>
+  <div>
+    <mat-card>
+      <mat-card-content>
+        <h2>Vous n'avez pas de produit en cours de demande !!</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-template>

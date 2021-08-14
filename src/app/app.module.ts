@@ -17,9 +17,17 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { AuthMarchandComponent } from './customers-pages/authentification/auth-marchand/auth-marchand.component';
 import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuthModule, AngularFireAuth, PERSISTENCE } from '@angular/fire/auth';
 import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
+import { SuiviDemandeProduitComponent } from './customers-pages/marchand/suivi-demande-produit/suivi-demande-produit.component';
+import { SuiviDemandeListComponent } from './customers-pages/marchand/components/suivi-demande-list/suivi-demande-list.component';
+import { AjoutProduitComponent } from './customers-pages/marchand/components/ajout-produit/ajout-produit.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { HeaderComponent } from './common/header/header/header.component';
 
+const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +36,11 @@ import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/
     InscriptionMarchandComponent,
     AuthMarchandComponent,
     HomeMarchandComponent,
-    GestionGreenRepackComponent
+    GestionGreenRepackComponent,
+    SuiviDemandeProduitComponent,
+    SuiviDemandeListComponent,
+    AjoutProduitComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +53,15 @@ import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireAuthGuardModule,
+    AngularFireStorageModule,
+    FileUploadModule,
   ],
-  providers: [],
+  providers: [
+    FireSession,
+    AngularFireStorage
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
