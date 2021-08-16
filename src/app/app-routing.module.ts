@@ -11,6 +11,7 @@ const profil: string = sessionStorage.getItem('PROFIL') !== null ? String(localS
 const redirectLoggedHome = () => redirectLoggedInTo([profil + '/home']);
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['connexion']);
 const belongsToAccount = (next:any) => hasCustomClaim(`account-${next.params.id}`);
+const adminOnly = () => hasCustomClaim('admin');
 
 const routes: Routes = [
   {
@@ -42,23 +43,38 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
-
   },
   {
-    path: 'admin/auth',
+    path: 'admin',
     component: GestionGreenRepackComponent
-    //canActivate: [AngularFireAuthGuard],
-    //data: { authGuardPipe: redirectLoggedInTo([profil]) }
+  },
+  {
+    path: 'admin',
+    children: [
+      {
+        path:':id',
+        component: GestionGreenRepackComponent,
+        canLoad: [AngularFireAuthGuard],
+      },
+      {
+        path: '**',
+        redirectTo:':id',
+        pathMatch: 'full',
+      }
+    ]
   },
   {
     path: '**',
-    redirectTo: 'connexion',
+    //redirectTo: 'connexion',
+    redirectTo: 'admin',
     pathMatch: 'full'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    initialNavigation: 'enabled'
+})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

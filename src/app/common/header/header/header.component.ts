@@ -3,14 +3,20 @@ import { MarchandProfils } from 'src/app/model/auth.model';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
 import { MarchandService } from '../../../service/marchand/marchand.service';
-import { CurrentUser } from '../../../model/auth.model';
+import { CurrentUser, AdminProfils, ClientProfils } from '../../../model/auth.model';
 import { MarchandSearch } from '../../../model/common.model';
 import { Marchand } from '../../../model/marchand.model';
 import { Subscription } from 'rxjs';
+import { Admin, adminMailEquals } from '../../../model/admin.model';
+import { Client } from '../../../model/client.model';
 
-export interface InfoUser<T> {
+export class InfoUser<T> {
   current: CurrentUser;
   user: T;
+  constructor(t:T) {
+    this.user = t;
+    this.current = <CurrentUser>{};
+  }
 }
 @Component({
   selector: 'app-header',
@@ -21,14 +27,37 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   constructor(private authService: AuthService,
     private marchandService: MarchandService,
-    private readonly router: Router) { }
+    private readonly router: Router) {
+      switch(this.authService.profilRegister?.type) {
+        case 'GESTION':
+          this.infoUser = new InfoUser(<Admin>{});
+          this.profilActive = new AdminProfils();
+          break;
+
+        case 'MARCHAND':
+          this.infoUser = new InfoUser(<Marchand>{});
+          this.profilActive = new MarchandProfils();
+          break;
+
+        case 'CLIENT':
+          this.infoUser = new InfoUser(<Client>{});
+          this.profilActive = new ClientProfils();
+          break;
+
+        default:
+          this.infoUser = null;
+      }
+    }
 
   title = 'Green Repack';
-  infoUser: InfoUser<Marchand> = <InfoUser<Marchand>>{};
+  infoUser: any;
+  profilActive: MarchandProfils | AdminProfils | ClientProfils | any;
   user_active: boolean = false;
   subcriptions: Subscription[] = [];
   ngOnInit(): void {
-    this.checkUser();
+    if(this.infoUser){
+      this.checkUser();
+    }
   }
 
   ngDoCheck(){
@@ -40,18 +69,39 @@ export class HeaderComponent implements OnInit, DoCheck {
   // }
 
   checkUser(){
-    this.authService.currentUser(new MarchandProfils)
+
+    this.authService.currentUser(this.profilActive)
     .subscribe((user: CurrentUser) => {
       this.user_active = user.email !== null && user.token !== null;
       if (!this.user_active) {
         this.router.navigate(['connexion']);
       } else {
         this.infoUser.current = user;
-        this.marchandService.searchMarchand('email', user.email)
-        .subscribe(rst => {
-          if(rst.value.email !== user.email ) this.router.navigateByUrl('connexion');
-          this.infoUser.user = rst.value;
-        })
+        switch(this.authService.profilRegister?.type) {
+          case 'GESTION':
+            if(!adminMailEquals(user.email)) this.router.navigateByUrl('admin');
+            this.infoUser.user.nom = user.email;
+            break;
+
+          case 'MARCHAND':
+            this.marchandService.searchMarchand('email', user.email)
+            .subscribe(rst => {
+              if(rst.value.email !== user.email ) this.router.navigateByUrl('connexion');
+              this.infoUser.user = rst.value;
+            })
+            break;
+
+          case 'CLIENT':
+            /**
+             * not implemented yet
+             */
+            this.infoUser.user.nom = ''
+            break;
+
+          default:
+            this.infoUser = null;
+        }
+
       }
     });
   }

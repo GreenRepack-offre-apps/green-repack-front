@@ -49,11 +49,11 @@ export type OffreReponse = 'oui' | 'non';
 
 export interface OffreProposition {
   prix: number| DecimalPipe;
-  raison: string | null;
+  raison?: string;
 }
 
 export type DocType = 'colis' | 'facture';
-export type TraitementProduitType = 'remboursement' | 'paiement';
+export type TraitementProduitType = 'suivi_colis' | 'remboursement' | 'paiement';
 export interface ContenuDocument {
   file?: File;
   type: DocType;
@@ -67,36 +67,24 @@ export class EtatProduitData implements EtatProduitName {
   label: string = "Suspendu";
   hasContent: boolean;
   idProduit: string
-  notification?: OffreReponse | OffreProposition | ContenuDocument | MessageProduit;
+  notification?: OffreReponse | OffreProposition | ContenuDocument | MessageProduit | null;
   action?:  OffreReponse | OffreProposition | ContenuDocument | TraitementProduitType | null;
-  numeroEchange?:number;
+  niemeEchange?:number;
 
-  constructor(etat: EtatProduitType, label: string, idProduit: string, hasContent: boolean,
-    contenu: OffreReponse | OffreProposition | ContenuDocument,
-    numeroEchange: number) {
+  constructor(etat: EtatProduitType, label: string, hasContent: boolean, idProduit: string, niemeEchange: number) {
 
     this.etat = etat;
     this.label = label;
     this.idProduit = idProduit;
     this.hasContent = hasContent;
-    this.notification = contenu;
-    this.numeroEchange = numeroEchange;
+    this.notification = null;
+    this.niemeEchange = niemeEchange;
 
     if(!this.hasContent){
       this.action = null;
     }
   }
-
-
 }
-
-// export function gestionCas(etat: Record<EtatProduitType, EtatProduitName>){
-//   switch(etat.){
-//     case 'INIT':
-//       this.notification = {message: 'Un produit à été ajouter !!'}  //vue admin.
-//       this.action =
-//   }
-// }
 
 export type EtatProduitType = 'NONE' |
                           'INIT'|
@@ -105,7 +93,7 @@ export type EtatProduitType = 'NONE' |
                           'EN_ATTENTE_RECEPTION_PRODUIT' |
                           'PRODUIT_RECEPTIONNE' |
                           'EN_ATTENTE_VALIDATION_' |
-                          'ANNULATION_EN_ATTENTE_REMBOURSEMENT' | //j'usqu'a 15jours
+                          'ANNULATION_EN_ATTENTE_REMBOURSEMENT' | //jusqu'a 15 jours
                           'ANNULATION' |
                           'VALIDATION_EN_ATTENTE_PAIEMENT' |
                           'VALIDATION';
@@ -119,7 +107,7 @@ export const EtatProduitEnum: Record<EtatProduitType, EtatProduitName> = {
   PRODUIT_RECEPTIONNE: {etat:'PRODUIT_RECEPTIONNE', label:'Demande créer', hasContent:true}, //offre reponse
   EN_ATTENTE_VALIDATION_: {etat:'EN_ATTENTE_VALIDATION_', label:'Demande créer', hasContent:true}, // offre reponse
   ANNULATION_EN_ATTENTE_REMBOURSEMENT: {etat:'ANNULATION_EN_ATTENTE_REMBOURSEMENT', label:'Demande créer', hasContent:false},
-  ANNULATION: {etat:'ANNULATION', label:'Demande créer', hasContent:true},
+  ANNULATION: {etat:'ANNULATION', label:'Demande créer', hasContent:false},
   VALIDATION_EN_ATTENTE_PAIEMENT: {etat:'VALIDATION_EN_ATTENTE_PAIEMENT', label:'Demande créer', hasContent:false},
   VALIDATION: {etat:'VALIDATION_EN_ATTENTE_PAIEMENT', label:'Demande créer', hasContent:true} //content = facture paiement
 };

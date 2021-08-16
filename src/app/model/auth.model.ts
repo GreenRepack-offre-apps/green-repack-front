@@ -1,7 +1,7 @@
 
 
     export interface CurrentUser {
-      profil: string | Profils;
+      profil: string | any;
       sessionActive: boolean;
       email: string | any;
       token: string | any;

@@ -33,7 +33,11 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
 
   redirect() {
     this.firebaseAuth.signOut()
-    .then(e => this.router.navigate(['connexion']))
+    .then(e => {
+      this.router.navigate(['connexion']);
+      sessionStorage.setItem('PROFIL', '');
+
+    })
     .catch(err => console.log('error; Can\'t logout '));
   }
   openPopinAjoutProduit() {

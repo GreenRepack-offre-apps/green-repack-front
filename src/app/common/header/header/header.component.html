@@ -276,11 +276,8 @@
 
   <div class="spacer"></div>
 
-  <div *ngIf="infoUser !== null" class="identity">
-    <span>{{infoUser.current.profil}}: {{infoUser.user.nom}}</span>
-    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
-      <mat-icon class="mat-icon-rtl-mirror" svgIcon="info"></mat-icon>
-    </span>
+  <div *ngIf="infoUser !== null || infoUser" class="identity">
+    <span>{{infoUser.current?.profil}} {{infoUser.user?.nom}}</span>
   </div>
 
   <a aria-label="Angular on twitter" target="_blank" rel="noopener" href="https://twitter.com/angular" title="Twitter">

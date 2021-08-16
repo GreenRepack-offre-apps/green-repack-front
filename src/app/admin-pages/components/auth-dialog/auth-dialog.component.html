@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Accès admin Green Repack</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="adminForm">
+    <div class="col-10">
+      <div class="col">
+        <span>
+          <label style="margin-right:1%;" for="email-field">Email *</label>
+          <input formControlName="nomControl" style="width:250px;" id="email-field" type="email"/>
+        </span>
+      </div>
+      <div class="col" *ngIf="messageErreur[0].errMsg !== ''">
+        <small style="margin-left:9%;"  class="p-error">{{ messageErreur[0].errMsg }}</small>
+      </div>
+    </div>
+
+    <div class="col-10">
+      <div class="col">
+        <span>
+          <label style="margin-right:1%;" for="password-field"> Mot de Passe *</label>
+          <input formControlName="pswdControl" style="width:250px"id="password-field" type="password"/>
+        </span>
+      </div>
+      <div class="col">
+        <small style="margin-left:9%;" id="password-field" class="p-error">{{messageErreur[1].errMsg}}</small>
+      </div>
+    </div>
+    <div class="col" style="margin-top:5%;" >
+      <div class="row">
+        <small style="margin-left:9%;" id="password-field" class="p-error">{{err_send}}</small>
+      </div>
+    </div>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <div *ngIf="adminForm.valid; else novalid ">
+    <button mat-button [mat-dialog-close]="true" (click)="onSubmit()" cdkFocusInitial>Confirmer</button>
+  </div>
+  <ng-template #novalid>
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial disabled>Confirmer</button>
+  </ng-template>
+</mat-dialog-actions>

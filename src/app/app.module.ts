@@ -26,6 +26,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { HeaderComponent } from './common/header/header/header.component';
+import { AuthDialogComponent } from './admin-pages/components/auth-dialog/auth-dialog.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
@@ -40,10 +41,11 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     SuiviDemandeProduitComponent,
     SuiviDemandeListComponent,
     AjoutProduitComponent,
-    HeaderComponent
+    HeaderComponent,
+    AuthDialogComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
