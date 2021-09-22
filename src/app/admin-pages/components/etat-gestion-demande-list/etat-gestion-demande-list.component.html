@@ -1,0 +1,137 @@
+
+<div class="col">
+  <ul class="row">
+    <li>Demande en cours (Filtre)</li>
+    <li>
+      <div>
+        <mat-form-field appearance="fill" [formGroup]="etatFiltre" >
+          <mat-label defaultColor="white">Etat de demande</mat-label>
+          <mat-select formControlName="stateProductSelected" defaultTabIndex="1"  (selectionChange)="applyFiltre()">
+            <mat-option value="">-- AUCUN  --</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="INIT">INIT</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="DEMANDE_GENERATION_COLIS">DEMANDE_GENERATION_COLIS</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="EN_ATTENTE_RECEPTION_PRODUIT">EN_ATTENTE_RECEPTION_PRODUIT</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="EN_ATTENTE_VALIDATION_">EN_ATTENTE_VALIDATION_</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="EN_ATTENTE_REPONSE_">EN_ATTENTE_REPONSE_</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="VALIDATION_EN_ATTENTE_PAIEMENT">EN_ATTENTE_VALIDATION_</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="ANNULATION_EN_ATTENTE_REMBOURSEMENT">EN_ATTENTE_VALIDATION_</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="ANNULATION">ANNULATION</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="VALIDATION">VALIDATION</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </li>
+  </ul>
+
+  <div class="row">
+    <div *ngIf="produitRecaps && produitRecaps.length> 0; else emptyProducts">
+      <div class="row produit" *ngFor="let produitRecap of produitRecaps">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{produitRecap.recap.marque}} - {{produitRecap.recap.model}}</mat-card-title>
+            <mat-card-subtitle class="col-subtitle" >
+              <div>
+                Etat: {{produitRecap.label}}
+              </div>
+              <div>
+                user: {{produitRecap.recap.user}}
+              </div>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p-accordion>
+              <p-accordionTab header="Recapitulatif du produit">
+                <div class="recap">
+                  <li>
+                    <b>categorie :</b> {{produitRecap.recap.categorie}}
+                  </li>
+                  <li>
+                    <b>caracteristique technique :</b> {{produitRecap.recap.info_tech}}
+                  </li>
+                  <li>
+                    <b>caracteristique esthétique :</b> {{produitRecap.recap.info_esth}}
+                  </li>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab header="Action requise" [selected]="false">
+                <div [ngSwitch]="produitRecap.recap.statut_validation">
+                  <div class="action-block" *ngSwitchCase="'INIT'" >
+                    <mat-form-field>
+                      <mat-label>Estimez le prix de vente !</mat-label>
+                      <input type="number" matInput [formControl]="priceFormControl" placeholder="50.23">
+                      <mat-error *ngIf="priceFormControl.hasError('required')">
+                        price is <strong>required</strong>
+                      </mat-error>
+                    </mat-form-field>
+                    <button mat-stroked-button color="primary" (click)="validate(produitRecap.recap)">Valider</button>
+                  </div>
+
+                  <div class="action-block" *ngSwitchCase="'DEMANDE_GENERATION_COLIS'" >
+                    <button mat-flat-button color="primary">Générer le suivie de colis</button>
+                  </div>
+
+                  <div class="action-block" *ngSwitchCase="'EN_ATTENTE_RECEPTION_PRODUIT'" >
+                    <h2>  Il reste {{nbjourRestant}} pour la réception du produit !! </h2>
+                    <button mat-flat-button color="primary">Valider la réception du Colis</button>
+                    <button mat-flat-button color="primary" disabled="nbjourRestant <== 0">Annuler la demande du produit</button>
+                  </div>
+
+                  <div *ngSwitchCase="'EN_ATTENTE_VALIDATION_'" >
+                    <label id="radio-group-label">Pick your favorite season</label>
+                    <mat-radio-group  aria-labelledby="radio-group-label"   class="radio-group"
+                      [(ngModel)]="validationReponse">
+                        <mat-radio-button class="props" value="oui">Valider et passer au paiement
+                        </mat-radio-button>
+                        <mat-radio-button class="props" value="non">Refuser et demander un remboursement
+                        </mat-radio-button>
+                        <mat-radio-button class="props" value="offre">
+                          <mat-form-field>
+                            <mat-label>Estimez un autre  prix de vente !</mat-label>
+                            <input type="number"  matInput [formControl]="priceFormControl"
+                                  placeholder="50.23" [disabled]="validationReponse !== 'offre'">
+                            <mat-error *ngIf="priceFormControl.hasError('required')">
+                              price is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field>
+                        </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+
+                  <div class="action-block" *ngSwitchCase="'VALIDATION_EN_ATTENTE_PAIEMENT'" >
+                    <h2> Payer le marchand pour son produit </h2>
+                  </div>
+                  <div class="action-block" *ngSwitchDefault>
+                    <div>
+                      <p>Aucune action n'est requise !!</p>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </mat-card-content>
+          <mat-card-footer class="footer">
+            Ajouter le {{produitRecap.recap.date_ajout | date: 'yyyy/MM/dd - HH:mm'}}
+          </mat-card-footer>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyProducts>
+    <div>
+      <mat-card>
+        <mat-card-content>
+          <h2>Aucun produit n'a été trouvé !!</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template>
+</div>

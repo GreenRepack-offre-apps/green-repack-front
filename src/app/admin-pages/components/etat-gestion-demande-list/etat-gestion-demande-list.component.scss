@@ -1,0 +1,69 @@
+$background_primary: antiquewhite;
+
+$background_secondary: rgb(25, 210, 40);
+.recap {
+  margin-left: 1%;
+}
+
+li{
+  display: block;
+}
+
+li:not(:last-child) {
+  margin-right: 3%;
+}
+
+// :host ::ng-deep mat-form-field mat-form-field-wrapper {
+//   background-color: white;
+// }
+.produit {
+  margin-top: 3%;
+  margin-left: 3%;
+}
+.produit {
+  margin-top: 3%;
+  margin-left: 3%;
+}
+
+.col-subtitle {
+  display: flex;
+  justify-content: center;
+}
+
+.col-subtitle  > div {
+  margin-right: 10%;
+  width: auto;
+}
+
+:host ::ng-deep  div.p-accordion  .p-accordion-tab .p-accordion-header{
+  background-color: $background_primary;
+  border-left: solid 1px black;
+  border-top: solid 1px black;
+  a.p-accordion-header-link {
+    color: black;
+    font-weight: bold;
+    margin: 8px 8px 8px 8px;
+  }
+}
+
+:host ::ng-deep  div.p-accordion  .p-accordion-tab div.p-accordion-header:active {
+  background-color: darken($background_primary, 50%);
+}
+
+.action-block {
+  margin-left: 1%;
+}
+.footer {
+  font-weight: lighter;
+  margin-left: 2%;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.props {
+  margin: 5px;
+}

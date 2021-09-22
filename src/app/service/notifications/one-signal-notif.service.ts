@@ -24,6 +24,12 @@ export class OneSignalNotifService {
     });
   }
 
+  onUserCreate(idUser:string):void {
+    this.onLoad().then((OneSignal)=>{
+      OneSignal.setExternalUserId(idUser);
+    });
+  }
+
   // onNotifActive():void {
   //   new Promise(()=> {
   //     window.OneSignal.push(function() {
@@ -38,6 +44,11 @@ export class OneSignalNotifService {
   //     window.OneSignal.isPushNotificationsEnabled({
 
   //     }
+  //   });
+  // }
+  // appRouteto(){
+  //   app().post('/notifs', function(req, rep) {
+  //     rep.send({a:"b"});
   //   });
   // }
 

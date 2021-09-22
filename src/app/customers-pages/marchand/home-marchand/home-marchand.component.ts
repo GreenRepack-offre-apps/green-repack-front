@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { AjoutProduitComponent } from '../components/ajout-produit/ajout-produit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { MarchandSyntheseService } from '../../../service/marchand/synthese/marchand-synthese.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home-marchand',
@@ -18,7 +20,8 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
     private marchandService: MarchandService,
     private firebaseAuth: AngularFireAuth,
     private readonly router: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private syntheseMarchand: MarchandSyntheseService) { }
 
     subs: Subscription[] = [];
 
@@ -29,6 +32,7 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
   title = 'Espace pour marchand. Gerez vos produits ici !!';
 
   ngOnInit(): void {
+
   }
 
   redirect() {

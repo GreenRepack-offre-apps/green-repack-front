@@ -13,10 +13,9 @@ export class UploadService {
 
   //uploadTask: AngularFireUploadTask;
 
-  constructor(private database: AngularFireDatabase, private storage: AngularFireStorage) { }
+  constructor(private storage: AngularFireStorage) { }
 
   imagesProductToStorage(profil: MarchandProfils | AdminProfils, idProduit:string, files: File[]) {
-    let product: ProduitData = {urls_image: [], produitId: idProduit}
     const basePath = `/upload/${profil.type.toLowerCase()}/${idProduit}/images`;
     let results:any = [];
     for(let i = 0; i < files.length; i++) {

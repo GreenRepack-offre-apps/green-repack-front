@@ -35,7 +35,6 @@ export class AuthService {
         const current_user: CurrentUser = { profil: profils.type, sessionActive: false, email: s?.email, token: token, uid: s?.uid };
         console.log("current user is " + JSON.stringify(current_user));
         return current_user;
-
       }),
       distinctUntilChanged()
 

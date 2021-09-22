@@ -1,35 +1,66 @@
+<div class="suivi-block">
+  <h4>{{title_suivi_demande}}</h4>
 
-<h4>{{title_suivi_demande}}</h4>
-
-<div *ngIf="produitRecaps && produitRecaps.length > 0; emptyProducts">
-  <div class="row produit" *ngFor="let produitRecap of produitRecaps" >
-    <mat-card  style="{margin-right:35%};">
-      <mat-card-header>
-        <mat-card-title>{{produitRecap.marque}} - {{produitRecap.model}}</mat-card-title>
-        <mat-card-subtitle>Etat: {{produitRecap.statut_validation}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          oui
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-      <mat-card-footer class="footer">
-        Ajouter le {{produitRecap.date_ajout | date: 'yyyy/MM/dd'}}
-      </mat-card-footer>
-    </mat-card>
+  <div *ngIf="produitRecaps && produitRecaps.length > 0; else emptyProducts">
+    <div class="row produit" *ngFor="let produitRecap of produitRecaps" >
+      <mat-card >
+        <mat-card-header>
+          <mat-card-title>{{produitRecap.recap.marque}} - {{produitRecap.recap.model}}</mat-card-title>
+          <mat-card-subtitle>Etat: {{produitRecap.label}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p-accordion>
+            <p-accordionTab header="Recapitulatif du produit">
+              <div class="accordion-body">
+                <li>
+                  <b>categorie :</b> {{produitRecap.recap.categorie}}
+                </li>
+                <li>
+                  <b>caracteristique technique :</b> {{produitRecap.recap.info_tech}}
+                </li>
+                <li>
+                  <b>caracteristique esthétique :</b> {{produitRecap.recap.info_esth}}
+                </li>
+              </div>
+            </p-accordionTab>
+            <p-accordionTab header="Action requise" [selected]="false">
+              <div [ngSwitch]="produitRecap.recap.statut_validation">
+                <div *ngSwitchCase="'EN_ATTENTE_REPONSE_'" >
+                </div>
+                <div *ngSwitchCase="'EN_ATTENTE_RECEPTION_PRODUIT'" >
+                </div>
+                <div *ngSwitchCase="'ANNULATION_EN_ATTENTE_REMBOURSEMENT'" >
+                </div>
+                <div *ngSwitchDefault >
+                  <div>
+                    <p>Aucune action n'est requise !!</p>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Valider</button>
+        </mat-card-actions>
+        <mat-card-footer class="footer">
+          Ajouter le {{produitRecap.recap.date_ajout | date: 'yyyy/MM/dd - HH:mm'}}
+        </mat-card-footer>
+      </mat-card>
+    </div>
   </div>
+
+  <ng-template #emptyProducts>
+    <div>
+      <mat-card>
+        <mat-card-content>
+          <h2>Vous n'avez pas de produit en cours de demande !!</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template>
 </div>
 
-<ng-template #emptyProducts>
-  <div>
-    <mat-card>
-      <mat-card-content>
-        <h2>Vous n'avez pas de produit en cours de demande !!</h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</ng-template>
+
+
+

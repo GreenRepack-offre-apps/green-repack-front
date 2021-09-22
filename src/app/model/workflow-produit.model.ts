@@ -2,23 +2,25 @@ import { EtatProduitType, EtatProduitData, EtatProduitEnum, OffreProposition, Of
 
 export type Usertype = 'admin' | 'vendeur';
 
-export function gestionNextEtat(prevState: EtatProduitType, idProduit: string, expediteur: Usertype, echangeNumero:number=1,
+export function genererNextEtatOfProduit(prevState: EtatProduitType, idProduit: string, expediteurType: Usertype, echangeNumero:number, etape: number,
    actionReponse: any, conditionParitculiere: boolean ) {
   switch(prevState){
     case EtatProduitEnum.NONE.etat:
-      let etatProduit = new EtatProduitData(EtatProduitEnum.INIT.etat, EtatProduitEnum.INIT.label, EtatProduitEnum.INIT.hasContent, idProduit, echangeNumero);
-      etatProduit.notification = {message: 'Un demande de cession de produit à été ajouter !!'}  //dest = admin.
-      etatProduit.action = null;
-      break;
-
-    case EtatProduitEnum.INIT.etat:
       /**
        * création du produit par le marchand
        */
-      if(expediteur === 'admin') {
-        let etatProduit2 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_REPONSE_.etat,EtatProduitEnum.EN_ATTENTE_REPONSE_.label, EtatProduitEnum.EN_ATTENTE_REPONSE_.hasContent, idProduit, echangeNumero);
-        etatProduit2.notification = {message: 'Une demande de reponse est en attente de la part de la gestion !!'}  //dest = vendeur
-        etatProduit2.action = {prix:actionReponse.prix, raison: echangeNumero === 1 ? 'Première de Offre de reprise !!':actionReponse.raison};
+      let etatProduit = new EtatProduitData(EtatProduitEnum.INIT.etat, 0, EtatProduitEnum.INIT.label, EtatProduitEnum.INIT.hasContent, idProduit, echangeNumero);
+      etatProduit.notification = 'Un demande de cession de produit à été ajouter !!'  //dest = admin.
+      return etatProduit;
+
+    case EtatProduitEnum.INIT.etat:
+      /**
+       * 1ER Retour suite à la création du produit par le marchand
+       */
+      if(expediteurType === 'admin') {
+        let etatProduit2 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_REPONSE_.etat, 1, EtatProduitEnum.EN_ATTENTE_REPONSE_.label, EtatProduitEnum.EN_ATTENTE_REPONSE_.hasContent, idProduit, echangeNumero);
+        etatProduit2.notification = 'Une demande de reponse est en attente de la part de la gestion !!'  //dest = vendeur
+        etatProduit2.contenu = {prix:actionReponse.prix, raison: echangeNumero === 1 ? 'Première de Offre de reprise !!':actionReponse.raison};
         return etatProduit2;
       }
       break;
@@ -26,42 +28,40 @@ export function gestionNextEtat(prevState: EtatProduitType, idProduit: string, e
     case EtatProduitEnum.EN_ATTENTE_REPONSE_.etat:
 
       const reponse: OffreReponse = actionReponse;
-      if(reponse === 'non' && echangeNumero === 1 && expediteur === 'vendeur') {
+      if(reponse === 'non' && echangeNumero === 1 && expediteurType === 'vendeur') {
         /**
          * Refus marchand de l'offre.
          */
-        const etatProduit3 = new EtatProduitData(EtatProduitEnum.ANNULATION.etat, EtatProduitEnum.ANNULATION.label, EtatProduitEnum.ANNULATION.hasContent,
+        const etatProduit3 = new EtatProduitData(EtatProduitEnum.ANNULATION.etat, etape, EtatProduitEnum.ANNULATION.label, EtatProduitEnum.ANNULATION.hasContent,
           idProduit, echangeNumero);
-          etatProduit3.notification = {message: 'L\'offre ' + etatProduit3.niemeEchange + ' est refusé par le Marchand !!'};
-        etatProduit3.action = null;
+          etatProduit3.notification = 'L\'offre ' + etatProduit3.niemeEchange + ' est refusé par le Marchand !!';
         return etatProduit3;
-      } else if(reponse === 'non' && echangeNumero > 1 && expediteur === 'vendeur') {
+      } else if(reponse === 'non' && echangeNumero > 1 && expediteurType === 'vendeur') {
         /**
          * Refus marchand de l'offre avec tentative récupération produit.
          */
-        const etatProduit3 = new EtatProduitData(EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.etat, EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.label,
+        const etatProduit3 = new EtatProduitData(EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.etat, etape, EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.label,
            EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.hasContent, idProduit, echangeNumero);
-        etatProduit3.action = 'remboursement';
-        etatProduit3.notification = {message: 'L\'offre ' + etatProduit3.niemeEchange + ' est refusé par le Marchand !!'}; //dest = admin
+        etatProduit3.contenu = 'remboursement';
+        etatProduit3.notification ='L\'offre ' + etatProduit3.niemeEchange + ' est refusé par le Marchand !!'; //dest = admin
         return etatProduit3;
-      } else if(reponse === 'oui' && echangeNumero === 1 && expediteur === 'vendeur') {
+      } else if(reponse === 'oui' && echangeNumero === 1 && expediteurType === 'vendeur') {
         /**
          * génération colismo pour evoie de colis
          */
-        const etatProduit3 = new EtatProduitData(EtatProduitEnum.DEMANDE_GENERATION_COLIS.etat, EtatProduitEnum.DEMANDE_GENERATION_COLIS.label,
+        const etatProduit3 = new EtatProduitData(EtatProduitEnum.DEMANDE_GENERATION_COLIS.etat, 2, EtatProduitEnum.DEMANDE_GENERATION_COLIS.label,
           EtatProduitEnum.DEMANDE_GENERATION_COLIS.hasContent, idProduit, echangeNumero);
-          etatProduit3.notification = {message: 'L\'offre ' + etatProduit3.niemeEchange + ' est accepté par le Marchand !!'};
-        etatProduit3.action = {type:'colis'};
+          etatProduit3.notification = 'L\'offre ' + etatProduit3.niemeEchange + ' est accepté par le Marchand !!';  //dest = admin
+        etatProduit3.contenu = {type:'colis'};
         return etatProduit3;
-      } else if(reponse === 'oui' && echangeNumero > 1 && expediteur === 'vendeur') {
+      } else if(reponse === 'oui' && echangeNumero > 1 && expediteurType === 'vendeur') {
         /**
          *  validation marchand de l'offre
          */
-        const etatProduit3 = new EtatProduitData(EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.etat, EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.label,
+        const etatProduit3 = new EtatProduitData(EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.etat, etape, EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.label,
            EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.hasContent, idProduit, echangeNumero);
-           etatProduit3.notification = {message: 'L\'offre ' + etatProduit3.niemeEchange + ' est accpté par le Marchand !!'}; //dest = admin
-        etatProduit3.action = 'paiement';
-        etatProduit3.notification = {message: ''};
+           etatProduit3.notification = 'L\'offre ' + etatProduit3.niemeEchange + ' est accpté par le Marchand !!'; //dest = admin
+        etatProduit3.contenu = 'paiement';
         return etatProduit3;
       }
       break;
@@ -70,11 +70,11 @@ export function gestionNextEtat(prevState: EtatProduitType, idProduit: string, e
       /**
       * Marchand remoursement pour récupértation produit.
       */
-      if(expediteur === 'vendeur') {
-        const etatProduit4 = new EtatProduitData(EtatProduitEnum.ANNULATION.etat, EtatProduitEnum.ANNULATION.label, EtatProduitEnum.ANNULATION.hasContent,
+      if(expediteurType === 'vendeur') {
+        const etatProduit4 = new EtatProduitData(EtatProduitEnum.ANNULATION.etat, etape, EtatProduitEnum.ANNULATION.label, EtatProduitEnum.ANNULATION.hasContent,
           idProduit, echangeNumero);
-          etatProduit4.notification = {message: 'Le Marchand à payer pour récupérer son colis !!'};
-          etatProduit4.action = null;
+          etatProduit4.notification = 'Le Marchand à payer pour récupérer son colis !!';
+          etatProduit4.contenu = null;
           return etatProduit4;
         }
         break;
@@ -83,11 +83,11 @@ export function gestionNextEtat(prevState: EtatProduitType, idProduit: string, e
         /**
         * Gestion greenn repack paiement du produit au marchand.
         */
-        if(expediteur === 'admin') {
-          const etatProduit5 = new EtatProduitData(EtatProduitEnum.VALIDATION.etat, EtatProduitEnum.VALIDATION.label, EtatProduitEnum.VALIDATION.hasContent,
+        if(expediteurType === 'admin') {
+          const etatProduit5 = new EtatProduitData(EtatProduitEnum.VALIDATION.etat, etape, EtatProduitEnum.VALIDATION.label, EtatProduitEnum.VALIDATION.hasContent,
           idProduit, echangeNumero);
-          etatProduit5.notification = {message: 'Le Marchand à payer pour récupérer son colis !!'}; //dest = "vendeur"
-          etatProduit5.action = null;
+          etatProduit5.notification = 'Le Marchand à payer pour récupérer son colis !!'; //dest = "vendeur"
+          etatProduit5.contenu = null;
           return etatProduit5;
         }
         break;
@@ -96,11 +96,11 @@ export function gestionNextEtat(prevState: EtatProduitType, idProduit: string, e
         /**
         * Suivi green repack de l'enoie du produit par green repack.
         */
-        if(expediteur === 'admin') {
-          const etatProduit5 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_RECEPTION_PRODUIT.etat, EtatProduitEnum.EN_ATTENTE_RECEPTION_PRODUIT.label,
+        if(expediteurType === 'admin') {
+          const etatProduit5 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_RECEPTION_PRODUIT.etat, 3, EtatProduitEnum.EN_ATTENTE_RECEPTION_PRODUIT.label,
              EtatProduitEnum.EN_ATTENTE_RECEPTION_PRODUIT.hasContent, idProduit, echangeNumero);
-          etatProduit5.notification = {message: 'L\'etiquette pour l\'envoie du produit chez Green Repack!!'}; //dest = "vendeur"
-          etatProduit5.action = 'suivi_colis';
+          etatProduit5.notification = 'L\'etiquette pour l\'envoie du produit chez Green Repack!!'; //dest = "vendeur"
+          etatProduit5.contenu = 'suivi_colis';
           return etatProduit5;
         }
         break;
@@ -111,31 +111,84 @@ export function gestionNextEtat(prevState: EtatProduitType, idProduit: string, e
         * conditionParitculiere = date colismo - today < 15  && action = 'suivis_colis'
         *
         */
-        if(expediteur === 'admin' && conditionParitculiere) {
-          const etatProduit6 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_VALIDATION_.etat, EtatProduitEnum.EN_ATTENTE_VALIDATION_.label,
+        if(expediteurType === 'admin' && conditionParitculiere) {
+          const etatProduit6 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_VALIDATION_.etat, 4, EtatProduitEnum.EN_ATTENTE_VALIDATION_.label,
              EtatProduitEnum.EN_ATTENTE_VALIDATION_.hasContent, idProduit, echangeNumero);
-          etatProduit6.notification = {message: 'Le produit est train d\'être verifier parn nos expert !!'}; //dest = "vendeur
-          etatProduit6.action = null;
+          etatProduit6.notification = 'Le produit est en train d\'être verifier par nos expert !!'; //dest = "vendeur
           return etatProduit6;
-        } else if(expediteur === 'admin' && !conditionParitculiere) {
+        } else if(expediteurType === 'admin' && !conditionParitculiere) {
           /**
            * Non Reception & hors délais du prodiuit
            */
-          const etatProduit6 = new EtatProduitData(EtatProduitEnum.ANNULATION.etat, EtatProduitEnum.ANNULATION.label, EtatProduitEnum.ANNULATION.hasContent,
+          const etatProduit6 = new EtatProduitData(EtatProduitEnum.ANNULATION.etat, 4, EtatProduitEnum.ANNULATION.label, EtatProduitEnum.ANNULATION.hasContent,
             idProduit, echangeNumero);
-            etatProduit6.notification = {message: 'Les délais de réception du produit àn expiré !!'};
-            etatProduit6.action = null;
+            etatProduit6.notification =  'Le délais de réception du produit à expiré !!';
           return etatProduit6;
         }
         break;
 
-      case EtatProduitEnum.VALIDATION.etat:
-        return prevState;
+      case EtatProduitEnum.EN_ATTENTE_VALIDATION_.etat:
+        if(expediteurType === 'admin' && echangeNumero > 1) {
+          const action1: OffreProposition = actionReponse;
+          const action2: OffreReponse = actionReponse;
+          if(action1) {
+            const etatProduit7 = new EtatProduitData(EtatProduitEnum.EN_ATTENTE_REPONSE_.etat, 5, EtatProduitEnum.EN_ATTENTE_REPONSE_.label,
+              EtatProduitEnum.EN_ATTENTE_REPONSE_.hasContent, idProduit, echangeNumero);
+            etatProduit7.notification = 'Une nouvelle offre à été soumis !!'; //dest = "vendeur"
+            etatProduit7.contenu = action1;
+            return etatProduit7;
+          }else if(action2 === 'oui') {
+            const etatProduit7 = new EtatProduitData(EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.etat, etape, EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT.label,
+              EtatProduitEnum.EN_ATTENTE_REPONSE_.hasContent, idProduit, echangeNumero);
+            etatProduit7.notification = 'Le produit à été valider, le paiment va être effectué !!'; //dest = "vendeur"
+            etatProduit7.contenu = 'paiement';
+            return etatProduit7;
+          }else if(action2 === 'non') {
+            const etatProduit7 = new EtatProduitData(EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.etat, etape, EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.label,
+              EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT.hasContent, idProduit, echangeNumero);
+            etatProduit7.notification = 'Le produit à été valider, le paiment va être effectué !!'; //dest = "vendeur"
+            etatProduit7.contenu = 'remboursement';
+            return etatProduit7;
+          }
 
-      case EtatProduitEnum.ANNULATION.etat:
-        return prevState;
+        }
+        break;
+
+      // case EtatProduitEnum.VALIDATION.etat:
+      //   return prevState;
+
+      // case EtatProduitEnum.ANNULATION.etat:
+      //   return prevState;
 
       default:
-        return null;
+        let etatProduit$ = new EtatProduitData(EtatProduitEnum.NONE.etat, etape, EtatProduitEnum.NONE.label, EtatProduitEnum.NONE.hasContent, idProduit, echangeNumero);
+        etatProduit$.notification = 'La demande en cours est suspendu !!'  //dest = admin.
+        return etatProduit$;
+  }
+  return  <EtatProduitData>{};
+}
+
+export function get_etat(type: EtatProduitType | string) {
+  switch(type) {
+    case 'INIT':
+      return EtatProduitEnum.INIT;
+    case 'ANNULATION_EN_ATTENTE_REMBOURSEMENT':
+      return EtatProduitEnum.ANNULATION_EN_ATTENTE_REMBOURSEMENT;
+    case 'DEMANDE_GENERATION_COLIS':
+      return EtatProduitEnum.DEMANDE_GENERATION_COLIS;
+    case 'EN_ATTENTE_REPONSE_':
+      return EtatProduitEnum.EN_ATTENTE_REPONSE_;
+    case 'EN_ATTENTE_VALIDATION_':
+      return EtatProduitEnum.EN_ATTENTE_VALIDATION_;
+    case 'ANNULATION':
+      return EtatProduitEnum.ANNULATION;
+    case 'VALIDATION_EN_ATTENTE_PAIEMENT':
+      return EtatProduitEnum.VALIDATION_EN_ATTENTE_PAIEMENT;
+    case 'EN_ATTENTE_RECEPTION_PRODUIT':
+      return EtatProduitEnum.EN_ATTENTE_RECEPTION_PRODUIT;
+    case 'VALIDATION':
+      return EtatProduitEnum.VALIDATION;
+    default:
+      return EtatProduitEnum.NONE;
   }
 }

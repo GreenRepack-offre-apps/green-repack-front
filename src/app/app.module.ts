@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +27,8 @@ import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/stor
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { HeaderComponent } from './common/header/header/header.component';
 import { AuthDialogComponent } from './admin-pages/components/auth-dialog/auth-dialog.component';
+import { DatePipe } from '@angular/common';
+import { EtatGestionDemandeListComponent } from './admin-pages/components/etat-gestion-demande-list/etat-gestion-demande-list.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
@@ -42,10 +44,11 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     SuiviDemandeListComponent,
     AjoutProduitComponent,
     HeaderComponent,
-    AuthDialogComponent
+    AuthDialogComponent,
+    EtatGestionDemandeListComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -60,7 +63,11 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     AngularFireStorageModule,
     FileUploadModule,
   ],
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   providers: [
+    DatePipe,
     FireSession,
     AngularFireStorage
   ],

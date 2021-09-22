@@ -14,5 +14,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.notificationService.onInit();
     console.log("current route => " + window.location.href);
+    //this.notificationService.onUserCreate("ex82ZuzFB4P4h3kFy3nKlThb5FR2");
   }
 }

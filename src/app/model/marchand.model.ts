@@ -46,5 +46,5 @@ export class MarchandViewModel implements Marchand {
 // firebase database
 export interface MarchandData {
   email?: string;
-  produits?:ProduitData[];
+  produits?:ProduitData[] | null;
 }

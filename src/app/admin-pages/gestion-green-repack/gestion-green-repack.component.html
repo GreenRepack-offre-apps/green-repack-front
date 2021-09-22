@@ -1,11 +1,42 @@
-<div class="container block">
+<div class="container bloc body-admin">
   <div class="col">
     <h2> {{title}} </h2>
   </div>
+  <div class="notif-block" *ngIf="!showNotif; else notifBlock">
+    <span class="material-icons" [matBadge]="nbNotifs" matBadgeColor="warn" matBadgeSize="medium" (click)="showNotif = !showNotif">home</span>
+  </div>
+  <ng-template #notifBlock>
+    <div class="notif-block">
+      <span class="material-icons" (click)="showNotif = !showNotif">cancel</span>
+      <mat-list style="background-color:white;">
+        <h3 matSubheader>Notifications</h3>
+        <mat-divider></mat-divider>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item> Salt </mat-list-item>
+        <mat-list-item> Paprika </mat-list-item>
+      </mat-list>
+    </div>
+  </ng-template>
+
   <div class="col" style="margin-right: 20px;margin-left: 1150px;">
     <button  class="btn btn-link" (click)="redirect()">Deconnexion</button>
   </div>
-  <div class="divider">
+  <ul class="nav justify-content-start-0 tabs">
+    <li class="nav-item" (click)="pageName = 'DEFAULT'" [class.select]="pageName === 'DEFAULT'">
+      <button type="button" class="btn btn-link"  aria-current="page">Accueil</button>
+    </li>
+    <li class="nav-item" (click)="pageName = 'ACTIONS'" [class.select]="pageName === 'ACTIONS'">
+      <button type="button" class="btn btn-link">Actions</button>
+    </li>
+  </ul>
+
+  <div *ngIf="pageName === 'DEFAULT'; else suiviDemBlock">
+
+   <app-etat-gestion-demande-list></app-etat-gestion-demande-list>
   </div>
+  <ng-template #suiviDemBlock>
+    Paramètre
+  </ng-template>
 
 </div>

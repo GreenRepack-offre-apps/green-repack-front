@@ -5,6 +5,8 @@ import { AdminProfils } from 'src/app/model/auth.model';
 import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 import { adminMailEquals } from '../../model/admin.model';
+import { MatIconRegistry } from '@angular/material/icon';
+import { OneSignalNotifService } from '../../service/notifications/one-signal-notif.service';
 
 @Component({
   selector: 'app-gestion-green-repack',
@@ -13,9 +15,14 @@ import { adminMailEquals } from '../../model/admin.model';
 })
 export class GestionGreenRepackComponent implements OnInit, AfterContentInit {
 
-  constructor(public dialog: MatDialog, private authService: AuthService, private readonly router: Router) { }
+  constructor(public dialog: MatDialog, private authService: AuthService, private readonly router: Router,
+    private notificationService: OneSignalNotifService) { }
+  iconHome: MatIconRegistry = <MatIconRegistry>{};
   isFecth: boolean = false;
-  title = 'Espace Gestion Green Repack'
+  title = 'Espace Gestion Green Repack';
+  pageName = 'DEFAULT';
+  showNotif = false;
+  nbNotifs = 3;
   ngAfterContentInit(): void {
     if(this.isFecth === false) {
       this.authService.currentUser(new AdminProfils()).subscribe(rst => {
@@ -30,6 +37,7 @@ export class GestionGreenRepackComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit(): void {
+    Object.assign(this.iconHome, {iconName: 'home'})
     console.log("Profil en cours: " + this.authService.profilRegister);
     this.authService.currentUser(new AdminProfils()).subscribe(rst => {
       if(window.location.href.includes(rst.uid)){
