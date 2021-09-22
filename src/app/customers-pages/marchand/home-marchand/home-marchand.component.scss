@@ -1,0 +1,20 @@
+$background_secondary: rgb(25, 210, 40);
+
+.divider {
+  border-block-end: black solid 1px;
+}
+
+.block-add {
+  margin-right:70%;
+  margin-top:3%;
+  border: black 1px dotted;
+  background-color: $background_secondary
+}
+
+.block-demande {
+  margin-top:3%;
+  //margin-right:2%;
+  //padding-right: 300px;
+  border: black 1px dotted;
+  //background-color: rgb(194, 186, 186);
+}

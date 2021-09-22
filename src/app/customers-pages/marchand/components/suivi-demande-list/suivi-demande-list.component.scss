@@ -1,0 +1,39 @@
+
+$background_primary: antiquewhite;
+
+$background_secondary: rgb(25, 210, 40);
+
+.suivi-block{
+ background-color: $background_secondary;
+}
+.footer {
+  font-weight: lighter;
+  margin-left: 2%;
+}
+
+.produit {
+  margin-top: 3%;
+  margin-left: 3%;
+}
+
+h4{
+  margin-left: 20%;
+}
+
+$margin_header_margin: 8px;
+
+
+:host ::ng-deep  div.p-accordion  .p-accordion-tab .p-accordion-header{
+  background-color: $background_primary;
+  border-left: solid 1px black;
+  border-top: solid 1px black;
+  a.p-accordion-header-link {
+    color: black;
+    font-weight: bold;
+    margin: $margin_header_margin $margin_header_margin $margin_header_margin $margin_header_margin;
+  }
+}
+
+:host ::ng-deep  div.p-accordion  .p-accordion-tab div.p-accordion-header:active {
+  background-color: darken($background_primary, 50%);
+}

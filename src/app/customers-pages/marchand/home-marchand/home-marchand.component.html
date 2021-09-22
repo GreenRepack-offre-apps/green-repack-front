@@ -1,24 +1,26 @@
 <div class="container block">
-    <div class="col">
+  <div class="col">
     <h2> {{title}} </h2>
   </div>
   <div class="col" style="margin-right: 20px;margin-left: 1150px;">
-    <button  class="btn btn-link" (click)="redirect()">Se connecter</button>
+    <button  class="btn btn-link" (click)="redirect()">Deconnexion</button>
   </div>
-  <ul class="nav justify-content-center tabs">
-    <li class="nav-item" (click)="profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
-      <button type="button" class="btn btn-link"  aria-current="page">Client</button>
+  <div class="divider">
+  </div>
+  <ul style="display:block; list-style-type: none;padding-left: 0px;">
+   <li class="col block-add">
+      <div style="margin-left:20%;">
+        <svg class="svg-icon" fill="yellow" width="46" height="46" viewBox="0 0 20 20" (click)="openPopinAjoutProduit()">
+          <path d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10">
+          </path>
+        </svg>
+        <button mat-button style="background-color:yellow;color:black" (click)="openPopinAjoutProduit()">Ajouter un produit</button>
+      </div>
     </li>
-    <li class="nav-item" (click)="profil = 'MARCHAND'" [class.select]="profil === 'MARCHAND'">
-      <button type="button" class="btn btn-link">Marchand</button>
+    <li class="col block-demande">
+      <app-suivi-demande-list>
+      </app-suivi-demande-list>
     </li>
-
   </ul>
 
-  <div *ngIf="profil !== 'MARCHAND'; else marchandBlock">
-    Formulaire Client Inscription !!
-  </div>
-  <ng-template #marchandBlock>
-    
-  </ng-template>
 </div>

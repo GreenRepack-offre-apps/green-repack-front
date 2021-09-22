@@ -1,20 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+$background_primary: antiquewhite;
+$background_secondary: rgb(25, 210, 40);
 
-/**
+
+/*
   Inscription & connexion client et marchand
 */
+
+
 
 .block {
   margin-top:5%;
 }
+
 .tabs {
   border-block-end: black solid 1px;
 }
+
 .select {
   border-block-end: black solid 2px;
 }
 
-label {
+.label {
   font-weight: bold;
+}
+
+.text-gras {
+  font-weight: bold;
+}
+
+.body {
+  background-color: $background_primary;
+}
+
+small {
+  color: red;
+}
+
+.notif-block {
+  margin-left: 50%;
+  margin-bottom: 50% !important;
+  position: fixed;
+}
+
+li{
+  list-style: none;
 }

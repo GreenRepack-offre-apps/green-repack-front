@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-
+  url_backend: "http://localhost:3000",
   firebaseConfig : {
     apiKey: "AIzaSyB9HiPcWV1NFEJG1d7hFUz-aJ6egMibNwk",
     authDomain: "green-repack-c4328.firebaseapp.com",
@@ -14,7 +14,10 @@ export const environment = {
     messagingSenderId: "848770591222",
     appId: "1:848770591222:web:1ec5e8b42a5e6ca4beffd7",
     measurementId: "G-BGFRLEFKTK"
-  }
+  },
+  //onesignal_appId: "42ac6aa8-edc3-43dc-b1da-15670bdcd490", //prod
+  onesignal_appId: "50655600-2a1d-4f7e-9c0d-19667fd49ec0", //localhost
+  admin_mail:"green-repack@"
 };
 
 /*
