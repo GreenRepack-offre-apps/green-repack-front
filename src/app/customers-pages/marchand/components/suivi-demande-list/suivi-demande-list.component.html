@@ -26,10 +26,27 @@
             <p-accordionTab header="Action requise" [selected]="false">
               <div [ngSwitch]="produitRecap.recap.statut_validation">
                 <div *ngSwitchCase="'EN_ATTENTE_REPONSE_'" >
+                  Le prix de reprise proposé pour votre produit est de {{produitRecap.recap.prix}} euros. Faite votre choix:
+                  <br>
+                  <mat-radio-group  aria-labelledby="radio-group-label"  class="radio-group">
+                    <mat-radio-button class="props" value="oui" (click)="validationReponse = true">Accepter l'offre
+                    </mat-radio-button>
+                    <mat-radio-button class="props" value="non" (click)="validationReponse = false">Refuser l'offre
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <br>
+                  <button mat-button color="primary" (click)="validate(produitRecap.recap)">Valider</button>
                 </div>
                 <div *ngSwitchCase="'EN_ATTENTE_RECEPTION_PRODUIT'" >
+                  <div *ngIf="produitRecap.nbJourRestant && produitRecap.nbJourRestant >= 0 ; else expireMsg">
+                    <h2>Il reste {{produitRecap.nbJourRestant}} pour la réception du produit !! </h2>
+                  </div>
+                  <ng-template #expireMsg>
+                   <h2>Le produit n'a pas été receptionné !! </h2>
+                  </ng-template>
                 </div>
                 <div *ngSwitchCase="'ANNULATION_EN_ATTENTE_REMBOURSEMENT'" >
+                  <button mat-flat-button color="primary" (click)="validate(produitRecap.recap)">Procedez au remboursement pour récupérer votre produit</button>
                 </div>
                 <div *ngSwitchDefault >
                   <div>
@@ -40,9 +57,6 @@
             </p-accordionTab>
           </p-accordion>
         </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>Valider</button>
-        </mat-card-actions>
         <mat-card-footer class="footer">
           Ajouter le {{produitRecap.recap.date_ajout | date: 'yyyy/MM/dd - HH:mm'}}
         </mat-card-footer>
