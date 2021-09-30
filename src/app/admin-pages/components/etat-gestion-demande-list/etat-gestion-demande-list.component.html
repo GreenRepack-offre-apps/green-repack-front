@@ -80,9 +80,9 @@
                   </div>
 
                   <div class="action-block" *ngSwitchCase="'EN_ATTENTE_RECEPTION_PRODUIT'" >
-                    <h2>  Il reste {{nbjourRestant}} pour la réception du produit !! </h2>
+                    <h2>  Il reste {{produitRecap.nbJourRestant}} pour la réception du produit !! </h2>
                     <button mat-flat-button color="primary">Valider la réception du Colis</button>
-                    <button mat-flat-button color="primary" disabled="nbjourRestant <== 0">Annuler la demande du produit</button>
+                    <button mat-flat-button color="primary" disabled="produitRecap.nbJourRestant < 0">Annuler la demande du produit</button>
                   </div>
 
                   <div *ngSwitchCase="'EN_ATTENTE_VALIDATION_'" >

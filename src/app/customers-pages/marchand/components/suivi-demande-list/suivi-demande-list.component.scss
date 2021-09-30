@@ -37,3 +37,7 @@ $margin_header_margin: 8px;
 :host ::ng-deep  div.p-accordion  .p-accordion-tab div.p-accordion-header:active {
   background-color: darken($background_primary, 50%);
 }
+
+.props {
+  margin: 5px;
+}

@@ -38,6 +38,7 @@ export interface ProduitRecap {
   info_esth: string;
   prix: DecimalPipe;
   user?: string;
+  ex_state: string;
 }
 
 export interface ProduitResume {

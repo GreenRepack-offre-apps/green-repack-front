@@ -34,7 +34,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
             if(d.statut_validation === 'EN_ATTENTE_RECEPTION_PRODUIT') {
               const today = new Date();
               const nbJour = d.date_fin.getTime() - today.getTime() / (1000 * 3600 * 24);
-              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label, nbJourRestant: nbJour});
+              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label, nbJourRestant: 15 - nbJour});
             } else {
               this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
             }
