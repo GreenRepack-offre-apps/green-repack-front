@@ -20,7 +20,8 @@ export class GestionGreenRepackComponent implements OnInit, AfterContentInit {
   iconHome: MatIconRegistry = <MatIconRegistry>{};
   isFecth: boolean = false;
   title = 'Espace Gestion Green Repack';
-  pageName = 'DEFAULT';
+  pageType = 'DEFAULT';
+  pages = ['Demandes de produit recoditionner','Demandes de projets associatifs', ]
   showNotif = false;
   nbNotifs = 3;
   ngAfterContentInit(): void {

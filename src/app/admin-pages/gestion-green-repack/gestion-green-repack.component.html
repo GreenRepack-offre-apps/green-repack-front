@@ -2,10 +2,10 @@
   <div class="col">
     <h2> {{title}} </h2>
   </div>
-  <div class="notif-block" *ngIf="!showNotif; else notifBlock">
+  <!-- div class="notif-block" *ngIf="!showNotif; else notifBlock">
     <span class="material-icons" [matBadge]="nbNotifs" matBadgeColor="warn" matBadgeSize="medium" (click)="showNotif = !showNotif">home</span>
-  </div>
-  <ng-template #notifBlock>
+  </!-->
+  <!-- ng-template #notifBlock>
     <div class="notif-block">
       <span class="material-icons" (click)="showNotif = !showNotif">cancel</span>
       <mat-list style="background-color:white;">
@@ -17,26 +17,26 @@
         <mat-list-item> Paprika </mat-list-item>
       </mat-list>
     </div>
-  </ng-template>
+  </!-->
 
   <div class="col" style="margin-right: 20px;margin-left: 1150px;">
     <button  class="btn btn-link" (click)="redirect()">Deconnexion</button>
   </div>
   <ul class="nav justify-content-start-0 tabs">
-    <li class="nav-item" (click)="pageName = 'DEFAULT'" [class.select]="pageName === 'DEFAULT'">
-      <button type="button" class="btn btn-link"  aria-current="page">Accueil</button>
+    <li class="nav-item" (click)="pageType = 'DEFAULT'" [class.select]="pageType === 'DEFAULT'">
+      <button type="button" class="btn btn-link"  aria-current="page">{{pages[0]}}</button>
     </li>
-    <li class="nav-item" (click)="pageName = 'ACTIONS'" [class.select]="pageName === 'ACTIONS'">
-      <button type="button" class="btn btn-link">Actions</button>
+    <li class="nav-item" (click)="pageType = 'PAGE2'" [class.select]="pageType === 'PAGE2'">
+      <button type="button" class="btn btn-link">{{pages[1]}}</button>
     </li>
   </ul>
 
-  <div *ngIf="pageName === 'DEFAULT'; else suiviDemBlock">
+  <div *ngIf="pageType === 'DEFAULT'; else suiviDemBlock">
 
    <app-etat-gestion-demande-list></app-etat-gestion-demande-list>
   </div>
   <ng-template #suiviDemBlock>
-    Paramètre
+    <app-demande-gestion-projetassos></app-demande-gestion-projetassos>
   </ng-template>
 
 </div>
