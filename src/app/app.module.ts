@@ -29,6 +29,7 @@ import { HeaderComponent } from './common/header/header/header.component';
 import { AuthDialogComponent } from './admin-pages/components/auth-dialog/auth-dialog.component';
 import { DatePipe } from '@angular/common';
 import { EtatGestionDemandeListComponent } from './admin-pages/components/etat-gestion-demande-list/etat-gestion-demande-list.component';
+import { DemandeGestionProjetassosComponent } from './admin-pages/components/demande-gestion-projetassos/demande-gestion-projetassos.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
@@ -45,7 +46,8 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     AjoutProduitComponent,
     HeaderComponent,
     AuthDialogComponent,
-    EtatGestionDemandeListComponent
+    EtatGestionDemandeListComponent,
+    DemandeGestionProjetassosComponent
   ],
   imports: [
     BrowserModule,

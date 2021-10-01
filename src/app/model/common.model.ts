@@ -11,6 +11,9 @@ export interface MarchandSearch {
   value: Marchand;
 }
 
+export interface Status {
+  status: StatusMsg;
+}
 export interface DataResult<T> {
   status: StatusMsg;
   data: T;
