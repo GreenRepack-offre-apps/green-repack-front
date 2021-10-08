@@ -46,6 +46,7 @@ export class AuthService {
     this.firebaseAuth.authState.subscribe(auth => {
       if(auth !== null) {
         this.firebaseAuth.signOut().then(r => {
+          sessionStorage.clear();
           this.router.navigateByUrl(redirect_url !== null ? redirect_url: 'connexion');
         })
         .catch(err => console.log('error; Can\'t logout '));

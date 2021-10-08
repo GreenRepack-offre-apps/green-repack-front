@@ -1,0 +1,27 @@
+ <div class="col" style="margin-right: 20px;margin-left: 1150px;">
+    <button  class="btn btn-link" (click)="redirect()">Deconnexion</button>
+  </div>
+  <ul class="nav justify-content-start-0 tabs">
+    <li class="nav-item" (click)="pageType = 'DEFAULT'" [class.select]="pageType === 'DEFAULT'">
+      <button type="button" class="btn btn-link"  aria-current="page">{{pages[0]}}</button>
+    </li>
+    <li class="nav-item" (click)="pageType = 'PAGE2'" [class.select]="pageType === 'PAGE2'">
+      <button type="button" class="btn btn-link">{{pages[1]}}</button>
+    </li>
+    <li class="nav-item" (click)="pageType = 'PAGE3'" [class.select]="pageType === 'PAGE3'">
+      <button type="button" class="btn btn-link">{{pages[2]}}</button>
+    </li>
+  </ul>
+
+  <div [ngSwitch]="pageType">
+     <div ngSwitchCase="'DEFAULT'">
+      a
+    </div>
+     <div ngSwitchCase="'PAGE2'">
+      b
+    </div>
+    <div ngSwitchCase="'PAGE3'">
+      c
+    </div>
+  </div>
+

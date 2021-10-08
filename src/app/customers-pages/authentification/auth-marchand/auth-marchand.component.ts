@@ -45,6 +45,8 @@ export class AuthMarchandComponent implements OnInit {
   }
 
   onSubmit(){
+    this.firebaseAuth.signOut();
+    sessionStorage.clear();
     const {nomControl, pswdControl} = this.marchandForm.value;
     console.log('user : ' + nomControl);
     this.firebaseAuth.signInWithEmailAndPassword(nomControl, pswdControl)

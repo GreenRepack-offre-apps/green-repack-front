@@ -8,7 +8,8 @@ import { MarchandSearch } from '../../../model/common.model';
 import { Marchand } from '../../../model/marchand.model';
 import { Subscription } from 'rxjs';
 import { Admin, adminMailEquals } from '../../../model/admin.model';
-import { Client } from '../../../model/client.model';
+import { Client, ClientModel } from '../../../model/client.model';
+import { ClientService } from '../../../service/client/client.service';
 
 export class InfoUser<T> {
   current: CurrentUser;
@@ -27,6 +28,7 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   constructor(private authService: AuthService,
     private marchandService: MarchandService,
+    private clientService: ClientService,
     private readonly router: Router) {
       switch(this.authService.profilRegister?.type) {
         case 'GESTION':
@@ -40,7 +42,7 @@ export class HeaderComponent implements OnInit, DoCheck {
           break;
 
         case 'CLIENT':
-          this.infoUser = new InfoUser(<Client>{});
+          this.infoUser = new InfoUser(<ClientModel>{});
           this.profilActive = new ClientProfils();
           break;
 
@@ -50,6 +52,8 @@ export class HeaderComponent implements OnInit, DoCheck {
     }
 
   title = 'Green Repack';
+  //imagepath='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==';
+  //private imagepath = new Image();
   infoUser: any;
   profilActive: MarchandProfils | AdminProfils | ClientProfils | any;
   user_active: boolean = false;
@@ -92,12 +96,16 @@ export class HeaderComponent implements OnInit, DoCheck {
             break;
 
           case 'CLIENT':
-            /**
-             * not implemented yet
-             */
-            this.infoUser.user.nom = ''
-            break;
+            this.clientService.get('email', user.email)
+            .subscribe(rst => {
+              if(rst){
+                this.infoUser.user = rst;
+              }else{
 
+                this.router.navigateByUrl('connexion');
+              }
+            })
+            break;
           default:
             this.infoUser = null;
         }

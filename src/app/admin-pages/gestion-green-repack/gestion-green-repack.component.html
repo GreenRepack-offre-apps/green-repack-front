@@ -1,6 +1,6 @@
-<div class="container bloc body-admin">
-  <div class="col">
-    <h2> {{title}} </h2>
+<div class="container bloc">
+  <div class="col" style="margin-top: 4%;">
+    <h2 > {{title}} </h2>
   </div>
   <!-- div class="notif-block" *ngIf="!showNotif; else notifBlock">
     <span class="material-icons" [matBadge]="nbNotifs" matBadgeColor="warn" matBadgeSize="medium" (click)="showNotif = !showNotif">home</span>
@@ -29,14 +29,21 @@
     <li class="nav-item" (click)="pageType = 'PAGE2'" [class.select]="pageType === 'PAGE2'">
       <button type="button" class="btn btn-link">{{pages[1]}}</button>
     </li>
+    <li class="nav-item" (click)="pageType = 'PAGE3'" [class.select]="pageType === 'PAGE3'">
+      <button type="button" class="btn btn-link">{{pages[2]}}</button>
+    </li>
   </ul>
 
   <div *ngIf="pageType === 'DEFAULT'; else suiviDemBlock">
-
    <app-etat-gestion-demande-list></app-etat-gestion-demande-list>
   </div>
   <ng-template #suiviDemBlock>
-    <app-demande-gestion-projetassos></app-demande-gestion-projetassos>
+    <div *ngIf="pageType === 'PAGE2'; else suiviParam">
+      <app-demande-gestion-projetassos></app-demande-gestion-projetassos>
+    </div>
+    <ng-template #suiviParam>
+      <h2>Page en cours demaintenace !!</h2>
+    </ng-template>
   </ng-template>
 
 </div>

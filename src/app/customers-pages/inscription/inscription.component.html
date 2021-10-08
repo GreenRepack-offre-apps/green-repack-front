@@ -16,7 +16,7 @@
   </ul>
 
   <div *ngIf="profil !== 'MARCHAND'; else marchandBlock">
-    Formulaire Client Inscription !!
+    <app-inscription-client></app-inscription-client>
   </div>
   <ng-template #marchandBlock>
     <app-inscription-marchand>

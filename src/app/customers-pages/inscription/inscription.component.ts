@@ -10,7 +10,7 @@ export class InscriptionComponent implements OnInit {
 
   title = 'Inscription';
 
-  profil:string = 'MARCHAND';
+  profil:string = 'CLIENT';
 
   constructor(private readonly router: Router) { }
 

@@ -21,7 +21,7 @@ export class GestionGreenRepackComponent implements OnInit, AfterContentInit {
   isFecth: boolean = false;
   title = 'Espace Gestion Green Repack';
   pageType = 'DEFAULT';
-  pages = ['Demandes de produit recoditionner','Demandes de projets associatifs', ]
+  pages = ['Demandes de produit reconditionner','Demandes de projets associatifs', 'Paramètre clients & gestion']
   showNotif = false;
   nbNotifs = 3;
   ngAfterContentInit(): void {

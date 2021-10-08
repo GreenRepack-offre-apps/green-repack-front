@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 export class AuthentificationComponent implements OnInit {
   title = 'Connexion';
 
-  profil:string = 'MARCHAND';
+  profil:string = 'CLIENT';
 
   constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
   }
-  
+
   redirect() {
     this.router.navigate(['inscription']);
   }

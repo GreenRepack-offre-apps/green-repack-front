@@ -1,23 +1,39 @@
-<p>demande-gestion-projetassos works!</p>
-<div>
-  <div>
+<div style="margin-top:3%;margin-bottom:3%">
+  <div *ngIf="assos.length !== 0; else emptyProject">
+    <mat-form-field *ngIf="assos.length > 1" appearance="fill">
+        <mat-label defaultColor="white">Choisir une association</mat-label>
+        <mat-select  defaultTabIndex="1">
+          <mat-option *ngFor="let asso of assos" value="asso.idassos" (click)="applyFiltre(asso)">{{asso.nom}}</mat-option>
+        </mat-select>
+    </mat-form-field>
 
-    <mat-card>
-        <mat-card-header>
-          <mat-card-title></mat-card-title>
-          <mat-card-subtitle  >
-                  <div>
-                  </div>
-                  <div>
-                  </div>
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-        </mat-card-content>
-        <mat-card-action>
-        <button mat-raised-button color="primary">Valider</button>
-        <button mat-raised-button color="warn">Refuser</button>
-        </mat-card-action>
-      </mat-card>
+    <div  style="margin-top:1%;margin-bottom:1%" *ngFor="let projetA of projets">
+        <mat-card>
+          <mat-card-header  style="border:solid black 1px;margin-bottom:1%">
+            <mat-card-title>{{projetA.nom}} - {{projetA.projet.titre}}</mat-card-title>
+            <mat-card-subtitle>
+              Ajouter le {{projetA.projet.datecreate | date: 'yyyy/MM/dd - HH:mm'}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content style="background-color:lightgrey;padding:1%;">
+            {{projetA.projet.description}}
+          </mat-card-content>
+          <mat-card-action>
+            <button mat-raised-button color="primary" (click)="validation(projetA, true)">Valider</button>
+            <button mat-raised-button color="warn" (click)="validation(projetA, false)">Refuser</button>
+          </mat-card-action>
+        </mat-card>
+    </div>
+
   </div>
+  <ng-template #emptyProject>
+    <div>
+      <mat-card>
+        <mat-card-content>
+          <h2>Aucun Projet n'est en attente de validation !!</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template>
+
 <div>

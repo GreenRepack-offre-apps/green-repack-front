@@ -1,24 +1,26 @@
 
 
-interface Assos{
+export interface Assos{
   idassos: string
   nom: string;
 }
 
-interface AssosProjets {
+export interface AssosProjets {
   idassos: string
   nom: string;
-  projets:Projet[];
+  projet:Projet;
 }
 
-interface Projet{
+export interface Projet {
   idproj:string;
   refassos: string;
   titre:string;
   description:string;
   datecreate:Date;
-  datevalid:Date;
-  statut:string;
+  datevalid?:Date;
+  statut:StatutProjet;
   //refusmsg:string;
   argentcollect:number;
 }
+
+export type StatutProjet = "EN_ATTENTE" | "VALIDER" | "REFUSER";

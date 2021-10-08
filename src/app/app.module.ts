@@ -30,6 +30,12 @@ import { AuthDialogComponent } from './admin-pages/components/auth-dialog/auth-d
 import { DatePipe } from '@angular/common';
 import { EtatGestionDemandeListComponent } from './admin-pages/components/etat-gestion-demande-list/etat-gestion-demande-list.component';
 import { DemandeGestionProjetassosComponent } from './admin-pages/components/demande-gestion-projetassos/demande-gestion-projetassos.component';
+import { InscriptionClientComponent } from './customers-pages/inscription/inscription-client/inscription-client.component';
+import { AuthClientComponent } from './customers-pages/authentification/auth-client/auth-client.component';
+import { HomeClientComponent } from './customers-pages/client/home-client/home-client.component';
+import { ProduitsAchatsComponent } from './customers-pages/client/components/produits-achats/produits-achats.component';
+import { CommandesComponent } from './customers-pages/client/components/commandes/commandes.component';
+import { PanierComponent } from './customers-pages/client/components/panier/panier.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
@@ -47,7 +53,13 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     HeaderComponent,
     AuthDialogComponent,
     EtatGestionDemandeListComponent,
-    DemandeGestionProjetassosComponent
+    DemandeGestionProjetassosComponent,
+    InscriptionClientComponent,
+    AuthClientComponent,
+    HomeClientComponent,
+    ProduitsAchatsComponent,
+    CommandesComponent,
+    PanierComponent
   ],
   imports: [
     BrowserModule,

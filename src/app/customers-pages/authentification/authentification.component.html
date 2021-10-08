@@ -15,7 +15,8 @@
   </ul>
 
   <div *ngIf="profil !== 'MARCHAND'; else marchandBlock">
-    Formulaire Client connexion !!
+    <app-auth-client>
+    </app-auth-client>
   </div>
   <ng-template #marchandBlock>
     <app-auth-marchand>

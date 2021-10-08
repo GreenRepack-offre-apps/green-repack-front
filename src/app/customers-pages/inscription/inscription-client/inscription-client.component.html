@@ -1,4 +1,4 @@
-<form class="sub-block" [formGroup]="marchandForm"  >
+<form class="sub-block" [formGroup]="clientForm"  >
   <div class="col-10 field-block">
     <div class="col">
       <span>
@@ -6,7 +6,19 @@
         <input formControlName="nom" style="width:250px;" id="nom-field" type="text"/>
       </span>
     </div>
-    <div class="col" *ngIf="marchandForm.controls.nom.touched && marchandForm.controls.nom.hasError('required')">
+    <div class="col" *ngIf="clientForm.controls.nom.touched && clientForm.controls.nom.hasError('required')">
+      <small style="margin-left:9%;" id="nom-field" class="p-error">{{ err_champs }}</small>
+    </div>
+  </div>
+
+  <div class="col-10 field-block">
+    <div class="col">
+      <span>
+        <label style="margin-right:1%;" for="nom-field">Prenom *</label>
+        <input formControlName="prenom" style="width:250px;" id="prenom-field" type="text"/>
+      </span>
+    </div>
+    <div class="col" *ngIf="clientForm.controls.prenom.touched && clientForm.controls.prenom.hasError('required')">
       <small style="margin-left:9%;" id="nom-field" class="p-error">{{err_champs}}</small>
     </div>
   </div>
@@ -14,11 +26,11 @@
   <div class="col-10 field-block">
     <div class="col">
       <span>
-        <label style="margin-right:1%;" for="email-field"> Email *</label>
+        <label style="margin-right:1%;" for="email-field">Email *</label>
         <input formControlName="email" style="width:250px"id="email-field" type="email" formControleName="email"/>
       </span>
     </div>
-    <div class="col" *ngIf="marchandForm.controls.email.touched && (marchandForm.controls.email.hasError('required') || marchandForm.controls.email.hasError('email'))">
+    <div class="col" *ngIf="clientForm.controls.email.touched && (clientForm.controls.email.hasError('required') || clientForm.controls.email.hasError('email'))">
       <small style="margin-left:9%;" id="email-field" class="p-error">{{err_champs}}</small>
     </div>
   </div>
@@ -34,7 +46,7 @@
           <input formControlName="voie" style="width:300px;" id="adresse1-field" type="text" />
         </span>
       </div>
-      <div class="col" *ngIf="marchandForm.controls.voie.touched && marchandForm.controls.voie.hasError('required')">
+      <div class="col" *ngIf="clientForm.controls.voie.touched && clientForm.controls.voie.hasError('required')">
         <small  style="margin-left:9%;" id="adresse1-field" class="p-error">{{err_champs}}</small>
       </div>
     </div>
@@ -56,8 +68,8 @@
           <input formControlName="codepostal" style="width:60px;" id="adresse3-field" type="text"/>
         </span>
       </div>
-      <div class="col" *ngIf="marchandForm.controls.codepostal.touched && marchandForm.controls.codepostal.hasError('required')">
-        <small style="margin-left:9%;" id="adresse3-field" class="p-error">{{err_champs}}</small>
+      <div class="col" *ngIf="clientForm.controls.codepostal.touched && clientForm.controls.codepostal.hasError('required')">
+        <small  style="margin-left:9%;" id="adresse3-field" class="p-error">{{err_champs}}</small>
       </div>
     </div>
 
@@ -68,8 +80,8 @@
           <input formControlName="ville" style="width:170px;" id="adresse4-field" type="text"/>
         </span>
       </div>
-      <div class="col" *ngIf="marchandForm.controls.ville.touched && marchandForm.controls.ville.hasError('required')">
-        <small style="margin-left:9%;" id="adresse4-field" class="p-error">{{err_champs}}</small>
+      <div class="col" *ngIf="clientForm.controls.ville.touched && clientForm.controls.ville.hasError('required')">
+        <small  style="margin-left:9%;" id="adresse4-field" class="p-error">{{err_champs}}</small>
       </div>
     </div>
   </div>
@@ -82,7 +94,7 @@
         <input formControlName="pswd" style="width:200px;" id="password-field" type="password"/>
       </span>
     </div>
-    <div *ngIf="marchandForm.controls.pswd.touched && marchandForm.controls.pswd.hasError('required')" class="col">
+    <div *ngIf="clientForm.controls.pswd.touched && clientForm.controls.pswd.hasError('required')" class="col">
       <small  style="margin-left:9%;" id="password-field" class="p-error">{{err_champs}}</small>
     </div>
 
@@ -95,13 +107,13 @@
         <input formControlName="pswd2" style="width:200px;" id="passwordConfirm-field" type="password" />
       </span>
     </div>
-    <div class="col" *ngIf="marchandForm.controls.pswd2.touched && marchandForm.controls.pswd2.hasError('required')">
-      <small   style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{err_champs}}</small>
+    <div class="col" *ngIf="clientForm.controls.pswd2.touched && clientForm.controls.pswd2.hasError('required')">
+      <small  style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{err_champs}}</small>
     </div>
   </div>
   <div class="col" style="margin-top:5%;" >
     <div class="row">
-        <button [disabled]="!marchandForm.valid" type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
+        <button [disabled]="!clientForm.valid" type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
     </div>
     <div class="row">
       <small style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{err_send}}</small>

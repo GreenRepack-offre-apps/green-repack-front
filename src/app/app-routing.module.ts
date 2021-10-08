@@ -5,6 +5,7 @@ import { InscriptionComponent } from './customers-pages/inscription/inscription.
 import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
 import { AngularFireAuthGuard, hasCustomClaim, redirectLoggedInTo, redirectUnauthorizedTo, canActivate } from '@angular/fire/auth-guard';
 import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
+import { HomeClientComponent } from './customers-pages/client/home-client/home-client.component';
 
 const profil: string = sessionStorage.getItem('PROFIL') !== null ? String(localStorage.getItem('PROFIL')):'user';
 
@@ -12,6 +13,8 @@ const redirectLoggedHome = () => redirectLoggedInTo([profil + '/home']);
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['connexion']);
 const belongsToAccount = (next:any) => hasCustomClaim(`account-${next.params.id}`);
 const adminOnly = () => hasCustomClaim('admin');
+const clientOnly = () => hasCustomClaim('client');
+const marchandOnly = () => hasCustomClaim('marchand');
 
 const routes: Routes = [
   {
@@ -34,8 +37,26 @@ const routes: Routes = [
         path:'home/:id',
         component: HomeMarchandComponent,
         //canLoad: [AngularFireAuthGuard],
-        data: { authGuardPipe: belongsToAccount}
+        data: { authGuardPipe: marchandOnly}
 
+      },
+      {
+        path: '**',
+        redirectTo:'home',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
+    path: 'client',
+    canLoad: [AngularFireAuthGuard],
+    //...canActivate(redirectUnauthorizedToLogin),
+    children: [
+      {
+        path:'home/:id',
+        component: HomeClientComponent,
+        //canLoad: [AngularFireAuthGuard],
+        data: { authGuardPipe: clientOnly}
       },
       {
         path: '**',
