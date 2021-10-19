@@ -25,7 +25,7 @@ export class AuthService {
     }
   }
 
-  currentUser(profils: MarchandProfils | ClientProfils | AdminProfils):  Observable<any> {
+  currentUser(profils: MarchandProfils | ClientProfils | AdminProfils):  Observable<CurrentUser> {
     let token: any = null;
     this.firebaseAuth.idToken.subscribe(t => token = t)
     return this.firebaseAuth.authState.pipe(

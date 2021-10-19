@@ -6,6 +6,9 @@ import { AuthService } from '../../../../service/auth.service';
 import { MarchandProfils } from '../../../../model/auth.model';
 import { MarchandSyntheseService } from '../../../../service/marchand/synthese/marchand-synthese.service';
 import { map } from 'rxjs/operators';
+import DateDiff from 'date-diff';
+import { Window } from 'selenium-webdriver';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-suivi-demande-list',
@@ -21,18 +24,11 @@ export class SuiviDemandeListComponent implements OnInit {
   validationReponse: boolean = false;
   ngOnInit(): void {
     this.authService.currentUser(new MarchandProfils()).subscribe(user => {
-     if( this.authService.isFetch) {
+     if(this.authService.isFetch) {
       this.produitService.fetchMarchandProducts(user.email, null).subscribe(rst => {
         if(rst.status === 'SUCCES' && rst.data.length > 0) {
-          //console.log("produits fetched: " + JSON.stringify(rst.data))
           rst.data.forEach(d => {
-            if(d.statut_validation === 'EN_ATTENTE_RECEPTION_PRODUIT') {
-              const today = new Date();
-              const nbJour = d.date_fin.getTime() - today.getTime() / (1000 * 3600 * 24);
-              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label, nbJourRestant: 15 - nbJour});
-            } else {
-              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label, nbJourRestant: 15});
-            }
+            this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
           });
         }
       });
@@ -47,19 +43,24 @@ export class SuiviDemandeListComponent implements OnInit {
   validate(recap: ProduitRecap) {
     switch(recap.statut_validation){
       case 'EN_ATTENTE_REPONSE_': //passage manuelle si non automatique
-        if(this.validationReponse){
-          this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-            etat_dem_next: 'EN_ATTENTE_RECEPTION_PRODUIT'});
-        }else{
-          this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-            etat_dem_next: 'ANULATION'});
+        let next_state = '';
+        if(this.validationReponse === true) {
+          next_state = recap.ex_state==='INIT'?'DEMANDE_GENERATION_COLIS':'VALIDATION_EN_ATTENTE_PAIEMENT';
+        } else {
+          next_state = recap.ex_state==='INIT'?'ANNULATION':'ANNULATION_EN_ATTENTE_REMBOURSEMENT';
         }
+        this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation, etat_dem_next: next_state});
         break;
       case 'ANNULATION_EN_ATTENTE_REMBOURSEMENT':
-        this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-          etat_dem_next: 'VALIDATION'});
-        break;
+        window.location.href = environment.admin_remboursement_static_link;
+        // this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation, etat_dem_next: 'VALIDATION'});
+        // break;
     }
+  }
+
+  reponseOffre(reponse: boolean) {
+    this.validationReponse = reponse;
+    console.log("offre rep " + this.validationReponse);
   }
 
 

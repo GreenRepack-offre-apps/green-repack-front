@@ -5,6 +5,10 @@ import { ProduitResume, EtatProduitType, ProduitRecap } from '../../../model/pro
 import { AuthService } from '../../../service/auth.service';
 import { ProduitMarchandService } from '../../../service/produit/produit-marchand.service';
 import { get_etat } from '../../../model/workflow-produit.model';
+import DateDiff from 'date-diff';
+import { environment } from 'src/environments/environment';
+import { PaimentService } from '../../../service/paiment/paiment.service';
+import { PAIEMENT_INIT } from '../../../../assets/app-const';
 
 @Component({
   selector: 'app-etat-gestion-demande-list',
@@ -13,16 +17,20 @@ import { get_etat } from '../../../model/workflow-produit.model';
 })
 export class EtatGestionDemandeListComponent implements OnInit {
 
-  constructor(private fbuilder: FormBuilder, private authService: AuthService, private produitService: ProduitMarchandService) { }
+  constructor(private fbuilder: FormBuilder,
+    private authService: AuthService,
+    private produitService: ProduitMarchandService,
+    private paiementService: PaimentService) { }
   etatFiltre = this.fbuilder.group({
     stateProductSelected: new FormControl('')
   });
   stateProductSelected = this.fbuilder.control('');
   produitRecaps: ProduitResume[] = [];
 
-  priceFormControl = new FormControl('', [Validators.required]);
+  priceFormControl = new FormControl(0, [Validators.required]);
   nbjourRestant = 15;
-  validationReponse: any;
+  validReponse:string = '';
+  paiement_link = '';
 
   ngOnInit(): void {
     this.authService.currentUser(new MarchandProfils()).subscribe(user => {
@@ -31,13 +39,8 @@ export class EtatGestionDemandeListComponent implements OnInit {
          if(rst.status === 'SUCCES' && rst.data.length > 0) {
            //console.log("produits fetched: " + JSON.stringify(rst.data))
            rst.data.forEach(d => {
-            if(d.statut_validation === 'EN_ATTENTE_RECEPTION_PRODUIT') {
-              const today = new Date();
-              const nbJour = d.date_fin.getTime() - today.getTime() / (1000 * 3600 * 24);
-              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label, nbJourRestant: 15 - nbJour});
-            } else {
-              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
-            }
+            this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
+
            });
          }
        });
@@ -55,25 +58,25 @@ export class EtatGestionDemandeListComponent implements OnInit {
     this.produitService.fetchAllProducts(state !== ''? state:null).subscribe(rst => {
       if(rst.status === 'SUCCES' && rst.data.length > 0) {
         rst.data.forEach(d => {
-          if(d.statut_validation === 'EN_ATTENTE_RECEPTION_PRODUIT') {
-            const today = new Date();
-            const nbJour = d.date_fin.getTime() - today.getTime() / (1000 * 3600 * 24);
-            this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label, nbJourRestant: nbJour});
-          } else {
-            this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
-          }
+          this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
         });
       }
     });
   }
 
+  validationReponse(anwser:string){
+    this.validReponse = anwser;
+  }
+
   validate(recap: ProduitRecap) {
     switch(recap.statut_validation){
       case 'INIT': //passage manuelle si non automatique
-        const val: number = this.priceFormControl.value;
-        console.log('price :'+val);
-        this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-        etat_dem_next: 'EN_ATTENTE_REPONSE_', prix: val});
+        if(this.priceFormControl.value !== 0){
+          const val: number = this.priceFormControl.value;
+          console.log('price :'+val);
+          this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
+          etat_dem_next: 'EN_ATTENTE_REPONSE_', prix: val});
+        }
         break;
       case 'DEMANDE_GENERATION_COLIS': //passage manuelle si non automatique
       this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
@@ -85,21 +88,51 @@ export class EtatGestionDemandeListComponent implements OnInit {
         etat_dem_next: 'EN_ATTENTE_VALIDATION_'});
         break;
       case 'EN_ATTENTE_VALIDATION_':
-        console.log('reponse admin :'+this.validationReponse);
-        if(this.validationReponse === 'oui') {
+        console.log('reponse admin :'+this.validReponse);
+        if(this.validReponse === 'oui') {
           this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
             etat_dem_next: 'VALIDATION_EN_ATTENTE_PAIEMENT'});
-        } else if(this.validationReponse === 'non') {
+        } else if(this.validReponse === 'non') {
           this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
             etat_dem_next: 'ANNULATION_EN_ATTENTE_REMBOURSEMENT'});
-        } else if(this.validationReponse = 'autre') {
+        } else if(this.validReponse === 'offre' && this.priceFormControl.value !== 0) {
+          const val: number = this.priceFormControl.value;
           this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-            etat_dem_next: 'EN_ATTENTE_REPONSE_'});
+            etat_dem_next: 'EN_ATTENTE_REPONSE_', prix: val});
         }
         break;
       case 'VALIDATION_EN_ATTENTE_PAIEMENT':
+        this.authService.currentUser(new MarchandProfils()).subscribe(user => {
+          if( this.authService.isFetch) {
+            window.location.href = PAIEMENT_INIT + '?marchand='+user.email;
+            this.paiement_link = PAIEMENT_INIT +'?marchand='+user.email;
+            this.paiementService.paybox(user.email, 'MARCHAND');
+          }
+        });
+        // this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
+        //   etat_dem_next: 'VALIDATION'});
+        break;
+    }
+  }
+
+  validateProduit(recap: ProduitRecap, rst:any) {
+    switch(recap.statut_validation){
+      // case 'INIT': //passage manuelle si non automatique
+      //   const val: number = this.priceFormControl.value;
+      //   console.log('price :'+val);
+      //   this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
+      //   etat_dem_next: 'EN_ATTENTE_REPONSE_', prix: val});
+      //   break;
+      // case 'DEMANDE_GENERATION_COLIS': //passage manuelle si non automatique
+      // this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
+      //   etat_dem_next: 'EN_ATTENTE_RECEPTION_PRODUIT'});
+      //   break;
+      case 'EN_ATTENTE_RECEPTION_PRODUIT': //passage manuelle et besoin de validation automatique externe
         this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-          etat_dem_next: 'VALIDATION'});
+        etat_dem_next: rst===true?'EN_ATTENTE_VALIDATION_':'ANNULATION'});
+        break;
+      //case 'EN_ATTENTE_VALIDATION_':
+      default:
         break;
     }
   }

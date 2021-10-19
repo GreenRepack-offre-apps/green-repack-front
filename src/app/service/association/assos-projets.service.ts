@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { ASSOS_$_PROJECTS_GET_ALL, UPDATE_PROJECT_EN_ATTENTE, UPDATE_PROJECT_VALIDER } from '../../../assets/app-const';
 
 import { HttpParams, HttpClient } from '@angular/common/http';
@@ -26,17 +26,14 @@ export class AssosProjetsService {
     );
   }
 
-  updateEnAttente(body: Projet): Observable<Status> {
-    return this.http.post<Status>(UPDATE_PROJECT_EN_ATTENTE, body).pipe(
+  updateEnAttente(body: Projet ){
+    return this.http.post(UPDATE_PROJECT_EN_ATTENTE, body).pipe(
       map(rst => {
         console.log("API UPDATE_PROJECT_EN_ATTENTE <= " + JSON.stringify(rst));
         return rst;
-      }),
-      // catchError((err) => {
-      //   console.log("API UPDATE_PROJECT_EN_ATTENTE <= " + JSON.stringify(err));
-      //   return null;
-      // })
-    );
+      })
+      //((err) => console.log("API UPDATE_PROJECT_EN_ATTENTE <= " + JSON.stringify(err)) )
+    ).subscribe();
   }
 
   updateValider(body: Projet): Observable<Status> {

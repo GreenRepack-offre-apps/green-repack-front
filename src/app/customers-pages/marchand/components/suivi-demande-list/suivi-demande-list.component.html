@@ -3,7 +3,7 @@
 
   <div *ngIf="produitRecaps && produitRecaps.length > 0; else emptyProducts">
     <div class="row produit" *ngFor="let produitRecap of produitRecaps" >
-      <mat-card >
+      <mat-card  style="background-color:yellow;">
         <mat-card-header>
           <mat-card-title>{{produitRecap.recap.marque}} - {{produitRecap.recap.model}}</mat-card-title>
           <mat-card-subtitle>Etat: {{produitRecap.label}}</mat-card-subtitle>
@@ -26,27 +26,38 @@
             <p-accordionTab header="Action requise" [selected]="false">
               <div [ngSwitch]="produitRecap.recap.statut_validation">
                 <div *ngSwitchCase="'EN_ATTENTE_REPONSE_'" >
-                  Le prix de reprise proposé pour votre produit est de {{produitRecap.recap.prix}} euros. Faite votre choix:
-                  <br>
-                  <mat-radio-group  aria-labelledby="radio-group-label"  class="radio-group">
-                    <mat-radio-button class="props" value="oui" (click)="validationReponse = true">Accepter l'offre
-                    </mat-radio-button>
-                    <mat-radio-button class="props" value="non" (click)="validationReponse = false">Refuser l'offre
-                    </mat-radio-button>
-                  </mat-radio-group>
-                  <br>
-                  <button mat-button color="primary" (click)="validate(produitRecap.recap)">Valider</button>
+                  <div *ngIf="produitRecap.recap.ex_state === 'INIT'; else otherMsg">
+                    <p>Le prix de reprise proposé pour votre produit est de {{produitRecap.recap.prix}} euros. Faite votre choix:</p>
+                  </div>
+                  <ng-template #otherMsg>
+                    <p>Nouvelle offre de reprise pour votre produit à {{produitRecap.recap.prix}} euros. Faite votre choix:</p>
+                  </ng-template>
+                  <div>
+                    <mat-radio-group  aria-labelledby="radio-group-label" class="radio-group">
+                      <mat-radio-button class="props" value="oui" (click)="reponseOffre(true)">Accepter l'offre
+                      </mat-radio-button>
+                      <mat-radio-button class="props" value="non" (click)="reponseOffre(false)">Refuser l'offre
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div>
+                    <button mat-button color="primary" (click)="validate(produitRecap.recap)">Valider</button>
+                  </div>
                 </div>
                 <div *ngSwitchCase="'EN_ATTENTE_RECEPTION_PRODUIT'" >
-                  <div *ngIf="produitRecap.nbJourRestant && produitRecap.nbJourRestant >= 0 ; else expireMsg">
-                    <h2>Il reste {{produitRecap.nbJourRestant}} pour la réception du produit !! </h2>
+                  <div *ngIf="produitRecap.recap.delais && produitRecap.recap.delais > 0 ; else expireMsg">
+                    <h2>Il reste {{produitRecap.recap.delais}} jour(s) pour la réception du produit !! </h2>
                   </div>
                   <ng-template #expireMsg>
                    <h2>Le produit n'a pas été receptionné !! </h2>
                   </ng-template>
                 </div>
                 <div *ngSwitchCase="'ANNULATION_EN_ATTENTE_REMBOURSEMENT'" >
-                  <button mat-flat-button color="primary" (click)="validate(produitRecap.recap)">Procedez au remboursement pour récupérer votre produit</button>
+                  <button mat-flat-button color="primary" (click)="validate(produitRecap.recap)"></button>
+                   <span> Remboursement Green Repack pour récupérer votre produit: </span>
+                     <div>
+                      <button mat-stroked-button color="primary" (click)="validate(produitRecap.recap)">Procedez au remboursement</button>
+                    </div>
                 </div>
                 <div *ngSwitchDefault >
                   <div>

@@ -23,3 +23,8 @@ export const ASSOS_$_PROJECTS_GET_ALL =  API_URL + '/association/projets/all';
 export const UPDATE_PROJECT_EN_ATTENTE =  API_URL + '/association/projets/update/waiting';
 export const UPDATE_PROJECT_VALIDER =  API_URL + '/association/projets/update/verified'
 
+// paiement
+export const PAIEMENT_INIT = environment.url_backend + '/paiement/init';
+
+
+

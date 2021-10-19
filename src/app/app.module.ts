@@ -19,7 +19,6 @@ import { AuthMarchandComponent } from './customers-pages/authentification/auth-m
 import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
 import { AngularFireAuthModule, AngularFireAuth, PERSISTENCE } from '@angular/fire/auth';
 import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
-import { SuiviDemandeProduitComponent } from './customers-pages/marchand/suivi-demande-produit/suivi-demande-produit.component';
 import { SuiviDemandeListComponent } from './customers-pages/marchand/components/suivi-demande-list/suivi-demande-list.component';
 import { AjoutProduitComponent } from './customers-pages/marchand/components/ajout-produit/ajout-produit.component';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -47,7 +46,6 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     AuthMarchandComponent,
     HomeMarchandComponent,
     GestionGreenRepackComponent,
-    SuiviDemandeProduitComponent,
     SuiviDemandeListComponent,
     AjoutProduitComponent,
     HeaderComponent,

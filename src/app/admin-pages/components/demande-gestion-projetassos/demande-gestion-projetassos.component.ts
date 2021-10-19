@@ -38,15 +38,16 @@ export class DemandeGestionProjetassosComponent implements OnInit {
   }
 
   validation(project: AssosProjets, valid:boolean) {
-      const projectUpdate: Projet = {
+    const projectUpdate: Projet = {
         idproj: project.projet.idproj,
-        statut:  valid?"VALIDER":"REFUSER",
+        statut: valid?"VALIDER":"REFUSER",
         refassos: project.projet.refassos,
         titre: project.projet.titre,
         description: project.projet.description,
         datecreate: project.projet.datecreate,
         argentcollect: project.projet.argentcollect
-      };
+    };
+    console.log(JSON.stringify(projectUpdate));
     this.projetService.updateEnAttente(projectUpdate);
   }
 

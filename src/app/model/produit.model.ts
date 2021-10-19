@@ -20,7 +20,7 @@ export interface ProduitAjoutResponse {
 export interface ProduitMisAJoursRequest {
   email_user?: string;
   idproduit: string;
-  etat_dem_next: string;
+  etat_dem_next: EtatProduitType | string;
   etat_dem_now: string;
   prix?: number;
 }
@@ -39,13 +39,13 @@ export interface ProduitRecap {
   prix: DecimalPipe;
   user?: string;
   ex_state: string;
+  delais?: number;
 }
 
 export interface ProduitResume {
   recap: ProduitRecap;
   label?: string;
   body?: any;
-  nbJourRestant?: number;
 }
 
 export interface EtatProduitName {
@@ -132,9 +132,9 @@ export const EtatProduitEnum: Record<EtatProduitType, EtatProduitName> = {
   EN_ATTENTE_RECEPTION_PRODUIT: {etat:'EN_ATTENTE_RECEPTION_PRODUIT', steps:[3], label:'En attente de réception du produit dans nos locaux.', hasContent:true}, //document + suivi
   //PRODUIT_RECEPTIONNE: {etat:'PRODUIT_RECEPTIONNE', label:'Demande créer', hasContent:false},
   EN_ATTENTE_VALIDATION_: {etat:'EN_ATTENTE_VALIDATION_', steps:[4], label:'Demande en cours d\'expertise', hasContent:true}, // offre reponse
-  ANNULATION_EN_ATTENTE_REMBOURSEMENT: {etat:'ANNULATION_EN_ATTENTE_REMBOURSEMENT', steps:[5,6], label:'En attente de remboursement des frais de gestion du produit.', hasContent:true}, //action de remoursement
+  ANNULATION_EN_ATTENTE_REMBOURSEMENT: {etat:'ANNULATION_EN_ATTENTE_REMBOURSEMENT', steps:[5,6], label:'En attente de remboursement à greenRepack pour les frais de gestion du produit.', hasContent:true}, //action de remoursement
   ANNULATION: {etat:'ANNULATION', steps:[2,4,6,7], label:'Demande annulée', hasContent:false},
-  VALIDATION_EN_ATTENTE_PAIEMENT: {etat:'VALIDATION_EN_ATTENTE_PAIEMENT', steps:[5,6], label:'Demande créer', hasContent:true}, //action de paiement
+  VALIDATION_EN_ATTENTE_PAIEMENT: {etat:'VALIDATION_EN_ATTENTE_PAIEMENT', steps:[5,6], label:'En attente de paiement du produit au marchand', hasContent:true}, //action de paiement
   VALIDATION: {etat:'VALIDATION', steps:[6,7], label:'Demande validée', hasContent:false}
 };
 

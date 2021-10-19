@@ -22,20 +22,27 @@ h4{
 
 $margin_header_margin: 8px;
 
+:host ::ng-deep  div.p-accordion {
+  background-color: beige;
+}
 
-:host ::ng-deep  div.p-accordion  .p-accordion-tab .p-accordion-header{
+:host ::ng-deep  div.p-accordion  .p-accordion-tab .p-accordion-header {
   background-color: $background_primary;
-  border-left: solid 1px black;
-  border-top: solid 1px black;
+  margin: $margin_header_margin $margin_header_margin $margin_header_margin $margin_header_margin;
+  //border-left: solid 1px black;
+  //border-top: solid 1px black;
   a.p-accordion-header-link {
     color: black;
     font-weight: bold;
-    margin: $margin_header_margin $margin_header_margin $margin_header_margin $margin_header_margin;
+    span.p-accordion-header-text {
+      margin: 1% 1% 1% 1%;
+    }
   }
 }
 
-:host ::ng-deep  div.p-accordion  .p-accordion-tab div.p-accordion-header:active {
-  background-color: darken($background_primary, 50%);
+:host ::ng-deep  div.p-accordion  .p-accordion-tab .p-toggleable-content {
+  //background-color: beige;
+  margin: 0% 3% 1% 3%;
 }
 
 .props {

@@ -60,8 +60,7 @@ export class AuthClientComponent implements OnInit {
             this.err_send = '';
             sessionStorage.setItem('PROFIL', 'CLIENT'.toLowerCase());
             //sessionStorage.setItem('USER_CURRENT', nomControl);
-            this.authService.forceLogout('/client/home/'+rst.user?.uid);
-            //this.router.navigate([]);
+            this.router.navigateByUrl('/client/home/'+ rst.user?.uid);
         })
         .catch(err => {
           console.log("connexion fail ... " + JSON.stringify(err));
