@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/green-repack-front",
+    "public": "dist/green-repack-front/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

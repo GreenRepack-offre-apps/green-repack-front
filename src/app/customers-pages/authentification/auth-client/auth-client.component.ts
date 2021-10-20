@@ -12,6 +12,7 @@ import { ClientService } from '../../../service/client/client.service';
   templateUrl: './auth-client.component.html',
   styleUrls: ['./auth-client.component.scss']
 })
+//maintenance
 export class AuthClientComponent implements OnInit {
   constructor(
     private authService: AuthService,
@@ -33,11 +34,7 @@ export class AuthClientComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.currentUser(new ClientProfils()).subscribe(rst => {
-      if( rst && rst.uid && rst.email) {
-        this.router.navigate(['client/home/'+rst.uid])
-      }
-    });
+    sessionStorage.setItem('PROFIL','');
     this.clientForm.valueChanges.subscribe(v => {
       const{ email, pswd } = v;
       //console.log('user change: ' + JSON.stringify(v));
@@ -48,7 +45,6 @@ export class AuthClientComponent implements OnInit {
 
   onSubmit(){
     this.firebaseAuth.signOut();
-    sessionStorage.clear();
     const {nomControl, pswdControl} = this.clientForm.value;
     console.log('user : ' + nomControl);
 
@@ -61,7 +57,7 @@ export class AuthClientComponent implements OnInit {
             this.err_send = '';
             sessionStorage.setItem('PROFIL', 'CLIENT'.toLowerCase());
             //sessionStorage.setItem('USER_CURRENT', nomControl);
-            this.router.navigateByUrl('client/home/'+ rst.user?.uid);
+            this.router.navigate(['home/'+rst.user?.uid]);
         })
         .catch(err => {
           console.log("connexion fail ... " + JSON.stringify(err));

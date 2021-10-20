@@ -90,7 +90,7 @@ export class HeaderComponent implements OnInit, DoCheck {
           case 'MARCHAND':
             this.marchandService.searchMarchand('email', user.email)
             .subscribe(rst => {
-              if(rst.value.email !== user.email ) this.router.navigateByUrl('connexion');
+              //if(rst.value.email !== user.email ) this.router.navigateByUrl('connexion');
               this.infoUser.user = rst.value;
             })
             break;
@@ -101,8 +101,7 @@ export class HeaderComponent implements OnInit, DoCheck {
               if(rst){
                 this.infoUser.user = rst;
               }else{
-
-                this.router.navigateByUrl('connexion');
+                //this.router.navigateByUrl('connexion');
               }
             })
             break;

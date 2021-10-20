@@ -5,21 +5,7 @@
   <div class="col" style="margin-right: 20px;margin-left: 1160px;">
     <button  class="btn btn-link" (click)="redirect()" >S'inscrire</button>
   </div>
-  <ul class="nav justify-content-center tabs">
-    <li class="nav-item" (click)="profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
-      <button type="button" class="btn btn-link"  aria-current="page">Client</button>
-    </li>
-    <li class="nav-item" (click)="profil = 'MARCHAND'" [class.select]="profil === 'MARCHAND'">
-      <button type="button" class="btn btn-link">Marchand</button>
-    </li>
-  </ul>
 
-  <div *ngIf="profil !== 'MARCHAND'; else marchandBlock">
-    <app-auth-client>
-    </app-auth-client>
-  </div>
-  <ng-template #marchandBlock>
-    <app-auth-marchand>
-    </app-auth-marchand>
-  </ng-template>
+  <app-auth-marchand profil="marchand">
+  </app-auth-marchand>
 </div>

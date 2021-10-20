@@ -6,6 +6,7 @@ export const API_URL = environment.url_backend + '/api'
 // marchand endpoint
 export const MARCHAND_INSCRIPTION_ENDPOINT = API_URL + '/marchand/create';
 export const MARCHAND_RECHERCHE_ENDPOINT = API_URL + '/marchand/get';
+export const MARCHAND_UPDATE_ENDPOINT = API_URL + '/marchand/update';
 
 export const PRODUIT_AJOUT_ENDPOINT = API_URL + '/produit/add';
 export const PRODUIT_MISAJOURS_ENDPOINT = API_URL + '/produit/update';

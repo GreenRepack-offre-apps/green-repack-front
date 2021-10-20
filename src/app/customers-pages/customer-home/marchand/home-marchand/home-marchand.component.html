@@ -5,8 +5,21 @@
   <div class="col" style="margin-right: 20px;margin-left: 1150px;">
     <button  class="btn btn-link" (click)="redirect()">Deconnexion</button>
   </div>
-  <div class="divider">
-  </div>
+  <ul class="nav justify-content-center tabs">
+    <li class="nav-item" (click)="profil = 'MARCHAND'" [class.select]="profil === 'MARCHAND'">
+      <button type="button" class="btn btn-link"  aria-current="page">Espace Marchand</button>
+    </li>
+    <li class="nav-item" (click)="profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
+      <div *ngIf="customer.client === true">
+        <button type="button" class="btn btn-link">Espace Client</button>
+      </div>
+      <div *ngIf="customer.client === false">
+        <button type="button" class="btn btn-warning" (click)='activateClient()'>Activer votre espace Client</button>
+      </div>
+
+    </li>
+  </ul>
+
   <ul style="display:block; list-style-type: none;padding-left: 0px;">
    <li class="col block-add">
       <div style="margin-left:20%;">

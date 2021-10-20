@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ClientProfils, CurrentUser } from '../../../model/auth.model';
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../../service/auth.service';
+import { CurrentUser } from '../../../../model/auth.model';
+
 
 @Component({
   selector: 'app-home-client',
@@ -18,7 +19,7 @@ export class HomeClientComponent implements OnInit {
   pages = ['achats', 'panier', 'projets associatifs']
 
   ngOnInit(): void {
-    console.log("Profil en cours: " + this.authService.profilRegister);
+    //console.log("Profil en cours: " + this.authService.profilRegister);
     // this.authService.currentUser(new ClientProfils()).subscribe(rst => {
     //   if(rst && rst.uid){
     //     this.current_user = rst;

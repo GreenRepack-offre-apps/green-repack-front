@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ProduitMarchandService } from '../../../../service/produit/produit-marchand.service';
+
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { MarchandProfils } from 'src/app/model/auth.model';
-import { UploadService } from '../../../../service/common/upload.service';
-import { Router } from '@angular/router';
-import { MarchandSyntheseService } from '../../../../service/marchand/synthese/marchand-synthese.service';
-import { genererNextEtatOfProduit } from '../../../../model/workflow-produit.model';
-import { EtatProduitData } from '../../../../model/produit.model';
+
 import { DatePipe } from '@angular/common';
+import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
+import { UploadService } from '../../../../../service/common/upload.service';
+import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
+import { genererNextEtatOfProduit } from '../../../../../model/workflow-produit.model';
+import { EtatProduitData } from '../../../../../model/produit.model';
 
 @Component({
   templateUrl: './ajout-produit.component.html',

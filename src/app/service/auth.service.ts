@@ -37,7 +37,6 @@ export class AuthService {
         return current_user;
       }),
       distinctUntilChanged()
-
     );
   }
 

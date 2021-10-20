@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ProduitRecap, EtatProduitData, EtatProduitEnum, EtatProduitType, ProduitResume } from '../../../../model/produit.model';
-import { get_etat} from '../../../../model/workflow-produit.model';
-import { ProduitMarchandService } from '../../../../service/produit/produit-marchand.service';
-import { AuthService } from '../../../../service/auth.service';
-import { MarchandProfils } from '../../../../model/auth.model';
-import { MarchandSyntheseService } from '../../../../service/marchand/synthese/marchand-synthese.service';
-import { map } from 'rxjs/operators';
-import DateDiff from 'date-diff';
-import { Window } from 'selenium-webdriver';
-import { environment } from '../../../../../environments/environment';
+import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
+import { AuthService } from '../../../../../service/auth.service';
+import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
+import { ProduitResume, ProduitRecap } from '../../../../../model/produit.model';
+import { MarchandProfils } from '../../../../../model/auth.model';
+import { get_etat } from '../../../../../model/workflow-produit.model';
+import { environment } from '../../../../../../environments/environment.prod';
+
 
 @Component({
   selector: 'app-suivi-demande-list',

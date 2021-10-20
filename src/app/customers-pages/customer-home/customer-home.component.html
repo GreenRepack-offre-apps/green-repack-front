@@ -1,0 +1,15 @@
+<div>
+  <div *ngIf="home_page_owner === 'client' && session === true; else empty">
+    <app-home-client></app-home-client>
+  </div>
+  <div *ngIf="home_page_owner === 'marchand' && session === true; else empty">
+    <app-home-marchand></app-home-marchand>
+  </div>
+  <ng-template #empty>
+    <div>
+      <h1>
+        Erreur!!<a href="/connexion">revenir à la page d'acceuil</a>
+      </h1>
+    </div>
+  </ng-template>
+</div>

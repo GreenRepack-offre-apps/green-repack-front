@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
@@ -18,7 +18,7 @@ export class AuthMarchandComponent implements OnInit {
     private fbuilder: FormBuilder,
     private firebaseAuth: AngularFireAuth,
      private readonly router: Router) { }
-
+  @Input() profil:string = '';
   err_send = '';
   messageErreur = [
     {value:'', errMsg:''}, //nom
@@ -32,11 +32,8 @@ export class AuthMarchandComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.currentUser(new MarchandProfils()).subscribe(rst => rst.uid !== null
-      && rst.token
-      && rst.email ? this.router.navigate(['/marchand/home/'+rst.uid]):null);
+    sessionStorage.setItem('PROFIL','');
     this.marchandForm.valueChanges.subscribe(v => {
-
       const{ email, pswd }  = v;
       //console.log('user change: ' + JSON.stringify(v));
        this.messageErreur[1].errMsg = pswd === '' && !(email.length >= 5)? CHAMP_INVALID_MSG:'';
@@ -46,16 +43,15 @@ export class AuthMarchandComponent implements OnInit {
 
   onSubmit(){
     this.firebaseAuth.signOut();
-    sessionStorage.clear();
     const {nomControl, pswdControl} = this.marchandForm.value;
     console.log('user : ' + nomControl);
     this.firebaseAuth.signInWithEmailAndPassword(nomControl, pswdControl)
     .then(rst =>{
         console.log("connexion start ... " + JSON.stringify(rst));
         this.err_send = '';
-        sessionStorage.setItem('PROFIL', 'MARCHAND'.toLowerCase());
+        sessionStorage.setItem('PROFIL', this.profil);
         //sessionStorage.setItem('USER_CURRENT', nomControl);
-        this.router.navigate(['/marchand/home/'+rst.user?.uid]);
+        this.router.navigate(['home/'+rst.user?.uid]);
     })
     .catch(err => {
       console.log("connexion fail ... " + JSON.stringify(err));

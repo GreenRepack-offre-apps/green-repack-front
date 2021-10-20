@@ -1,11 +1,12 @@
 import { ProduitData } from './produit.model';
 
 export class Marchand {
-  id?: string;
+  idmar?: string;
   nom: string;
   email: string;
   datecreation?: string;
   adresse: string;
+  client?:boolean;
 
   constructor(){
     this.nom = "";
@@ -22,13 +23,15 @@ export interface Adresse {
 }
 
 export class MarchandViewModel implements Marchand {
-  id?: string | undefined;
+  idmar?: string | undefined;
   nom!: string;
   email!: string;
   password?: string | undefined;
   datecreation?: string | undefined;
   adresse!: string;
   adresseModel: Adresse;
+  client?:boolean;
+
    constructor(){
      this.adresseModel = <Adresse>{}
    }
@@ -38,7 +41,7 @@ export class MarchandViewModel implements Marchand {
      let adr = '';
     adr += (this.adresseModel.complement !== ''? this.adresseModel.complement + ', ': '') + this.adresseModel.voie + ', '
     + this.adresseModel.codePostal+' '+ this.adresseModel.ville;
-     return {nom: this.nom, email: this.email, password: this.password, adresse: adr}
+     return {nom: this.nom, email: this.email, password: this.password, adresse: adr, client:this.client}
    }
 
 }

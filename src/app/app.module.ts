@@ -16,14 +16,14 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { AuthMarchandComponent } from './customers-pages/authentification/auth-marchand/auth-marchand.component';
-import { HomeMarchandComponent } from './customers-pages/marchand/home-marchand/home-marchand.component';
+import { HomeMarchandComponent } from './customers-pages/customer-home/marchand/home-marchand/home-marchand.component';
 import { AngularFireAuthModule, AngularFireAuth, PERSISTENCE } from '@angular/fire/auth';
 import { GestionGreenRepackComponent } from './admin-pages/gestion-green-repack/gestion-green-repack.component';
-import { SuiviDemandeListComponent } from './customers-pages/marchand/components/suivi-demande-list/suivi-demande-list.component';
-import { AjoutProduitComponent } from './customers-pages/marchand/components/ajout-produit/ajout-produit.component';
+import { SuiviDemandeListComponent } from './customers-pages/customer-home/marchand/components/suivi-demande-list/suivi-demande-list.component';
+import { AjoutProduitComponent } from './customers-pages/customer-home/marchand/components/ajout-produit/ajout-produit.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
-import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { AngularFireAuthGuardModule, AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { HeaderComponent } from './common/header/header/header.component';
 import { AuthDialogComponent } from './admin-pages/components/auth-dialog/auth-dialog.component';
 import { DatePipe } from '@angular/common';
@@ -31,10 +31,11 @@ import { EtatGestionDemandeListComponent } from './admin-pages/components/etat-g
 import { DemandeGestionProjetassosComponent } from './admin-pages/components/demande-gestion-projetassos/demande-gestion-projetassos.component';
 import { InscriptionClientComponent } from './customers-pages/inscription/inscription-client/inscription-client.component';
 import { AuthClientComponent } from './customers-pages/authentification/auth-client/auth-client.component';
-import { HomeClientComponent } from './customers-pages/client/home-client/home-client.component';
-import { ProduitsAchatsComponent } from './customers-pages/client/components/produits-achats/produits-achats.component';
-import { CommandesComponent } from './customers-pages/client/components/commandes/commandes.component';
-import { PanierComponent } from './customers-pages/client/components/panier/panier.component';
+import { HomeClientComponent } from './customers-pages/customer-home/client/home-client/home-client.component';
+import { ProduitsAchatsComponent } from './customers-pages/customer-home/client/components/produits-achats/produits-achats.component';
+import { CommandesComponent } from './customers-pages/customer-home/client/components/commandes/commandes.component';
+import { PanierComponent } from './customers-pages/customer-home/client/components/panier/panier.component';
+import { CustomerHomeComponent } from './customers-pages/customer-home/customer-home.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
@@ -57,7 +58,8 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     HomeClientComponent,
     ProduitsAchatsComponent,
     CommandesComponent,
-    PanierComponent
+    PanierComponent,
+    CustomerHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +83,8 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
   providers: [
     DatePipe,
     FireSession,
-    AngularFireStorage
+    AngularFireStorage,
+    AngularFireAuthGuard
   ],
   bootstrap: [AppComponent]
 })
