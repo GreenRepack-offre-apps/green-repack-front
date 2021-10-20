@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   url_backend: "http://localhost:5000",
   //url_backend: "https://green-repack.herokuapp.com",
   firebaseConfig : {

@@ -1,14 +1,13 @@
 {
   "hosting": {
     "public": "dist/green-repack-front",
-
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
       }
     ],
-    "ignore":[
+    "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
