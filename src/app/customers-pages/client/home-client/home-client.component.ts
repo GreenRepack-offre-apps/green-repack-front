@@ -19,13 +19,13 @@ export class HomeClientComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("Profil en cours: " + this.authService.profilRegister);
-    this.authService.currentUser(new ClientProfils()).subscribe(rst => {
-      if(rst){
-        this.current_user = rst;
-      } else {
-        this.redirect();
-      }
-    });
+    // this.authService.currentUser(new ClientProfils()).subscribe(rst => {
+    //   if(rst && rst.uid){
+    //     this.current_user = rst;
+    //   // } else {
+    //   //   this.redirect();
+    //   }
+    // });
   }
 
   redirect() {

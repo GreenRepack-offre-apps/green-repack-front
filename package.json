@@ -4,12 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --stats-json --source-map=false",
     "test": "ng test",
     "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^11.2.14",
     "@angular/common": "^11.2.14",
     "@angular/compiler": "~11.2.14",
     "@angular/core": "~11.2.14",
