@@ -33,12 +33,13 @@ export class AuthClientComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.currentUser(new ClientProfils()).subscribe(rst => rst.uid !== null
-      && rst.token
-      && rst.email ? this.router.navigate(['/client/home/'+rst.uid]):null);
+    this.authService.currentUser(new ClientProfils()).subscribe(rst => {
+      if( rst && rst.uid && rst.email) {
+        this.router.navigate(['client/home/'+rst.uid])
+      }
+    });
     this.clientForm.valueChanges.subscribe(v => {
-
-      const{ email, pswd }  = v;
+      const{ email, pswd } = v;
       //console.log('user change: ' + JSON.stringify(v));
        this.messageErreur[1].errMsg = pswd === '' && !(email.length >= 5)? CHAMP_INVALID_MSG:'';
        this.messageErreur[0].errMsg = email === '' && !pswd.includes('@')? CHAMP_INVALID_MSG:'';
@@ -60,7 +61,7 @@ export class AuthClientComponent implements OnInit {
             this.err_send = '';
             sessionStorage.setItem('PROFIL', 'CLIENT'.toLowerCase());
             //sessionStorage.setItem('USER_CURRENT', nomControl);
-            this.router.navigateByUrl('/client/home/'+ rst.user?.uid);
+            this.router.navigateByUrl('client/home/'+ rst.user?.uid);
         })
         .catch(err => {
           console.log("connexion fail ... " + JSON.stringify(err));

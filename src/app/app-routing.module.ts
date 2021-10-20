@@ -9,10 +9,11 @@ import { HomeClientComponent } from './customers-pages/client/home-client/home-c
 
 const profil: string = sessionStorage.getItem('PROFIL') !== null ? String(localStorage.getItem('PROFIL')):'user';
 
-const redirectLoggedHome = () => redirectLoggedInTo([profil + '/home']);
+
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['connexion']);
 const belongsToAccount = (next:any) => hasCustomClaim(`account-${next.params.id}`);
 const adminOnly = () => hasCustomClaim('admin');
+const clientRedirect = () => redirectLoggedInTo(['client/home']);
 const clientOnly = () => hasCustomClaim('client');
 const marchandOnly = () => hasCustomClaim('marchand');
 
@@ -21,8 +22,8 @@ const routes: Routes = [
     path: 'connexion',
     component: AuthentificationComponent,
     canLoad: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedHome}
-    //...canActivate(redirectLoggedHome),
+    data: { authGuardPipe: clientRedirect}
+    //...canActivate(redirectUnauthorizedToLogin),
   },
   {
     path: 'inscription',
@@ -42,7 +43,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo:'home',
+        redirectTo:'home/:id',
         pathMatch: 'full'
       }
     ]
@@ -50,6 +51,12 @@ const routes: Routes = [
   {
     path: 'client',
     canLoad: [AngularFireAuthGuard],
+    component: HomeClientComponent,
+  },
+  {
+    path: 'client',
+    canLoad: [AngularFireAuthGuard],
+    //canActivateChild: [AngularFireAuthGuard],
     //...canActivate(redirectUnauthorizedToLogin),
     children: [
       {
@@ -60,7 +67,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo:'home',
+        redirectTo:'home/:id',
         pathMatch: 'full'
       }
     ]
