@@ -9,6 +9,7 @@ import { AuthPayload, Status } from '../../../model/common.model';
   providedIn: 'root'
 })
 export class AuthService {
+
   isLoad = true;
   isFetch: boolean = false;
   profilRegister:  MarchandProfils | ClientProfils | AdminProfils | null;
@@ -53,7 +54,19 @@ export class AuthService {
     })
   }
 
-  async signIn(auth:AuthPayload): Promise<void | Status> {
+  signOut(payload: AuthPayload): Promise<void | Status>  {
+    return this.firebaseAuth.createUserWithEmailAndPassword(payload.username, payload.password)
+      .then(rst => {
+        console.log("Inscription Marchand ..., work ");
+        this.router.navigate(['connexion']);
+      })
+      .catch(err => {
+        console.log('Inscription Marchand ..., failed');
+        return {status:'Les donnees transmis sont erronnées !'};
+      });
+  }
+
+  signIn(auth:AuthPayload): Promise<void | Status> {
     return this.firebaseAuth.signInWithEmailAndPassword(auth.username, auth.password)
     .then(rst =>{
         console.log("[AUTH] connexion start +> " + JSON.stringify(rst));

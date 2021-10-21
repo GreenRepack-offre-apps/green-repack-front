@@ -3,7 +3,6 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { CHAMP_INVALID_MSG, MDP_INVALID_MSG } from '../../../common/common';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { MarchandViewModel } from '../../../model/marchand.model';
 import { ClientViewModel } from '../../../model/client.model';
 import { ClientService } from '../../../service/client/client.service';
 

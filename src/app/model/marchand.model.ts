@@ -5,7 +5,7 @@ export interface Marchand {
   nom: string;
   email: string;
   datecreation?: string;
-  adresse: string;
+  adresse?: string;
   client:boolean;
 
   // constructor(){
@@ -23,28 +23,26 @@ export interface Adresse {
   ville: string;
 }
 
-export class MarchandViewModel implements Marchand {
-  idmar?: string | undefined;
-  nom!: string;
-  email!: string;
-  password?: string | undefined;
-  datecreation?: string | undefined;
-  adresse!: string;
-  adresseModel: Adresse;
+export class MarchandFormPayload {
+  nom: string;
+  email: string;
+  adresse: Adresse;
   client:boolean;
 
-   constructor(){
-     this.adresseModel = <Adresse>{}
-     this.client = false;
-   }
+  constructor(nom: string, email: string, client: boolean, adresse: Adresse){
+    this.nom = nom;
+    this.email = email;
+    this.client = client;
+    this.adresse = adresse;
+  }
 
 
-   createMarchand() {
-     let adr = '';
-    adr += (this.adresseModel.complement !== ''? this.adresseModel.complement + ', ': '') + this.adresseModel.voie + ', '
-    + this.adresseModel.codePostal+' '+ this.adresseModel.ville;
-     return {nom: this.nom, email: this.email, password: this.password, adresse: adr, client: this.client}
-   }
+  createMarchand() {
+    let adr = '';
+    adr += (this.adresse.complement !== ''? this.adresse.complement + ', ': '') + this.adresse.voie + ', '
+    + this.adresse.codePostal+' '+ this.adresse.ville;
+     return {nom: this.nom, email: this.email, adresse: adr, client: this.client}
+  }
 
 }
 

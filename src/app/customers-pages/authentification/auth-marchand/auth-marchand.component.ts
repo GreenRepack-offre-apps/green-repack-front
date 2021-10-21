@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
 import { AuthService } from '../../../service/common/auth/auth.service';
+import { MarchandService } from '../../../service/marchand/marchand.service';
 
 @Component({
   selector: 'app-auth-marchand',
@@ -12,6 +13,7 @@ export class AuthMarchandComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private marchandService: MarchandService,
     private fbuilder: FormBuilder) { }
 
   //@Input() profil:string = '';
@@ -41,13 +43,19 @@ export class AuthMarchandComponent implements OnInit {
     const {nomControl, pswdControl} = this.marchandForm.value;
 
     this.err_send = '';
-    // check with api if marchand exist in db.
-    this.authService.signIn({username:nomControl, password:pswdControl})
-    .then(rst =>{
-      if(rst && rst.status){
-        this.err_send = rst.status;
+    this.marchandService.searchMarchand('email', nomControl).subscribe(result => {
+      if(result && result.value && result.value.email === nomControl) {
+        this.authService.signIn({username:nomControl, password:pswdControl})
+        .then(rst =>{
+          if(rst && rst.status) {
+            this.err_send = rst.status;
+          }
+        });
+      }else {
+        this.err_send = 'Cet email n\'est pas reconnu par nos services !';
       }
     });
+
   }
 
 }

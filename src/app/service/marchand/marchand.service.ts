@@ -18,8 +18,7 @@ export class MarchandService {
   }
 
   createMarchand(body: Marchand): Observable<any> {
-    const req = {nom: body.nom, email: body.email, adresse: body.adresse};
-    return this.http.post<any>(MARCHAND_INSCRIPTION_ENDPOINT, req);
+    return this.http.post<any>(MARCHAND_INSCRIPTION_ENDPOINT, body);
   }
   update(body: Marchand): Observable<Marchand> {
     const req:Marchand = {idmar:body.idmar, nom: body.nom, email: body.email, adresse: body.adresse, client:true};
