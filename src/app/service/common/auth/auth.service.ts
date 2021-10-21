@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CurrentUser, MarchandProfils, ClientProfils, AdminProfils } from '../model/auth.model';
+import { CurrentUser, MarchandProfils, ClientProfils, AdminProfils } from '../../../model/auth.model';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, Observer, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
+import { AuthPayload, Status } from '../../../model/common.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +51,18 @@ export class AuthService {
         .catch(err => console.log('error; Can\'t logout '));
       }
     })
+  }
 
+  async signIn(auth:AuthPayload): Promise<void | Status> {
+    return this.firebaseAuth.signInWithEmailAndPassword(auth.username, auth.password)
+    .then(rst =>{
+        console.log("[AUTH] connexion start +> " + JSON.stringify(rst));
+        sessionStorage.setItem('PROFIL','marchand');
+        this.router.navigate(['home/'+rst.user?.uid]);
+    })
+    .catch(err => {
+      console.log("[AUTH] connexion fail ... " + JSON.stringify(err));
+      return {status:'les données renseignées sont invalid !!'};
+    });
   }
 }

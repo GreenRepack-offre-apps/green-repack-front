@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../service/auth.service';
-import { MarchandProfils } from 'src/app/model/auth.model';
+import { AuthService } from '../../../service/common/auth/auth.service';
 
 @Component({
   selector: 'app-auth-marchand',
@@ -15,10 +12,9 @@ export class AuthMarchandComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private fbuilder: FormBuilder,
-    private firebaseAuth: AngularFireAuth,
-     private readonly router: Router) { }
-  @Input() profil:string = '';
+    private fbuilder: FormBuilder) { }
+
+  //@Input() profil:string = '';
   err_send = '';
   messageErreur = [
     {value:'', errMsg:''}, //nom
@@ -32,7 +28,7 @@ export class AuthMarchandComponent implements OnInit {
 
 
   ngOnInit(): void {
-    sessionStorage.setItem('PROFIL','');
+    //sessionStorage.setItem('PROFIL','');
     this.marchandForm.valueChanges.subscribe(v => {
       const{ email, pswd }  = v;
       //console.log('user change: ' + JSON.stringify(v));
@@ -42,20 +38,14 @@ export class AuthMarchandComponent implements OnInit {
   }
 
   onSubmit(){
-    this.firebaseAuth.signOut();
     const {nomControl, pswdControl} = this.marchandForm.value;
-    console.log('user : ' + nomControl);
-    this.firebaseAuth.signInWithEmailAndPassword(nomControl, pswdControl)
+
+    this.err_send = '';
+    this.authService.signIn({username:nomControl, password:pswdControl})
     .then(rst =>{
-        console.log("connexion start ... " + JSON.stringify(rst));
-        this.err_send = '';
-        sessionStorage.setItem('PROFIL', this.profil);
-        //sessionStorage.setItem('USER_CURRENT', nomControl);
-        this.router.navigate(['home/'+rst.user?.uid]);
-    })
-    .catch(err => {
-      console.log("connexion fail ... " + JSON.stringify(err));
-      this.err_send = 'les données renseignées sont invalid !!';
+      if(rst && rst.status){
+        this.err_send = rst.status;
+      }
     });
   }
 

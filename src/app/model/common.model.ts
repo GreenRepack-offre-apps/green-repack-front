@@ -12,10 +12,14 @@ export interface MarchandSearch {
 }
 
 export interface Status {
-  status: StatusMsg;
+  status: StatusMsg | string;
 }
 export interface DataResult<T> {
   status: StatusMsg;
   data: T;
 }
 
+export interface AuthPayload {
+  readonly username: string;
+  readonly password: string;
+}

@@ -2,7 +2,7 @@ import { AfterContentChecked, AfterContentInit, Component, OnInit } from '@angul
 import { AuthDialogComponent } from '../components/auth-dialog/auth-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminProfils } from 'src/app/model/auth.model';
-import { AuthService } from 'src/app/service/auth.service';
+import { AuthService } from 'src/app/service/common/auth/auth.service';
 import { Router } from '@angular/router';
 import { adminMailEquals } from '../../model/admin.model';
 import { MatIconRegistry } from '@angular/material/icon';

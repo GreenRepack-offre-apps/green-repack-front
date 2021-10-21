@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientProfils, MarchandProfils } from '../../model/auth.model';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../service/common/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,7 +23,7 @@ export class CustomerHomeComponent implements OnInit {
   ngOnInit(): void {
     if(this.home_page_owner !== '') {
         if(this.home_page_owner === 'client'){
-          
+
         }
     } else if(sessionStorage.getItem('PROFILS') && sessionStorage.getItem('PROFILS') === 'marchand') {
       this.home_page_owner = 'marchand';

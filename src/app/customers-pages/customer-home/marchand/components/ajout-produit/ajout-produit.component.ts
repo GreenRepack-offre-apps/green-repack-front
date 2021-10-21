@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/service/auth.service';
+import { AuthService } from 'src/app/service/common/auth/auth.service';
 import { MarchandProfils } from 'src/app/model/auth.model';
 
 import { DatePipe } from '@angular/common';
 import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
-import { UploadService } from '../../../../../service/common/upload.service';
 import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
 import { genererNextEtatOfProduit } from '../../../../../model/workflow-produit.model';
 import { EtatProduitData } from '../../../../../model/produit.model';
+import { UploadService } from 'src/app/service/common/upload/upload.service';
 
 @Component({
   templateUrl: './ajout-produit.component.html',

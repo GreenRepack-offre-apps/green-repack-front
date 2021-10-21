@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssosProjetsService } from '../../../service/association/assos-projets.service';
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../service/common/auth/auth.service';
 import { Assos, Projet, AssosProjets } from '../../../model/assos-projets.model';
 import { map } from 'rxjs/operators';
 

@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { MarchandSyntheseService } from '../../../../service/marchand/synthese/marchand-synthese.service';
 import { MarchandService } from '../../../../service/marchand/marchand.service';
-import { AuthService } from '../../../../service/auth.service';
+import { AuthService } from '../../../../service/common/auth/auth.service';
 import { AccordionModule } from 'primeng/accordion';
 import { MarchandProfils } from '../../../../model/auth.model';
 import { Marchand } from '../../../../model/marchand.model';
@@ -40,7 +40,10 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authService.currentUser(new MarchandProfils()).subscribe(usr => {
       if(usr && usr.email){
-        this.marchandService.searchMarchand('email',usr.email).subscribe(m => this.customer = m.value);
+        this.marchandService.searchMarchand('email',usr.email).subscribe(m => {
+          this.customer = m.value;
+          console.log("Marchand customer ="+JSON.stringify(this.customer));
+        });
       }
     });
   }

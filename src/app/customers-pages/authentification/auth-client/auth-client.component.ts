@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../service/common/auth/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ClientProfils } from '../../../model/auth.model';
 import { CHAMP_INVALID_MSG } from '../../../common/common';

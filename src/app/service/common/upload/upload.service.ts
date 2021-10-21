@@ -3,8 +3,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 import { map } from 'rxjs/operators';
-import { MarchandProfils, AdminProfils } from '../../model/auth.model';
-import { ProduitData } from '../../model/produit.model';
+import { MarchandProfils, AdminProfils } from '../../../model/auth.model';
+
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { MarchandProfils } from 'src/app/model/auth.model';
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../service/common/auth/auth.service';
 import { Router } from '@angular/router';
 import { MarchandService } from '../../../service/marchand/marchand.service';
 import { CurrentUser, AdminProfils, ClientProfils } from '../../../model/auth.model';

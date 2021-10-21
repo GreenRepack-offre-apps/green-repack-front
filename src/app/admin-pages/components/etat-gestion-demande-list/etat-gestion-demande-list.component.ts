@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MarchandProfils } from 'src/app/model/auth.model';
 import { ProduitResume, EtatProduitType, ProduitRecap } from '../../../model/produit.model';
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../service/common/auth/auth.service';
 import { ProduitMarchandService } from '../../../service/produit/produit-marchand.service';
 import { get_etat } from '../../../model/workflow-produit.model';
 import DateDiff from 'date-diff';

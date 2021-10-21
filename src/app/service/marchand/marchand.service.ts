@@ -22,7 +22,7 @@ export class MarchandService {
     return this.http.post<any>(MARCHAND_INSCRIPTION_ENDPOINT, req);
   }
   update(body: Marchand): Observable<Marchand> {
-    const req = {idmar:body.idmar, nom: body.nom, email: body.email, adresse: body.adresse};
+    const req:Marchand = {idmar:body.idmar, nom: body.nom, email: body.email, adresse: body.adresse, client:true};
     return this.http.post<DataResult<Marchand>>(MARCHAND_UPDATE_ENDPOINT, req).pipe(
       map(rst => {
         console.log

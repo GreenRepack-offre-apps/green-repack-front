@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
-import { AuthService } from '../../../../../service/auth.service';
+import { AuthService } from '../../../../../service/common/auth/auth.service';
 import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
 import { ProduitResume, ProduitRecap } from '../../../../../model/produit.model';
 import { MarchandProfils } from '../../../../../model/auth.model';
