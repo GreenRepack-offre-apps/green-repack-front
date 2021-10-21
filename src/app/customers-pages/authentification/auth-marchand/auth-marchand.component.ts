@@ -41,6 +41,7 @@ export class AuthMarchandComponent implements OnInit {
     const {nomControl, pswdControl} = this.marchandForm.value;
 
     this.err_send = '';
+    // check with api if marchand exist in db.
     this.authService.signIn({username:nomControl, password:pswdControl})
     .then(rst =>{
       if(rst && rst.status){
