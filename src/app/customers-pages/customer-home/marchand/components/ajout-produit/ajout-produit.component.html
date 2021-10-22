@@ -1,64 +1,68 @@
-<h2 mat-dialog-title>Ajouter un produit à recycler</h2>
-<mat-dialog-content class="mat-typography">
-  <!-- h3 calss="text-gras">Ajouter un produit</!-->
-  <form style="margin-bottom:25%;margin-top:12%;" [formGroup]="produitForm">
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Categorie *</mat-label>
-        <mat-select formControlName="categorie">
-          <mat-option value="téléphones">Téléphones</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option value="objets connectés">Objets connectés</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option value="gros électroménagers">Gros électroménagers</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option value="bricolage">Bricolage</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option value="ordinateurs">Ordinateurs</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Marque *</mat-label>
-        <input formControlName="marque" placeholder="ex: Samsung"matInput>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Model *</mat-label>
-        <input formControlName="model" placeholder="ex: Galaxy S7"matInput>
-      </mat-form-field>
-    </div>
-    <div>
-        <mat-form-field appearance="fill">
-        <mat-label>Caracteristique technique *</mat-label>
-        <textarea formControlName="carac_tech" matInput></textarea>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Caracteristique esthétique *</mat-label>
-        <textarea formControlName="carac_esth" matInput></textarea>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-label>Images du produit (6 maximum)*</mat-label>
-      <p-fileUpload
-
-        url="url" [multiple]="true"
-        accept="image/*" [auto]="false" [showUploadButton]="false"
-        [fileLimit]='6' chooseLabel=">> Cliquer ici pour choisir des images >> "
-        (onSelect)="onUploadSelected($event.files)" (onRemove)="onUploadRemove($event.file)" (onClear)='onClearAll()'></p-fileUpload>
-    </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Annuler</button>
-  <div *ngIf="formValid(); else valid ">
-    <button mat-button [mat-dialog-close]="true" (click)="onSubmit()" cdkFocusInitial>Ajouter</button>
+<div class="add-dialog">
+  <div style="margin-top:2%;margin-left:5%;">
+    <h2 mat-dialog-title>Ajouter un produit à recycler</h2>
   </div>
-  <ng-template #valid>
-    <button mat-button [mat-dialog-close]="false" cdkFocusInitial disabled>Ajouter</button>
-  </ng-template>
-</mat-dialog-actions>
+  <mat-dialog-content style="margin-left:5%;" class="mat-typography">
+    <!-- h3 calss="text-gras">Ajouter un produit</!-->
+    <form style="margin-bottom:25%;margin-top:12%;" [formGroup]="produitForm">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Categorie *</mat-label>
+          <mat-select formControlName="categorie">
+            <mat-option value="téléphones">Téléphones</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="objets connectés">Objets connectés</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="gros électroménagers">Gros électroménagers</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="bricolage">Bricolage</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option value="ordinateurs">Ordinateurs</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Marque *</mat-label>
+          <input formControlName="marque" placeholder="ex: Samsung"matInput>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Model *</mat-label>
+          <input formControlName="model" placeholder="ex: Galaxy S7"matInput>
+        </mat-form-field>
+      </div>
+      <div>
+          <mat-form-field appearance="fill">
+          <mat-label>Caracteristique technique *</mat-label>
+          <textarea formControlName="carac_tech" matInput></textarea>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Caracteristique esthétique *</mat-label>
+          <textarea formControlName="carac_esth" matInput></textarea>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-label>Images du produit (6 maximum)*</mat-label>
+        <p-fileUpload
+
+          url="url" [multiple]="true"
+          accept="image/*" [auto]="false" [showUploadButton]="false"
+          [fileLimit]='6' chooseLabel=">> Cliquer ici pour choisir des images >> "
+          (onSelect)="onUploadSelected($event.files)" (onRemove)="onUploadRemove($event.file)" (onClear)='onClearAll()'></p-fileUpload>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end"  style="margin-right:5%; margin-bottom:3%;">
+    <button mat-button mat-dialog-close>Annuler</button>
+    <div *ngIf="formValid(); else valid ">
+      <button mat-button [mat-dialog-close]="true" (click)="onSubmit()" cdkFocusInitial>Ajouter</button>
+    </div>
+    <ng-template #valid>
+      <button mat-button [mat-dialog-close]="false" cdkFocusInitial disabled>Ajouter</button>
+    </ng-template>
+  </mat-dialog-actions>
+</div>

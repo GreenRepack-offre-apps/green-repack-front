@@ -9,6 +9,7 @@ import DateDiff from 'date-diff';
 import { environment } from 'src/environments/environment';
 import { PaimentService } from '../../../service/paiment/paiment.service';
 import { PAIEMENT_INIT } from '../../../../assets/app-const';
+import { NavigationService } from '../../../service/common/navigation/navigation.service';
 
 @Component({
   selector: 'app-etat-gestion-demande-list',
@@ -20,7 +21,9 @@ export class EtatGestionDemandeListComponent implements OnInit {
   constructor(private fbuilder: FormBuilder,
     private authService: AuthService,
     private produitService: ProduitMarchandService,
-    private paiementService: PaimentService) { }
+    private paiementService: PaimentService,
+    private navigationService: NavigationService) { }
+
   etatFiltre = this.fbuilder.group({
     stateProductSelected: new FormControl('')
   });
@@ -113,6 +116,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
         //   etat_dem_next: 'VALIDATION'});
         break;
     }
+    this.navigationService.reloadCurrentRoute();
   }
 
   validateProduit(recap: ProduitRecap, rst:any) {
@@ -135,6 +139,6 @@ export class EtatGestionDemandeListComponent implements OnInit {
       default:
         break;
     }
+    this.navigationService.reloadCurrentRoute();
   }
-
 }

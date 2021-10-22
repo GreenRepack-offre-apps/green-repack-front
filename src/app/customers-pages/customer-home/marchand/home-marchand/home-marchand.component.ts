@@ -29,7 +29,7 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
     private syntheseMarchand: MarchandSyntheseService) { }
 
   subs: Subscription[] = [];
-  profil = 'CLIENT';
+  profil = 'MARCHAND';
   customer: Marchand = <Marchand>{};
   ngOnDestroy(): void {
     this.subs.forEach(s => s.unsubscribe());

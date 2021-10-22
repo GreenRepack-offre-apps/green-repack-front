@@ -14,7 +14,15 @@ export class NavigationService {
     .catch(err => console.log('[ERROR] #NAV => '+err));
   }
 
-  currentUrl(){
+  currentUrl():string{
     return this.router.url;
+  }
+
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+        console.log(currentUrl);
+    });
   }
 }

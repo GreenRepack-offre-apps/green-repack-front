@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
 import { AuthService } from '../../../../../service/common/auth/auth.service';
 import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
@@ -6,6 +6,8 @@ import { ProduitResume, ProduitRecap } from '../../../../../model/produit.model'
 import { MarchandProfils } from '../../../../../model/auth.model';
 import { get_etat } from '../../../../../model/workflow-produit.model';
 import { environment } from '../../../../../../environments/environment.prod';
+import { Marchand } from '../../../../../model/marchand.model';
+import { NavigationService } from '../../../../../service/common/navigation/navigation.service';
 
 
 @Component({
@@ -16,22 +18,28 @@ import { environment } from '../../../../../../environments/environment.prod';
 export class SuiviDemandeListComponent implements OnInit {
   constructor(private produitService: ProduitMarchandService,
     private authService: AuthService,
-    private marchandSyntheseService: MarchandSyntheseService) { }
+    private marchandSyntheseService: MarchandSyntheseService,
+    private navigationService: NavigationService) { }
+
+  @Input()
+  customer!: Marchand;
+
   title_suivi_demande = 'Suivi de demande de produits';
   produitRecaps: ProduitResume[] = [];
   validationReponse: boolean = false;
   ngOnInit(): void {
-    this.authService.currentUser(new MarchandProfils()).subscribe(user => {
-     if(this.authService.isFetch) {
-      this.produitService.fetchMarchandProducts(user.email, null).subscribe(rst => {
-        if(rst.status === 'SUCCES' && rst.data.length > 0) {
-          rst.data.forEach(d => {
-            this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
-          });
-        }
-      });
-     }
+    this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe(rst => {
+      if(rst.status === 'SUCCES' && rst.data.length > 0) {
+        rst.data.forEach(d => {
+          this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
+        });
+      }
     });
+    // this.authService.currentUser(new MarchandProfils()).subscribe(user => {
+    //  if(this.authService.isFetch) {
+
+    //  }
+    // });
 
   }
 
@@ -54,6 +62,7 @@ export class SuiviDemandeListComponent implements OnInit {
         // this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation, etat_dem_next: 'VALIDATION'});
         // break;
     }
+    this.navigationService.reloadCurrentRoute();
   }
 
   reponseOffre(reponse: boolean) {

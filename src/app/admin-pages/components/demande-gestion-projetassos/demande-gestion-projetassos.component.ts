@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class DemandeGestionProjetassosComponent implements OnInit {
 
-  constructor(private authService: AuthService, private projetService: AssosProjetsService) { }
+  constructor(private authService: AuthService, private projetService: AssosProjetsService, ) { }
 
   assos: Assos[] = [];
   projets: AssosProjets[] = [];
@@ -49,6 +49,7 @@ export class DemandeGestionProjetassosComponent implements OnInit {
     };
     console.log(JSON.stringify(projectUpdate));
     this.projetService.updateEnAttente(projectUpdate);
+    //this.navigationService.reloadCurrentRoute();
   }
 
 }
