@@ -12,7 +12,7 @@ export class AuthService {
 
   isLoad = true;
   isFetch: boolean = false;
-  profilRegister:  MarchandProfils | ClientProfils | AdminProfils | null;
+  profilRegister:  MarchandProfils | ClientProfils | AdminProfils | undefined;
   constructor( private firebaseAuth: AngularFireAuth, private readonly router: Router) {
   const sessionProfil = sessionStorage.getItem('PROFIL');
     if( sessionProfil ===  new MarchandProfils().type.toLowerCase()) {
@@ -21,19 +21,17 @@ export class AuthService {
       this.profilRegister = new ClientProfils();
     } else if( sessionProfil ===  new AdminProfils().type.toLowerCase()) {
       this.profilRegister = new AdminProfils();
-    } else {
-      this.profilRegister = null ;
     }
   }
 
-  currentUser(profils: MarchandProfils | ClientProfils | AdminProfils):  Observable<CurrentUser> {
+  currentUser(profils: MarchandProfils | ClientProfils | AdminProfils | undefined):  Observable<CurrentUser> {
     let token: any = null;
     this.firebaseAuth.idToken.subscribe(t => token = t)
     return this.firebaseAuth.authState.pipe(
       map(s => {
         console.log("current user & auth state " + JSON.stringify(s));
         this.isFetch = token !== null && s?.email !== null;
-        const current_user: CurrentUser = { profil: profils.type, sessionActive: false, email: s?.email, token: token, uid: s?.uid };
+        const current_user: CurrentUser = { profil: profils!.type, sessionActive: false, email: s?.email, token: token, uid: s?.uid };
         console.log("current user is " + JSON.stringify(current_user));
         return current_user;
       }),

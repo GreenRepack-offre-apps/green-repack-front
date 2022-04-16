@@ -3,13 +3,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usertype } from '../../model/workflow-produit.model';
 import { PAIEMENT_INIT } from '../../../assets/app-const';
 import { ProfilsType } from '../../model/auth.model';
-
+import { APP_URL } from '../../../../dist/green-repack-front/browser/assets/app-const';
+import { Stripe } from 'stripe';
+import {loadStripe} from '@stripe/stripe-js';
 @Injectable({
   providedIn: 'root'
 })
 export class PaimentService {
-
-  constructor(private http: HttpClient) { }
+  stripe = loadStripe("pk_test_51JkjkqDKurM3h7MYJe4ZjVAIxnHME9dpYmCDNqQ5ZTjZZhqowW1DQea9epdzNboiWc5m2Bpn5FBEaA3pW17VUJEc00PtoYwsnZ");
+  constructor(private http: HttpClient) {
+  }
 
   paybox(user: string, type: ProfilsType) {
     let params = new HttpParams();
@@ -19,5 +22,10 @@ export class PaimentService {
       params = params.append('client', user);
     }
     return this.http.get(PAIEMENT_INIT, {params: params});
+  }
+
+  createPaiementIntent(body:any): Promise<any>{
+    return this.http.post<any>(APP_URL + 'paiement/gestion/to/marchand', body)
+      .toPromise();
   }
 }

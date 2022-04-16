@@ -8,6 +8,7 @@ import { get_etat } from '../../../../../model/workflow-produit.model';
 import { environment } from '../../../../../../environments/environment.prod';
 import { Marchand } from '../../../../../model/marchand.model';
 import { NavigationService } from '../../../../../service/common/navigation/navigation.service';
+import { combineLatest } from 'rxjs';
 
 
 @Component({
@@ -28,19 +29,31 @@ export class SuiviDemandeListComponent implements OnInit {
   produitRecaps: ProduitResume[] = [];
   validationReponse: boolean = false;
   ngOnInit(): void {
-    this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe(rst => {
-      if(rst.status === 'SUCCES' && rst.data.length > 0) {
-        rst.data.forEach(d => {
-          this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
+    if(!this.customer || this.customer.email == null) {
+      this.authService.currentUser(new MarchandProfils()).subscribe( current => {
+        this.produitService.fetchMarchandProducts(current.email, null).subscribe(rst => {
+          if(rst.status === 'SUCCES' && rst.data.length > 0) {
+            rst.data.forEach(d => {
+              this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
+            });
+          }
         });
-      }
-    });
+      });
+    } else {
+      this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe( productResult => {
+        if(productResult && productResult.status === 'SUCCES' && productResult.data.length > 0) {
+          productResult.data.forEach(d => {
+            this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
+          });
+        }
+      });
+    }
+  //this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe
     // this.authService.currentUser(new MarchandProfils()).subscribe(user => {
     //  if(this.authService.isFetch) {
 
     //  }
     // });
-
   }
 
   // evaluate = (produitRecap: ProduitResume) => {

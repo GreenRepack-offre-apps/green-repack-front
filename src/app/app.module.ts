@@ -36,6 +36,8 @@ import { ProduitsAchatsComponent } from './customers-pages/customer-home/client/
 import { CommandesComponent } from './customers-pages/customer-home/client/components/commandes/commandes.component';
 import { PanierComponent } from './customers-pages/customer-home/client/components/panier/panier.component';
 import { CustomerHomeComponent } from './customers-pages/customer-home/customer-home.component';
+import { StripeModule } from "stripe-angular";
+import { PayboxComponent } from './paybox/paybox.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
 @NgModule({
@@ -59,7 +61,8 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     ProduitsAchatsComponent,
     CommandesComponent,
     PanierComponent,
-    CustomerHomeComponent
+    CustomerHomeComponent,
+    PayboxComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     AngularFireAuthGuardModule,
     AngularFireStorageModule,
     FileUploadModule,
+    StripeModule.forRoot('pk_test_51JkjkqDKurM3h7MYJe4ZjVAIxnHME9dpYmCDNqQ5ZTjZZhqowW1DQea9epdzNboiWc5m2Bpn5FBEaA3pW17VUJEc00PtoYwsnZ')
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
