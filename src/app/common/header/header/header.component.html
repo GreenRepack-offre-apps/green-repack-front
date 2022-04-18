@@ -272,7 +272,7 @@
 
   <div class="spacer"></div>
 
-  <div *ngIf="infoUser || infoUser.user " class="identity">
+  <div *ngIf="infoUser && infoUser.user " class="identity">
     <span>User : {{infoUser.user.nom}}</span>
   </div>
 

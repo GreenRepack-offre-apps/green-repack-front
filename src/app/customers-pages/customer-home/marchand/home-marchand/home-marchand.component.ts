@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -16,51 +16,19 @@ import { UserService } from '../../../../service/user/user.service';
   templateUrl: './home-marchand.component.html',
   styleUrls: ['./home-marchand.component.scss']
 })
-export class HomeMarchandComponent implements OnInit, OnDestroy {
+export class HomeMarchandComponent implements OnInit {
 
-  constructor(private fbuilder: FormBuilder,
-    private userService: UserService,
-    private firebaseAuth: AngularFireAuth,
-    private authService: AuthService,
-    private readonly router: Router,
-    public dialog: MatDialog) { }
-
-  subs: Subscription[] = [];
-  profil = 'MARCHAND';
-  customer: User = <User>{};
-  ngOnDestroy(): void {
-    this.subs.forEach(s => s.unsubscribe());
-  }
-
-  title = 'Gerez vos produits à reconditioner! Acheter nos produit ici !!';
+  constructor(public dialog: MatDialog){}
+  @Input()
+  customer!: User;
 
   ngOnInit(): void {
-    this.authService.currentUser(new UserProfils()).subscribe(usr => {
-      if(usr && usr.email){
-        this.userService.searchUser('email',usr.email).subscribe(m => {
-          this.customer = m.value;
-          console.log("Marchand customer ="+JSON.stringify(this.customer));
-        });
-      }
-    });
   }
 
-  redirect() {
-    this.firebaseAuth.signOut()
-    .then(e => {
-      this.router.navigate(['connexion']);
-      sessionStorage.removeItem('PROFIL');
-    })
-    .catch(err => console.log('error; Can\'t logout '));
-  }
   openPopinAjoutProduit() {
     const dialogRef = this.dialog.open(AjoutProduitComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
     });
-  }
-
-  activateClient(){
-    this.userService.update(this.customer).subscribe(m => this.customer = m);
   }
 }

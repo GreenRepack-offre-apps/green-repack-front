@@ -1,15 +1,37 @@
-<div>
-  <div *ngIf="home_page_owner === 'client' && session === true; else empty">
-    <app-home-client></app-home-client>
+<div class="container block">
+  <div class="col">
+    <h2> {{title}} </h2>
   </div>
-  <div *ngIf="home_page_owner === 'marchand' && session === true; else empty">
-    <app-home-marchand></app-home-marchand>
+  <div class="col" style="margin-right: 20px;margin-left: 1150px;">
+    <button  class="btn btn-link" (click)="redirect()">Deconnexion</button>
   </div>
-  <ng-template #empty>
-    <div>
-      <h1>
-        Erreur!!<a href="/connexion">revenir à la page d'acceuil</a>
-      </h1>
-    </div>
+  <ul class="nav justify-content-center tabs">
+    <li class="nav-item" (click)="customer.ismarchand === false?profil = 'CLIENT':profil = 'MARCHAND'" [class.select]="profil === 'MARCHAND'">
+      <div *ngIf="customer.ismarchand === true">
+        <button type="button" class="btn btn-link"  aria-current="page">Espace Marchand</button>
+      </div>
+      <div *ngIf="customer.ismarchand === false">
+        <button type="button" class="btn btn-warning" (click)='activateMarchand()'>Activer votre espace Marchand</button>
+      </div>
+
+
+    </li>
+    <li class="nav-item" (click)="customer.isclient === false?profil = 'MARCHAND':profil = 'CLIENT'" [class.select]="profil === 'CLIENT'">
+      <div *ngIf="customer.isclient === true">
+        <button type="button" class="btn btn-link">Espace Client</button>
+      </div>
+      <div *ngIf="customer.isclient === false">
+        <button type="button" class="btn btn-warning" (click)='activateClient()'>Activer votre espace Client</button>
+      </div>
+
+    </li>
+  </ul>
+  <div *ngIf="profil === 'MARCHAND'; else ACCESS_CLIENT">
+    <app-home-marchand [customer]="customer"></app-home-marchand>
+  </div>
+  <ng-template #ACCESS_CLIENT>
+    <!-- <h1>I am client !!</h1> -->
+    <app-home-client>
+    </app-home-client>
   </ng-template>
 </div>

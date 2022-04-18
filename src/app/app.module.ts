@@ -34,7 +34,7 @@ import { ProduitsAchatsComponent } from './customers-pages/customer-home/client/
 import { CommandesComponent } from './customers-pages/customer-home/client/components/commandes/commandes.component';
 import { PanierComponent } from './customers-pages/customer-home/client/components/panier/panier.component';
 import { CustomerHomeComponent } from './customers-pages/customer-home/customer-home.component';
-import { StripeModule } from "stripe-angular";
+//import { StripeModule } from "stripe-angular";
 import { PayboxComponent } from './paybox/paybox.component';
 
 const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]

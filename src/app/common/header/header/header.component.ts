@@ -78,14 +78,19 @@ export class HeaderComponent implements OnInit, DoCheck {
             break;
 
           case 'USER':
-            this.userService.searchUser('email', userAuth.email)
-            .subscribe(rst => {
-              if (rst.status === 'SUCESS') {
-                this.infoUser.user = rst.data;
-              }else{
-                this.infoUser.user = null;
-              }
-            });
+            if(this.userService.customer){
+              this.infoUser.user = this.userService.customer;
+            }else{
+              this.userService.searchUser('email', userAuth.email)
+              .subscribe(rst => {
+                if (rst.status === 'SUCESS') {
+                  this.infoUser.user = rst.data;
+                  this.userService.customer = rst.data;
+                }else{
+                  this.infoUser.user = null;
+                }
+              });
+            }
             break;
           default:
             this.infoUser = null;

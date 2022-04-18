@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 export const APP_URL = 'http://localhost:3000'
 export const API_URL = environment.url_backend + '/api'
 
-// marchand endpoint
+// user endpoint
 export const USERS_INSCRIPTION_ENDPOINT = API_URL + '/users/create';
 export const USERS_RECHERCHE_ENDPOINT = API_URL + '/users/get';
 export const USERS_UPDATE_ENDPOINT = API_URL + '/users/update';

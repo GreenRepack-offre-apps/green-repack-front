@@ -10,6 +10,7 @@ import { ProduitMarchandService } from '../../../../../service/produit/produit-m
 import { genererNextEtatOfProduit } from '../../../../../model/workflow-produit.model';
 import { EtatProduitData } from '../../../../../model/produit.model';
 import { UploadService } from 'src/app/service/common/upload/upload.service';
+import { state } from '@angular/animations';
 
 @Component({
   templateUrl: './ajout-produit.component.html',
@@ -76,9 +77,12 @@ export class AjoutProduitComponent implements OnInit {
         console.log('produits :' + JSON.stringify(this.produitForm.value) + ' user-email: ' + r.email);
         this.produitService.addProduit({user_email: r.email, marque: marque, model: model, categorie: categorie, info_tech: carac_tech, info_esth: carac_esth})
         .subscribe(res => {
-          const idProduit = res.id;
-          if(res.status === 'SUCCES' && idProduit && r.email !== null) {
-           // add notif
+          if(res.status === 'SUCCES' && res.data && res.data.idprod) {
+           // add notif later
+           let currentUrl = this.router.url;
+           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+           this.router.onSameUrlNavigation = 'reload';
+           this.router.navigate([currentUrl]);
           };
         });
       }

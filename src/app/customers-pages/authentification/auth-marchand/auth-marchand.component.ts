@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
 import { AuthService } from '../../../service/common/auth/auth.service';
 import { UserService } from '../../../service/user/user.service';
+import { Status } from '../../../model/common.model';
 
 @Component({
   selector: 'app-auth-marchand',
@@ -45,8 +46,9 @@ export class AuthMarchandComponent implements OnInit {
     this.err_send = '';
     this.userService.searchUser('email', nomControl).subscribe(result => {
       if(result && result.data && result.data.email === nomControl) {
-        this.authService.signIn({username:nomControl, password:pswdControl})
-        .then(rst =>{
+        this.userService.customer = result.data;
+        this.authService.signIn({username:nomControl, password:pswdControl}, result.data.iduser)
+        .then((rst:any) => {
           if(rst && rst.status) {
             this.err_send = rst.status;
           }

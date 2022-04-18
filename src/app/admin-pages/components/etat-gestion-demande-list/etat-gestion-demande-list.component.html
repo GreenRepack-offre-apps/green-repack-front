@@ -50,7 +50,7 @@
           <mat-card-content style="padding-right: 8%; padding-left: 8%;">
             <p-accordion>
               <p-accordionTab header="Recapitulatif du produit">
-                <div class="recap">
+                <div class="recap state-info-block " style="padding-top:0.5%;padding-bottom:1%;">
                   <li>
                     <b>categorie :</b> {{produitRecap.recap.categorie}}
                   </li>
@@ -63,7 +63,7 @@
                 </div>
               </p-accordionTab>
               <p-accordionTab header="Action requise" [selected]="false">
-                <div [ngSwitch]="produitRecap.recap.statut_validation">
+                <div [ngSwitch]="produitRecap.recap.statut_validation"  class="state-info-block">
                   <div class="action-block" *ngSwitchCase="'INIT'" >
                     <mat-form-field>
                       <mat-label>Estimez le prix de vente !</mat-label>
@@ -125,7 +125,7 @@
                     </div>
                   </div>
                   <div class="action-block" *ngSwitchDefault>
-                    <div>
+                    <div style="padding-top:0.5%;padding-bottom:1%;">
                       <p>Aucune action n'est requise !!</p>
                     </div>
                   </div>

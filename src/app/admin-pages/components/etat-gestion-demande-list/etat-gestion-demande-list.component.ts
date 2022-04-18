@@ -41,7 +41,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.currentUser(new UserProfils()).subscribe(user => {
       if( this.authService.isFetch) {
-       this.produitService.fetchAllProducts(null).subscribe((rst:DataResult<any>) => {
+       this.produitService.fetchAllProducts().subscribe((rst:DataResult<any>) => {
          if(rst.status === 'SUCCES' && rst.data.length > 0) {
            //console.log("produits fetched: " + JSON.stringify(rst.data))
            rst.data.forEach((d:any) => {

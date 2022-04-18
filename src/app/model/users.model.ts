@@ -6,8 +6,8 @@ export interface User {
   email: string;
   datecreation?: string;
   adresse?: string;
-  client:boolean;
-  marchand:boolean;
+  isclient:boolean;
+  ismarchand:boolean;
   // constructor(){
   //   this.nom = "";
   //   this.email = ""
@@ -45,7 +45,7 @@ export class UserFormPayload {
     let adr = '';
     adr += (this.adresse.complement !== ''? this.adresse.complement + ', ': '') + this.adresse.voie + ', '
     + this.adresse.codePostal+' '+ this.adresse.ville;
-     return {nom: this.nom, email: this.email, adresse: adr, client: this.client, marchand: this.marchand}
+     return {nom: this.nom, email: this.email, adresse: adr, isclient: this.client, ismarchand: this.marchand}
   }
 
 }

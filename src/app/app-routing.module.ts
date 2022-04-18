@@ -56,7 +56,7 @@ const routes: Routes = [
     children: [
       {
         path:':id',
-        component: HomeMarchandComponent,
+        component: CustomerHomeComponent,
         //dcanLoad: [AngularFireAuthGuard],
         data: { authGuardPipe: belongsToAccount}
       },

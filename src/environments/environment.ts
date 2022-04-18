@@ -18,7 +18,7 @@ export const environment = {
   },
   onesignal_appId: "42ac6aa8-edc3-43dc-b1da-15670bdcd490", //prod
   //onesignal_appId: "50655600-2a1d-4f7e-9c0d-19667fd49ec0", //localhost
-  admin_mail:"green-repack@",
+  admin_mail:"@green-repack.fr",
   admin_remboursement_static_link: "https://buy.stripe.com/test_6oE7vogCl76J8H66oo"
 };
 

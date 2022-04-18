@@ -42,7 +42,7 @@ export class AuthService {
   forceLogout(redirect_url:any = null) {
     let token: any = null;
     this.firebaseAuth.authState.subscribe(auth => {
-      if(auth !== null) {
+      if (auth !== null) {
         this.firebaseAuth.signOut().then(r => {
           sessionStorage.clear();
           this.router.navigateByUrl(redirect_url !== null ? redirect_url: 'connexion');
@@ -64,12 +64,13 @@ export class AuthService {
       });
   }
 
-  signIn(auth:AuthPayload): Promise<void | Status> {
+  signIn(auth:AuthPayload, iduser: string): Promise<Status | void> {
     return this.firebaseAuth.signInWithEmailAndPassword(auth.username, auth.password)
-    .then(rst =>{
+    .then(rst => {
         console.log("[AUTH] connexion start +> " + JSON.stringify(rst));
-        sessionStorage.setItem('PROFIL','user');
-        this.router.navigate(['home/'+rst.user?.uid]);
+        sessionStorage.setItem('PROFIL', 'user');
+        sessionStorage.setItem('USER_ID', iduser);
+        this.router.navigate(['home/' + rst.user?.uid]);
     })
     .catch(err => {
       console.log("[AUTH] connexion fail ... " + JSON.stringify(err));

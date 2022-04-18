@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProduitAjoutRequest, ProduitRecap } from 'src/app/model/produit.model';
-import { forkJoin, Observable, pipe } from 'rxjs';
-import { PRODUIT_AJOUT_ENDPOINT, PRODUIT_MISAJOURS_ENDPOINT, PRODUIT_LIST_RECHERCHE_ENDPOINT, PRODUIT_GET_RECHERCHE_ENDPOINT, PRODUIT_LIST_ADMIN_RECHERCHE_ENDPOINT } from '../../app-const';
+import { forkJoin, Observable, pipe } from 'rxjs';;
 import { ProduitAjoutResponse, ProduitMisAJoursRequest } from '../../model/produit.model';
 import { DataResult, Status } from '../../model/common.model';
 import { distinctUntilChanged, map, delay } from 'rxjs/operators';
+import { PRODUIT_LIST_ADMIN_RECHERCHE_ENDPOINT, PRODUIT_LIST_RECHERCHE_ENDPOINT, PRODUIT_MISAJOURS_ENDPOINT, PRODUIT_AJOUT_ENDPOINT, PRODUIT_GET_RECHERCHE_ENDPOINT } from '../../app-const';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +15,14 @@ export class ProduitMarchandService {
   constructor(private http: HttpClient) { }
 
   addProduit(body: ProduitAjoutRequest): Observable<any> {
-    return this.http.post<ProduitAjoutResponse>(PRODUIT_AJOUT_ENDPOINT, body);
+    return this.http.post<DataResult<ProduitRecap>>(PRODUIT_AJOUT_ENDPOINT, body);
   }
 
   updateProduct(body: ProduitMisAJoursRequest, state: string = ''): Observable<any>{
     const result: Observable<string> = new Observable();
     return forkJoin({
       upd:this.http.post(PRODUIT_MISAJOURS_ENDPOINT, body),
-      refresh: this.fetchAllProducts(state).pipe(delay(1000))
+      refresh: this.fetchAllProducts().pipe(delay(1000))
     })
     .pipe(
       map(result => {
@@ -35,10 +35,10 @@ export class ProduitMarchandService {
 
   }
 
-  fetchMarchandProducts(marchandId: string, etat_dem: string | any): Observable<DataResult<ProduitRecap[]>> {
+  fetchMarchandProducts(id: any, etat_dem?: any): Observable<DataResult<ProduitRecap[]>> {
     let paramSearch = new HttpParams();
-    paramSearch = paramSearch.append('refmar', marchandId);
-    if (etat_dem !== null || etat_dem !== '') {
+    paramSearch = paramSearch.append('refmar', id);
+    if (etat_dem) {
       paramSearch = paramSearch.append('statut_validation', etat_dem);
     }
     return this.http.get<DataResult<ProduitRecap[]>>(PRODUIT_LIST_RECHERCHE_ENDPOINT, { params: paramSearch})
@@ -51,9 +51,9 @@ export class ProduitMarchandService {
     );
   }
 
-  fetchAllProducts(etat_dem: any): Observable<DataResult<ProduitRecap[]>> {
+  fetchAllProducts(etat_dem?: any): Observable<DataResult<ProduitRecap[]>> {
     let paramSearch = new HttpParams();
-    if (etat_dem !== null) {
+    if (etat_dem) {
       paramSearch = paramSearch.append('statut_validation', etat_dem);
     }
     return  paramSearch.has('statut_validation')? this.http.get<DataResult<ProduitRecap[]>>(PRODUIT_LIST_ADMIN_RECHERCHE_ENDPOINT, { params:paramSearch})

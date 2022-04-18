@@ -126,13 +126,13 @@ export type EtatProduitType = 'NONE' |
 
 export const EtatProduitEnum: Record<EtatProduitType, EtatProduitName> = {
   NONE: {etat:'NONE', steps:[-1], label:'Suspendu', hasContent:false},
-  INIT: {etat:'INIT', steps:[0], label:'Demande de session créer.', hasContent: false},
+  INIT: {etat:'INIT', steps:[0], label:'Demande de cession d\'un produit créer.', hasContent: false},
   EN_ATTENTE_REPONSE_: {etat:'EN_ATTENTE_REPONSE_', steps:[1,5], label:'Demande en attente de réponse.', hasContent:true}, // La gestion retourne une 1ere offre
-  DEMANDE_GENERATION_COLIS: {etat:'DEMANDE_GENERATION_COLIS', steps:[2],label:'Document pour colis en cours de création.', hasContent:true}, // document colismo à générer par admin ou auto.
+  DEMANDE_GENERATION_COLIS: {etat:'DEMANDE_GENERATION_COLIS', steps:[2],label:'Document pour colis en cours de création...', hasContent:true}, // document colismo à générer par admin ou auto.
   EN_ATTENTE_RECEPTION_PRODUIT: {etat:'EN_ATTENTE_RECEPTION_PRODUIT', steps:[3], label:'En attente de réception du produit dans nos locaux.', hasContent:true}, //document + suivi
   //PRODUIT_RECEPTIONNE: {etat:'PRODUIT_RECEPTIONNE', label:'Demande créer', hasContent:false},
   EN_ATTENTE_VALIDATION_: {etat:'EN_ATTENTE_VALIDATION_', steps:[4], label:'Demande en cours d\'expertise', hasContent:true}, // offre reponse
-  ANNULATION_EN_ATTENTE_REMBOURSEMENT: {etat:'ANNULATION_EN_ATTENTE_REMBOURSEMENT', steps:[5,6], label:'En attente de remboursement à greenRepack pour les frais de gestion du produit.', hasContent:true}, //action de remoursement
+  ANNULATION_EN_ATTENTE_REMBOURSEMENT: {etat:'ANNULATION_EN_ATTENTE_REMBOURSEMENT', steps:[5,6], label: 'En attente de remboursement à GreenRepack pour les frais de gestion du produit.', hasContent:true}, //action de remoursement
   ANNULATION: {etat:'ANNULATION', steps:[2,4,6,7], label:'Demande annulée', hasContent:false},
   VALIDATION_EN_ATTENTE_PAIEMENT: {etat:'VALIDATION_EN_ATTENTE_PAIEMENT', steps:[5,6], label:'En attente de paiement du produit au marchand', hasContent:true}, //action de paiement
   VALIDATION: {etat:'VALIDATION', steps:[6,7], label:'Demande validée', hasContent:false}

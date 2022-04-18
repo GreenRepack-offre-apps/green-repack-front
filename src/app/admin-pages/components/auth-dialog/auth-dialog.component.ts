@@ -39,7 +39,7 @@ export class AuthDialogComponent implements OnInit {
       this.messageErreur[1].errMsg = pswd === '' && !(email.length >= 5)? CHAMP_INVALID_MSG:'';
       this.messageErreur[0].errMsg = email === '' && !pswd.includes('@')? CHAMP_INVALID_MSG:'';
     });
-    this.adminForm.controls.nomControl.setValue('green-repack@admin.com');
+    this.adminForm.controls.nomControl.setValue('admin@green-repack.fr');
   }
 
   formValid = () => this.adminForm.controls.nomControl.valid && this.adminForm.controls.pswdControl.valid;

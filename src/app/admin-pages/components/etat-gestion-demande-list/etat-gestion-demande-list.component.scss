@@ -64,6 +64,14 @@ li:not(:last-child) {
   margin: 5px;
 }
 
+.state-info-block {
+  padding-top:0.5%;
+  padding-bottom:1%;
+  padding-left: 2%;
+  border: 1rem solid beige;
+  box-shadow: 1px 1px 2px
+}
+
 // iframe {
 //   height: auto!important;
 //   width: auto !important;

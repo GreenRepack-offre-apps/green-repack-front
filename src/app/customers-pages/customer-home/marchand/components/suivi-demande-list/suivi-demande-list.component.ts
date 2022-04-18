@@ -30,7 +30,7 @@ export class SuiviDemandeListComponent implements OnInit {
   ngOnInit(): void {
     if(!this.customer || this.customer.email == null) {
       this.authService.currentUser(new UserProfils()).subscribe( current => {
-        this.produitService.fetchMarchandProducts(current.email, null).subscribe(rst => {
+        this.produitService.fetchMarchandProducts(sessionStorage.getItem('USER_ID'), null).subscribe(rst => {
           if(rst.status === 'SUCCES' && rst.data.length > 0) {
             rst.data.forEach((d:any) => {
               this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
@@ -39,7 +39,7 @@ export class SuiviDemandeListComponent implements OnInit {
         });
       });
     } else {
-      this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe( (productResult: DataResult<any>) => {
+      this.produitService.fetchMarchandProducts(this.customer.iduser).subscribe( (productResult: DataResult<any>) => {
         if(productResult && productResult.status === 'SUCCES' && productResult.data.length > 0) {
           productResult.data.forEach((d:any) => {
             this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
