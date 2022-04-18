@@ -1,15 +1,12 @@
 import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
-import { MarchandProfils } from 'src/app/model/auth.model';
+import { UserProfils } from 'src/app/model/auth.model';
 import { AuthService } from '../../../service/common/auth/auth.service';
 import { Router } from '@angular/router';
-import { MarchandService } from '../../../service/marchand/marchand.service';
-import { CurrentUser, AdminProfils, ClientProfils } from '../../../model/auth.model';
-import { MarchandSearch } from '../../../model/common.model';
-import { Marchand } from '../../../model/marchand.model';
+import { CurrentUser, AdminProfils } from '../../../model/auth.model';
+import { User } from '../../../model/users.model';
 import { Subscription } from 'rxjs';
 import { Admin, adminMailEquals } from '../../../model/admin.model';
-import { Client, ClientModel } from '../../../model/client.model';
-import { ClientService } from '../../../service/client/client.service';
+import { UserService } from '../../../service/user/user.service';
 
 export class InfoUser<T> {
   current: CurrentUser;
@@ -27,8 +24,7 @@ export class InfoUser<T> {
 export class HeaderComponent implements OnInit, DoCheck {
 
   constructor(private authService: AuthService,
-    private marchandService: MarchandService,
-    private clientService: ClientService,
+    private userService: UserService,
     private readonly router: Router) {
       switch(this.authService.profilRegister?.type) {
         case 'GESTION':
@@ -36,16 +32,10 @@ export class HeaderComponent implements OnInit, DoCheck {
           this.profilActive = new AdminProfils();
           break;
 
-        case 'MARCHAND':
-          this.infoUser = new InfoUser(<Marchand>{});
-          this.profilActive = new MarchandProfils();
+        case 'USER':
+          this.infoUser = new InfoUser(<User>{});
+          this.profilActive = new UserProfils();
           break;
-
-        case 'CLIENT':
-          this.infoUser = new InfoUser(<ClientModel>{});
-          this.profilActive = new ClientProfils();
-          break;
-
         default:
           this.infoUser = null;
       }
@@ -55,7 +45,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   //imagepath='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==';
   //private imagepath = new Image();
   infoUser: any;
-  profilActive: MarchandProfils | AdminProfils | ClientProfils | any;
+  profilActive: UserProfils | AdminProfils | any;
   user_active: boolean = false;
   subcriptions: Subscription[] = [];
   ngOnInit(): void {
@@ -75,35 +65,27 @@ export class HeaderComponent implements OnInit, DoCheck {
   checkUser(){
 
     this.authService.currentUser(this.profilActive)
-    .subscribe((user: CurrentUser) => {
-      this.user_active = user.email !== null && user.token !== null;
+    .subscribe((userAuth: CurrentUser) => {
+      this.user_active = userAuth.email !== null && userAuth.token !== null;
       if (!this.user_active) {
         this.router.navigate(['connexion']);
       } else {
-        this.infoUser.current = user;
+        this.infoUser.current = userAuth;
         switch(this.authService.profilRegister?.type) {
           case 'GESTION':
-            if(!adminMailEquals(user.email)) this.router.navigateByUrl('admin');
-            this.infoUser.user.nom = user.email;
+            if(!adminMailEquals(userAuth.email)) this.router.navigateByUrl('admin');
+            this.infoUser.user.nom = userAuth.email;
             break;
 
-          case 'MARCHAND':
-            this.marchandService.searchMarchand('email', user.email)
+          case 'USER':
+            this.userService.searchUser('email', userAuth.email)
             .subscribe(rst => {
-              //if(rst.value.email !== user.email ) this.router.navigateByUrl('connexion');
-              this.infoUser.user = rst.value;
-            })
-            break;
-
-          case 'CLIENT':
-            this.clientService.get('email', user.email)
-            .subscribe(rst => {
-              if(rst){
-                this.infoUser.user = rst;
+              if (rst.status === 'SUCESS') {
+                this.infoUser.user = rst.data;
               }else{
-                //this.router.navigateByUrl('connexion');
+                this.infoUser.user = null;
               }
-            })
+            });
             break;
           default:
             this.infoUser = null;

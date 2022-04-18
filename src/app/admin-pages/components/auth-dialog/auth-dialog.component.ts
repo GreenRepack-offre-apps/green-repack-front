@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../service/common/auth/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MarchandProfils, AdminProfils } from '../../../model/auth.model';
+import { AdminProfils } from '../../../model/auth.model';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { adminMailEquals } from '../../../model/admin.model';
@@ -49,7 +49,7 @@ export class AuthDialogComponent implements OnInit {
     console.log('user : ' + nomControl);
     if(adminMailEquals(nomControl)){
       this.firebaseAuth.signInWithEmailAndPassword(nomControl, pswdControl)
-      .then(rst =>{
+      .then((rst:any) =>{
           console.log("connexion start ... " + JSON.stringify(rst));
           this.err_send = '';
           sessionStorage.setItem('PROFIL', 'GESTION'.toLowerCase());

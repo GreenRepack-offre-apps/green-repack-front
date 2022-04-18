@@ -6,12 +6,10 @@ import { AjoutProduitComponent } from '../components/ajout-produit/ajout-produit
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { MarchandSyntheseService } from '../../../../service/marchand/synthese/marchand-synthese.service';
-import { MarchandService } from '../../../../service/marchand/marchand.service';
 import { AuthService } from '../../../../service/common/auth/auth.service';
-import { AccordionModule } from 'primeng/accordion';
-import { MarchandProfils } from '../../../../model/auth.model';
-import { Marchand } from '../../../../model/marchand.model';
+import { UserProfils } from '../../../../model/auth.model';
+import { User } from '../../../../model/users.model';
+import { UserService } from '../../../../service/user/user.service';
 
 @Component({
   selector: 'app-home-marchand',
@@ -21,16 +19,15 @@ import { Marchand } from '../../../../model/marchand.model';
 export class HomeMarchandComponent implements OnInit, OnDestroy {
 
   constructor(private fbuilder: FormBuilder,
-    private marchandService: MarchandService,
+    private userService: UserService,
     private firebaseAuth: AngularFireAuth,
     private authService: AuthService,
     private readonly router: Router,
-    public dialog: MatDialog,
-    private syntheseMarchand: MarchandSyntheseService) { }
+    public dialog: MatDialog) { }
 
   subs: Subscription[] = [];
   profil = 'MARCHAND';
-  customer: Marchand = <Marchand>{};
+  customer: User = <User>{};
   ngOnDestroy(): void {
     this.subs.forEach(s => s.unsubscribe());
   }
@@ -38,9 +35,9 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
   title = 'Gerez vos produits à reconditioner! Acheter nos produit ici !!';
 
   ngOnInit(): void {
-    this.authService.currentUser(new MarchandProfils()).subscribe(usr => {
+    this.authService.currentUser(new UserProfils()).subscribe(usr => {
       if(usr && usr.email){
-        this.marchandService.searchMarchand('email',usr.email).subscribe(m => {
+        this.userService.searchUser('email',usr.email).subscribe(m => {
           this.customer = m.value;
           console.log("Marchand customer ="+JSON.stringify(this.customer));
         });
@@ -52,8 +49,7 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
     this.firebaseAuth.signOut()
     .then(e => {
       this.router.navigate(['connexion']);
-      sessionStorage.setItem('PROFIL', '');
-
+      sessionStorage.removeItem('PROFIL');
     })
     .catch(err => console.log('error; Can\'t logout '));
   }
@@ -65,6 +61,6 @@ export class HomeMarchandComponent implements OnInit, OnDestroy {
   }
 
   activateClient(){
-    this.marchandService.update(this.customer).subscribe(m => this.customer = m);
+    this.userService.update(this.customer).subscribe(m => this.customer = m);
   }
 }

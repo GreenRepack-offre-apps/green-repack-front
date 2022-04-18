@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { MarchandProfils, AdminProfils } from '../../../model/auth.model';
+import { AdminProfils, UserProfils } from '../../../model/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class UploadService {
 
   constructor(private storage: AngularFireStorage) { }
 
-  imagesProductToStorage(profil: MarchandProfils | AdminProfils, idProduit:string, files: File[]) {
+  imagesProductToStorage(profil: UserProfils | AdminProfils, idProduit:string, files: File[]) {
     const basePath = `/upload/${profil.type.toLowerCase()}/${idProduit}/images`;
     let results:any = [];
     for(let i = 0; i < files.length; i++) {

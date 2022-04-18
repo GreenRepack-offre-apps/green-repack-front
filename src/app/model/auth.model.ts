@@ -8,14 +8,14 @@
       uid: any;
     }
 
-    export type ProfilsType = 'CLIENT'|'MARCHAND'|'ASSOCIATION'|'GESTION';
+    export type ProfilsType = 'USER'|'CLIENT'|'MARCHAND'|'ASSOCIATION'|'GESTION';
 
 
     export interface Profils {
       type:ProfilsType;
     }
-    export class MarchandProfils implements Profils {
-      readonly type: ProfilsType = 'MARCHAND';
+    export class UserProfils implements Profils {
+      readonly type: ProfilsType = 'USER';
     }
     export class ClientProfils implements Profils{
       readonly type:ProfilsType = 'CLIENT';

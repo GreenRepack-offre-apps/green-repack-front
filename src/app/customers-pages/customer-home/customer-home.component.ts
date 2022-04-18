@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientProfils, MarchandProfils } from '../../model/auth.model';
+import { UserProfils } from '../../model/auth.model';
 import { AuthService } from '../../service/common/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ export class CustomerHomeComponent implements OnInit {
         }
     } else if(sessionStorage.getItem('PROFILS') && sessionStorage.getItem('PROFILS') === 'marchand') {
       this.home_page_owner = 'marchand';
-      this.authService.currentUser(new MarchandProfils()).subscribe(rst => {
+      this.authService.currentUser(new UserProfils()).subscribe(rst => {
         this.home_page_owner = 'marchand';
         if( rst && rst.uid && rst.email) {
           this.home_page_owner = 'marchand';

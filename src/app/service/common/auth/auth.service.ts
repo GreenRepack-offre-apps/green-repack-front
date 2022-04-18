@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CurrentUser, MarchandProfils, ClientProfils, AdminProfils } from '../../../model/auth.model';
+import { CurrentUser, UserProfils, AdminProfils } from '../../../model/auth.model';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, Observer, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -12,19 +12,19 @@ export class AuthService {
 
   isLoad = true;
   isFetch: boolean = false;
-  profilRegister:  MarchandProfils | ClientProfils | AdminProfils | undefined;
+  profilRegister:  UserProfils | AdminProfils | null;
   constructor( private firebaseAuth: AngularFireAuth, private readonly router: Router) {
   const sessionProfil = sessionStorage.getItem('PROFIL');
-    if( sessionProfil ===  new MarchandProfils().type.toLowerCase()) {
-      this.profilRegister = new MarchandProfils();
-    } else if( sessionProfil ===  new ClientProfils().type.toLowerCase()) {
-      this.profilRegister = new ClientProfils();
+    if( sessionProfil ===  new UserProfils().type.toLowerCase()) {
+      this.profilRegister = new UserProfils();
     } else if( sessionProfil ===  new AdminProfils().type.toLowerCase()) {
       this.profilRegister = new AdminProfils();
+    }else {
+      this.profilRegister = null;
     }
   }
 
-  currentUser(profils: MarchandProfils | ClientProfils | AdminProfils | undefined):  Observable<CurrentUser> {
+  currentUser(profils: UserProfils | AdminProfils | undefined):  Observable<CurrentUser> {
     let token: any = null;
     this.firebaseAuth.idToken.subscribe(t => token = t)
     return this.firebaseAuth.authState.pipe(
@@ -68,7 +68,7 @@ export class AuthService {
     return this.firebaseAuth.signInWithEmailAndPassword(auth.username, auth.password)
     .then(rst =>{
         console.log("[AUTH] connexion start +> " + JSON.stringify(rst));
-        sessionStorage.setItem('PROFIL','marchand');
+        sessionStorage.setItem('PROFIL','user');
         this.router.navigate(['home/'+rst.user?.uid]);
     })
     .catch(err => {

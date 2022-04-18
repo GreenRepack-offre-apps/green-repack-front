@@ -3,11 +3,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/common/auth/auth.service';
-import { MarchandProfils } from 'src/app/model/auth.model';
+import { UserProfils } from 'src/app/model/auth.model';
 
 import { DatePipe } from '@angular/common';
 import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
-import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
 import { genererNextEtatOfProduit } from '../../../../../model/workflow-produit.model';
 import { EtatProduitData } from '../../../../../model/produit.model';
 import { UploadService } from 'src/app/service/common/upload/upload.service';
@@ -23,7 +22,6 @@ export class AjoutProduitComponent implements OnInit {
     private authService: AuthService,
     private uploadService: UploadService,
     private readonly router: Router,
-    private syntheseMarchandService: MarchandSyntheseService,
     public datepipe: DatePipe) { }
 
   produitForm = this.fbuilder.group({
@@ -71,7 +69,7 @@ export class AjoutProduitComponent implements OnInit {
   onSubmit() {
     const {categorie, marque, model, carac_tech, carac_esth} = this.produitForm.value;
 
-    this.authService.currentUser(new MarchandProfils()).subscribe(r => {
+    this.authService.currentUser(new UserProfils()).subscribe(r => {
       if(!this.authService.isFetch) {
         this.router.navigateByUrl('connexion');
       } else {
@@ -80,14 +78,7 @@ export class AjoutProduitComponent implements OnInit {
         .subscribe(res => {
           const idProduit = res.id;
           if(res.status === 'SUCCES' && idProduit && r.email !== null) {
-            this.uploadService.imagesProductToStorage(new MarchandProfils(), idProduit, this.images);
-            const newState: EtatProduitData = genererNextEtatOfProduit('NONE', idProduit, 'vendeur', 1, 0, null, false);
-            newState.expediteur = r.email;
-            newState.destinataire = 'green-repack';
-            newState.notifDestinataire = 'green-repack';
-            let date_str = res.date;
-            newState.setDate(date_str);
-            this.syntheseMarchandService.pushMarchandProduitsState(newState);
+           // add notif
           };
         });
       }

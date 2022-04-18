@@ -103,14 +103,24 @@
   <div class="col-10 field-block">
     <div class="col">
       <span>
-        <mat-checkbox [formControl]="clientOption">Ajouter un compte client </mat-checkbox>
+        <mat-checkbox [formControl]="clientOption">Activer un compte client </mat-checkbox>
+      </span>
+    </div>
+    <div class="col">
+      <span>
+        <mat-checkbox [formControl]="marchandOption">Activer un compte marchand </mat-checkbox>
+      </span>
+    </div>
+    <div class="col" >
+      <span style="color:blue;" *ngIf="!optionProfil">
+        <p>Activer un compte client pour acheter et/ou un compte marchand pour vendre vos biens. !! </p>
       </span>
     </div>
   </div>
 
   <div class="col" style="margin-top:5%;" >
     <div class="row">
-      <button [disabled]="!marchandForm.valid" type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
+      <button [disabled]="!marchandForm.valid && !optionProfil" type="button" class="btn btn-primary active" (click)="onSubmit()" >Confirmer</button>
     </div>
     <div class="row">
       <small style="margin-left:9%;" id="passwordConfirm-field" class="p-error">{{err_send}}</small>

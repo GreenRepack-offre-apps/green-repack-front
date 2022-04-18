@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usertype } from '../../model/workflow-produit.model';
-import { PAIEMENT_INIT } from '../../../assets/app-const';
+import { PAIEMENT_INIT, APP_URL } from '../../app-const';
 import { ProfilsType } from '../../model/auth.model';
-import { APP_URL } from '../../../../dist/green-repack-front/browser/assets/app-const';
 import { Stripe } from 'stripe';
 import {loadStripe} from '@stripe/stripe-js';
 @Injectable({

@@ -29,8 +29,6 @@ import { AuthDialogComponent } from './admin-pages/components/auth-dialog/auth-d
 import { DatePipe } from '@angular/common';
 import { EtatGestionDemandeListComponent } from './admin-pages/components/etat-gestion-demande-list/etat-gestion-demande-list.component';
 import { DemandeGestionProjetassosComponent } from './admin-pages/components/demande-gestion-projetassos/demande-gestion-projetassos.component';
-import { InscriptionClientComponent } from './customers-pages/inscription/inscription-client/inscription-client.component';
-import { AuthClientComponent } from './customers-pages/authentification/auth-client/auth-client.component';
 import { HomeClientComponent } from './customers-pages/customer-home/client/home-client/home-client.component';
 import { ProduitsAchatsComponent } from './customers-pages/customer-home/client/components/produits-achats/produits-achats.component';
 import { CommandesComponent } from './customers-pages/customer-home/client/components/commandes/commandes.component';
@@ -55,8 +53,6 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     AuthDialogComponent,
     EtatGestionDemandeListComponent,
     DemandeGestionProjetassosComponent,
-    InscriptionClientComponent,
-    AuthClientComponent,
     HomeClientComponent,
     ProduitsAchatsComponent,
     CommandesComponent,
@@ -79,7 +75,7 @@ const FireSession = [{ provide: PERSISTENCE, useValue: 'local' }]
     AngularFireAuthGuardModule,
     AngularFireStorageModule,
     FileUploadModule,
-    StripeModule.forRoot('pk_test_51JkjkqDKurM3h7MYJe4ZjVAIxnHME9dpYmCDNqQ5ZTjZZhqowW1DQea9epdzNboiWc5m2Bpn5FBEaA3pW17VUJEc00PtoYwsnZ')
+    //StripeModule.forRoot('pk_test_51JkjkqDKurM3h7MYJe4ZjVAIxnHME9dpYmCDNqQ5ZTjZZhqowW1DQea9epdzNboiWc5m2Bpn5FBEaA3pW17VUJEc00PtoYwsnZ')
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

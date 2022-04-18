@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { ASSOS_$_PROJECTS_GET_ALL, UPDATE_PROJECT_EN_ATTENTE, UPDATE_PROJECT_VALIDER } from '../../../assets/app-const';
+import { ASSOS_$_PROJECTS_GET_ALL, UPDATE_PROJECT_EN_ATTENTE, UPDATE_PROJECT_VALIDER } from '../../app-const';
 
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';

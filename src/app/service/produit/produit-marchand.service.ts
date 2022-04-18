@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProduitAjoutRequest, ProduitRecap } from 'src/app/model/produit.model';
 import { forkJoin, Observable, pipe } from 'rxjs';
-import { PRODUIT_AJOUT_ENDPOINT, PRODUIT_MISAJOURS_ENDPOINT, PRODUIT_LIST_RECHERCHE_ENDPOINT, PRODUIT_GET_RECHERCHE_ENDPOINT, PRODUIT_LIST_ADMIN_RECHERCHE_ENDPOINT } from '../../../assets/app-const';
+import { PRODUIT_AJOUT_ENDPOINT, PRODUIT_MISAJOURS_ENDPOINT, PRODUIT_LIST_RECHERCHE_ENDPOINT, PRODUIT_GET_RECHERCHE_ENDPOINT, PRODUIT_LIST_ADMIN_RECHERCHE_ENDPOINT } from '../../app-const';
 import { ProduitAjoutResponse, ProduitMisAJoursRequest } from '../../model/produit.model';
 import { DataResult, Status } from '../../model/common.model';
 import { distinctUntilChanged, map, delay } from 'rxjs/operators';

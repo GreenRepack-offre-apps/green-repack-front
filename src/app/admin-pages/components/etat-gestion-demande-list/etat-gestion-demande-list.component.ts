@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MarchandProfils } from 'src/app/model/auth.model';
 import { ProduitResume, EtatProduitType, ProduitRecap } from '../../../model/produit.model';
 import { AuthService } from '../../../service/common/auth/auth.service';
 import { ProduitMarchandService } from '../../../service/produit/produit-marchand.service';
@@ -8,10 +7,12 @@ import { get_etat } from '../../../model/workflow-produit.model';
 import DateDiff from 'date-diff';
 import { environment } from 'src/environments/environment';
 import { PaimentService } from '../../../service/paiment/paiment.service';
-import { PAIEMENT_INIT } from '../../../../assets/app-const';
+import { PAIEMENT_INIT } from '../../../app-const';
 import { NavigationService } from '../../../service/common/navigation/navigation.service';
 import { forkJoin } from 'rxjs';
 import { state } from '@angular/animations';
+import { UserProfils } from '../../../model/auth.model';
+import { DataResult } from '../../../model/common.model';
 
 @Component({
   selector: 'app-etat-gestion-demande-list',
@@ -38,12 +39,12 @@ export class EtatGestionDemandeListComponent implements OnInit {
   paiement_link = '';
 
   ngOnInit(): void {
-    this.authService.currentUser(new MarchandProfils()).subscribe(user => {
+    this.authService.currentUser(new UserProfils()).subscribe(user => {
       if( this.authService.isFetch) {
-       this.produitService.fetchAllProducts(null).subscribe(rst => {
+       this.produitService.fetchAllProducts(null).subscribe((rst:DataResult<any>) => {
          if(rst.status === 'SUCCES' && rst.data.length > 0) {
            //console.log("produits fetched: " + JSON.stringify(rst.data))
-           rst.data.forEach(d => {
+           rst.data.forEach((d:any) => {
             this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
 
            });
@@ -62,7 +63,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
     console.log("Filtre = "+ state);
     this.produitService.fetchAllProducts(state !== ''? state:null).subscribe(rst => {
       if(rst.status === 'SUCCES' && rst.data.length > 0) {
-        rst.data.forEach(d => {
+        rst.data.forEach((d:any) => {
           this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
         });
       }
@@ -82,7 +83,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
           console.log('price :'+val);
           this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
            etat_dem_next: 'EN_ATTENTE_REPONSE_', prix: val}, state).subscribe(rst => {
-            if(rst.data &&rst.data.length > 0) {
+            if(rst.data && rst.data.length > 0) {
               rst.data.forEach((d:any) => {
                 this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
               });
@@ -116,7 +117,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
         }
         break;
       case 'VALIDATION_EN_ATTENTE_PAIEMENT':
-        this.authService.currentUser(new MarchandProfils()).subscribe(user => {
+        this.authService.currentUser(new UserProfils()).subscribe(user => {
           if( this.authService.isFetch) {
             window.location.href = PAIEMENT_INIT + '?marchand='+user.email;
             this.paiement_link = PAIEMENT_INIT +'?marchand='+user.email;
@@ -145,7 +146,7 @@ export class EtatGestionDemandeListComponent implements OnInit {
       case 'EN_ATTENTE_RECEPTION_PRODUIT': //passage manuelle et besoin de validation automatique externe
         const state  = this.etatFiltre.controls.stateProductSelected.value;
         this.produitService.updateProduct({email_user: recap.user, idproduit: recap.idprod, etat_dem_now: recap.statut_validation,
-        etat_dem_next: rst===true?'EN_ATTENTE_VALIDATION_':'ANNULATION'}, state);
+        etat_dem_next: rst === true?'EN_ATTENTE_VALIDATION_':'ANNULATION'}, state);
         break;
       //case 'EN_ATTENTE_VALIDATION_':
       default:

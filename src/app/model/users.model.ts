@@ -1,13 +1,13 @@
 import { ProduitData } from './produit.model';
 
-export interface Marchand {
-  idmar?: string;
+export interface User {
+  iduser?: string;
   nom: string;
   email: string;
   datecreation?: string;
   adresse?: string;
   client:boolean;
-
+  marchand:boolean;
   // constructor(){
   //   this.nom = "";
   //   this.email = ""
@@ -23,25 +23,29 @@ export interface Adresse {
   ville: string;
 }
 
-export class MarchandFormPayload {
+export class UserFormPayload {
   nom: string;
   email: string;
   adresse: Adresse;
-  client:boolean;
+  client: boolean;
+  marchand: boolean;
 
-  constructor(nom: string, email: string, client: boolean, adresse: Adresse){
+  constructor(nom: string, email: string, client: boolean,
+    marchand: boolean,
+    adresse: Adresse){
     this.nom = nom;
     this.email = email;
     this.client = client;
+    this.marchand = marchand;
     this.adresse = adresse;
   }
 
 
-  createMarchand() {
+  createUser() {
     let adr = '';
     adr += (this.adresse.complement !== ''? this.adresse.complement + ', ': '') + this.adresse.voie + ', '
     + this.adresse.codePostal+' '+ this.adresse.ville;
-     return {nom: this.nom, email: this.email, adresse: adr, client: this.client}
+     return {nom: this.nom, email: this.email, adresse: adr, client: this.client, marchand: this.marchand}
   }
 
 }

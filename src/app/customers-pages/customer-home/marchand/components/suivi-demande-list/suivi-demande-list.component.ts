@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProduitMarchandService } from '../../../../../service/produit/produit-marchand.service';
 import { AuthService } from '../../../../../service/common/auth/auth.service';
-import { MarchandSyntheseService } from '../../../../../service/marchand/synthese/marchand-synthese.service';
 import { ProduitResume, ProduitRecap } from '../../../../../model/produit.model';
-import { MarchandProfils } from '../../../../../model/auth.model';
+import { UserProfils } from '../../../../../model/auth.model';
 import { get_etat } from '../../../../../model/workflow-produit.model';
 import { environment } from '../../../../../../environments/environment.prod';
-import { Marchand } from '../../../../../model/marchand.model';
+import { User } from '../../../../../model/users.model';
 import { NavigationService } from '../../../../../service/common/navigation/navigation.service';
 import { combineLatest } from 'rxjs';
+import { DataResult } from '../../../../../model/common.model';
 
 
 @Component({
@@ -19,37 +19,36 @@ import { combineLatest } from 'rxjs';
 export class SuiviDemandeListComponent implements OnInit {
   constructor(private produitService: ProduitMarchandService,
     private authService: AuthService,
-    private marchandSyntheseService: MarchandSyntheseService,
     private navigationService: NavigationService) { }
 
   @Input()
-  customer!: Marchand;
+  customer!: User;
 
   title_suivi_demande = 'Suivi de demande de produits';
   produitRecaps: ProduitResume[] = [];
   validationReponse: boolean = false;
   ngOnInit(): void {
     if(!this.customer || this.customer.email == null) {
-      this.authService.currentUser(new MarchandProfils()).subscribe( current => {
+      this.authService.currentUser(new UserProfils()).subscribe( current => {
         this.produitService.fetchMarchandProducts(current.email, null).subscribe(rst => {
           if(rst.status === 'SUCCES' && rst.data.length > 0) {
-            rst.data.forEach(d => {
+            rst.data.forEach((d:any) => {
               this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
             });
           }
         });
       });
     } else {
-      this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe( productResult => {
+      this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe( (productResult: DataResult<any>) => {
         if(productResult && productResult.status === 'SUCCES' && productResult.data.length > 0) {
-          productResult.data.forEach(d => {
+          productResult.data.forEach((d:any) => {
             this.produitRecaps.push({recap:d, label: get_etat(d.statut_validation).label});
           });
         }
       });
     }
   //this.produitService.fetchMarchandProducts(this.customer.email, null).subscribe
-    // this.authService.currentUser(new MarchandProfils()).subscribe(user => {
+    // this.authService.currentUser(new UserProfils()).subscribe(user => {
     //  if(this.authService.isFetch) {
 
     //  }

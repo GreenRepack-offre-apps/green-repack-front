@@ -1,4 +1,4 @@
-import { Adresse } from './marchand.model';
+import { Adresse } from './users.model';
 export interface Client {
   nom:string;
   prenom:string;

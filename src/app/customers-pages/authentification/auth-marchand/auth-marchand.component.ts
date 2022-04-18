@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CHAMP_INVALID_MSG } from '../../../common/common';
 import { AuthService } from '../../../service/common/auth/auth.service';
-import { MarchandService } from '../../../service/marchand/marchand.service';
+import { UserService } from '../../../service/user/user.service';
 
 @Component({
   selector: 'app-auth-marchand',
@@ -13,7 +13,7 @@ export class AuthMarchandComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private marchandService: MarchandService,
+    private userService: UserService,
     private fbuilder: FormBuilder) { }
 
   //@Input() profil:string = '';
@@ -43,8 +43,8 @@ export class AuthMarchandComponent implements OnInit {
     const {nomControl, pswdControl} = this.marchandForm.value;
 
     this.err_send = '';
-    this.marchandService.searchMarchand('email', nomControl).subscribe(result => {
-      if(result && result.value && result.value.email === nomControl) {
+    this.userService.searchUser('email', nomControl).subscribe(result => {
+      if(result && result.data && result.data.email === nomControl) {
         this.authService.signIn({username:nomControl, password:pswdControl})
         .then(rst =>{
           if(rst && rst.status) {
